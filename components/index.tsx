@@ -4,9 +4,11 @@ import HomePublicacoes from "./homeInicial";
 import { Nav } from "./homeInicial/nav";
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
+import TodasCategorias from "./homeInicial/nav/todasCategorias";
 
 export default function HomeScreen() {
     const [search, setSearch] = useState<string>("");
+    const [open, setOpen] = useState<boolean>(false);
 
     return (
         <Container>
@@ -16,6 +18,7 @@ export default function HomeScreen() {
             <Button>
                 <Plus>+</Plus>
             </Button>
+            <TodasCategorias open={open} setOpen={setOpen}/>
         </Container>
     )
 }

@@ -34,6 +34,9 @@ export const Nav: React.FC<NavProps> = ({search, setSearch }) => {
                     <Icon name={"chevron-down"} size={20}></Icon>
                 </CategoriaAnimatedIcon>
             </Categoria>
+            <Notification>
+                <Icon name={"notifications"} color={"black"} size={26}/>  
+            </Notification>
             <Search style={{width: widthShared}}>
                 <StyledAnimatedView 
                 style={{
@@ -67,7 +70,6 @@ const width = Dimensions.get('window').width;
 const Container = styled.View`
     width: 100%;
     height: 50px;
-    padding-horizontal: 2px;
     flex-direction: row;
     border-bottom-width: 2px;
     border-bottom-color: black;
@@ -135,4 +137,14 @@ const TextCategoria = styled.Text`
 
 const CategoriaAnimatedIcon = styled(Animated.View)`
 
+`
+
+const Notification = styled.TouchableOpacity`
+    position: absolute;
+    right: 70px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
 `

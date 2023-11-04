@@ -1,9 +1,9 @@
 {
   "expoServerPort": null,
-  "packagerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPort": 19000,
+  "expoServerNgrokUrl": "https://lgirrio.levijunior2020.friendzoneapp.exp.direct",
+  "packagerNgrokUrl": "https://lgirrio.levijunior2020.friendzoneapp.exp.direct",
+  "ngrokPid": 3011,
   "webpackServerPort": null,
   "packagerPid": null
 }

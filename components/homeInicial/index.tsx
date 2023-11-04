@@ -1,15 +1,11 @@
 import styled from 'styled-components/native';
 import { FlatList, RefreshControl } from 'react-native';
-import { useCallback, useEffect, useState } from 'react';
-import { Publicacao } from '../../model/Publicacao';
 import { PublicacaoUser } from '../publicacao/publicacao';
-import { getPublicacoes } from '../../utils/getPublicacoes';
-import { publicacaoDefault } from './defaultMessage';
 import { HomeProps } from '../../utils/interfaces';
 import { useDataManagement } from './useDataManagement';
 
 export default function App(props: HomeProps) {
-  const { publicacoes, filteredPublicacoes, refreshing, refreshData } = useDataManagement(props);
+  const { filteredPublicacoes, refreshing, refreshData } = useDataManagement(props);
 
   return (
     <Container
