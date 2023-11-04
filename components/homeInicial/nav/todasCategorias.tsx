@@ -1,39 +1,33 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Dimensions, TouchableOpacity } from 'react-native';
-import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import styled from 'styled-components/native';
+import React, { useEffect } from 'react';
+import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
+import { PropsCategoria } from '../../../utils/interfaces';
+import { Dimensions } from 'react-native';
 
-interface Props {
-    open: boolean,
-    setOpen: Dispatch<SetStateAction<boolean>>
-}
-const TodasCategorias = (props: Props) => {
-    const heightShared = useSharedValue(0);
-
-    const showCategorias = () => {
-        const withHeight = props.open? 40: height;
-        heightShared.value = withTiming(withHeight, {duration: 300})
-        props.setOpen(!open);
+const TodasCategorias = (props: PropsCategoria) => {
+    const heightShared = useSharedValue(height)
+    const showCategorias = (value: number) => {
+        heightShared.value = withTiming(value, {duration: 300, })
     }
 
     useEffect(() => {
-        showCategorias();
-    }, [open])
+        showCategorias(props.openCategoria? 0.0 * height : height)
+    }, [props.openCategoria])
 
     return (
-        <AlertContainer style={{height: heightShared.value}}>
-            <TouchableOpacity style={{width: 40, height: 40, backgroundColor: 'red'}} onPress={showCategorias}></TouchableOpacity>
-        </AlertContainer>
+        <CategoriaContainer style={{transform: [{translateY: heightShared}]}}>
+        </CategoriaContainer>
     );
 };
 
 export default TodasCategorias;
-const height = Dimensions.get('window').height;
 
-const AlertContainer = styled(Animated.View)`
-    width: 100%;
+const height = Dimensions.get('window').height;
+const CategoriaContainer = styled(Animated.View)`
     top: 50px;
+    width: 100%;
+    height: ${height - 50};
     position: absolute;
     background-color: green;
-    z-index: 4;
+    z-index: 2;
 `

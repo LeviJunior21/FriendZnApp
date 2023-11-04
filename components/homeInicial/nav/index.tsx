@@ -5,11 +5,9 @@ import { Dimensions } from "react-native";
 import React, { useState } from "react";
 import { NavProps } from "../../../utils/interfaces";
 
-export const Nav: React.FC<NavProps> = ({search, setSearch }) => {
+export const Nav: React.FC<NavProps> = ({ search, setSearch, openCategoria, setOpenCategoria }) => {
     const widthShared = useSharedValue(40);
-    const rotationShared = useSharedValue(0);
     const [open, setOpen] = useState(false);
-    const [pressCategoria, setPressCategoria] = useState(false);
 
     const handlePress = () => {
         const targetWidth = open ? 40 : width - 50;
@@ -18,9 +16,7 @@ export const Nav: React.FC<NavProps> = ({search, setSearch }) => {
     };
 
     const handleCategoria = () => {
-        const targetRotation = pressCategoria? 0 : 180;
-        rotationShared.value = withTiming(targetRotation, { duration: 300 });
-        setPressCategoria(!pressCategoria)
+        setOpenCategoria(!openCategoria);
     }
 
     return (
@@ -30,7 +26,7 @@ export const Nav: React.FC<NavProps> = ({search, setSearch }) => {
             </DrawerButton>
             <Categoria onPress={handleCategoria}>
                 <TextCategoria>{"Todas\nCategorias"}</TextCategoria>
-                <CategoriaAnimatedIcon style={{transform: [{rotate: `${rotationShared.value}deg`}]}}>
+                <CategoriaAnimatedIcon style={{transform: [{rotate: `${openCategoria? 180:0}deg`}]}}>
                     <Icon name={"chevron-down"} size={20}></Icon>
                 </CategoriaAnimatedIcon>
             </Categoria>
@@ -74,7 +70,7 @@ const Container = styled.View`
     border-bottom-width: 2px;
     border-bottom-color: black;
     align-items: center;
-    z-index: 4;
+    z-index: 3;
 `
 
 const DrawerButton = styled.View`

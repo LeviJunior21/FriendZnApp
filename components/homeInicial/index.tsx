@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
-import { FlatList, RefreshControl } from 'react-native';
+import { Dimensions, FlatList, RefreshControl } from 'react-native';
 import { PublicacaoUser } from '../publicacao/publicacao';
 import { HomeProps } from '../../utils/interfaces';
 import { useDataManagement } from './useDataManagement';
+import TodasCategorias from './nav/todasCategorias';
 
 export default function App(props: HomeProps) {
   const { filteredPublicacoes, refreshing, refreshData } = useDataManagement(props);
@@ -25,9 +26,7 @@ export default function App(props: HomeProps) {
   );
 }
 
-const Indicator = styled.ActivityIndicator`
-`
-
+const height = Dimensions.get('window').height;
 const Container = styled.ScrollView`
   width: 100%;
   height: 100%;

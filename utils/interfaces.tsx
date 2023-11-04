@@ -21,7 +21,7 @@ interface UsuarioInterface {
 }
 
 interface HomeProps {
-    search: string
+    search: string,
 }
 
 interface PublicacaoProps {
@@ -31,7 +31,13 @@ interface PublicacaoProps {
 
 interface NavProps {
     search: string,
-    setSearch: Dispatch<SetStateAction<string>>
+    setSearch: Dispatch<SetStateAction<string>>,
+    openCategoria: boolean,
+    setOpenCategoria: Dispatch<SetStateAction<boolean>>
 };
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps };
+interface PropsCategoria {
+    openCategoria: boolean
+}
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria };

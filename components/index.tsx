@@ -1,28 +1,30 @@
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import HomePublicacoes from "./homeInicial";
+import TodasCategorias from "./homeInicial/nav/todasCategorias";
 import { Nav } from "./homeInicial/nav";
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
-import TodasCategorias from "./homeInicial/nav/todasCategorias";
+import { Dimensions } from "react-native";
 
 export default function HomeScreen() {
     const [search, setSearch] = useState<string>("");
-    const [open, setOpen] = useState<boolean>(false);
+    const [openCategoria, setOpenCategoria] = useState<boolean>(false);
 
     return (
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
-            <Nav search={search} setSearch={setSearch}></Nav>
+            <Nav openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
             <HomePublicacoes search={search}/>
             <Button>
                 <Plus>+</Plus>
             </Button>
-            <TodasCategorias open={open} setOpen={setOpen}/>
+            <TodasCategorias openCategoria={openCategoria}/>
         </Container>
     )
 }
 
+const height = Dimensions.get('window').height;
 const Container = styled.SafeAreaView`
     width: 100%;
     height: 100%;
