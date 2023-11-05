@@ -22,16 +22,16 @@ export const Nav: React.FC<NavProps> = ({ search, setSearch, openCategoria, setO
     return (
         <Container>
             <DrawerButton>
-                <Icon name={"menu-outline"} color={"black"} size={30}/>
+                <Icon name={"menu-outline"} color={"white"} size={30}/>
             </DrawerButton>
             <Categoria onPress={handleCategoria}>
                 <TextCategoria>{"Todas\nCategorias"}</TextCategoria>
                 <CategoriaAnimatedIcon style={{transform: [{rotate: `${openCategoria? 180:0}deg`}]}}>
-                    <Icon name={"chevron-down"} size={20}></Icon>
+                    <Icon name={"chevron-down"} size={20} color={"white"}/>
                 </CategoriaAnimatedIcon>
             </Categoria>
             <Notification>
-                <Icon name={"notifications"} color={"black"} size={26}/>  
+                <Icon name={"notifications"} color={"white"} size={26}/>  
             </Notification>
             <Search style={{width: widthShared}}>
                 <StyledAnimatedView 
@@ -54,7 +54,7 @@ export const Nav: React.FC<NavProps> = ({ search, setSearch, openCategoria, setO
                         :<></>
                     }
                     <IconSearchContainer onPress={handlePress}>
-                        <Icon name={open?"close":"search"} size={20} color={open? "white":"black"}/>
+                        <Icon name={open?"close":"search"} size={20} color={open? "white":"white"}/>
                     </IconSearchContainer>
                 </StyledAnimatedView>
             </Search>
@@ -69,6 +69,7 @@ const Container = styled.View`
     flex-direction: row;
     border-bottom-width: 2px;
     border-bottom-color: black;
+    background-color: #10a17d;
     align-items: center;
     z-index: 3;
 `
@@ -116,6 +117,7 @@ const InputSearch = styled.TextInput`
 `
 
 const Categoria = styled.TouchableOpacity`
+    margin-left: 10px;
     width: 30%;
     height: 100%;
     flex-direction: row;
@@ -125,7 +127,7 @@ const Categoria = styled.TouchableOpacity`
 
 const TextCategoria = styled.Text`
     width: 80%;
-    color: black;
+    color: white;
     font-size: 14px;
     font-weight: bold;
     flex-wrap: wrap;

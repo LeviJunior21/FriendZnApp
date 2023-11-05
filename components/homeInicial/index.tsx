@@ -35,4 +35,5 @@ const Container = styled.ScrollView`
 
 const Separator = styled.View`
   height: 2px;
+  background-color: white;
 `

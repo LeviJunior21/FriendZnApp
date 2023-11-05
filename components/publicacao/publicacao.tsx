@@ -12,17 +12,17 @@ export const PublicacaoUser:React.FC<PublicacaoProps> = ({publicacao, index}) =>
             <PublicacaoContainer>
                 <UserInfoTop>
                     <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
-                    <InformaacaoPublicacao>
+                    <InformacaoPublicacao>
                         <DataPublicacao>{getCurrentDate(publicacao.getDate())}</DataPublicacao>
                         <CategoriaText style={{color: getColorCategory(1)}}>{getCategory(1)}</CategoriaText>
-                    </InformaacaoPublicacao>
+                    </InformacaoPublicacao>
                 </UserInfoTop>
                 <PublicacaoUserContainer>
                     <PublicacaoText numberOfLines={3}>{publicacao.getPublicacao()}</PublicacaoText>
                 </PublicacaoUserContainer>
                 <ComentarioInfo>
                     <NumeroComentarios>{publicacao.getComentarios().length}</NumeroComentarios>
-                    <MaterialIcons name="chat-bubble-outline"color={"black"} size={16}></MaterialIcons>
+                    <MaterialIcons name="chat-bubble-outline"color={"white"} size={16}></MaterialIcons>
                 </ComentarioInfo>
             </PublicacaoContainer>
         </Animatable.View>
@@ -30,28 +30,31 @@ export const PublicacaoUser:React.FC<PublicacaoProps> = ({publicacao, index}) =>
 }
 
 const PublicacaoText = styled.Text`
+  color: white;
 `
 
 const PublicacaoUserContainer = styled.View`
   width: 100%;
   height: 60%;
   padding: 10px;
-  background-color: white;
+  background-color: #303030;
 `
 
 const UserName = styled.Text`
   font-size: 16px;
   font-weight: bold;
+  color: white;
 `
 
 const DataPublicacao = styled.Text`
   font-size: 10px;
+  color: white;
 `
 
 const UserInfoTop = styled.View`
   width: 100%;
   height: 20%;
-  background-color: white;
+  background-color: #303030;
   flex-direction: row;
   align-items: center;
   padding-horizontal: 2px;
@@ -71,17 +74,17 @@ const ComentarioInfo = styled.View`
     flex-direction: row;
     align-items: center;
     padding-horizontal: 10px;
-    background-color: white;
-`
+    background-color: #303030;
+    `
 
 const NumeroComentarios = styled.Text`
-    color: black;
+    color: white;
     font-weight: 500;
     font-size: 14px;
     margin-right: 6px;
 `
 
-const InformaacaoPublicacao = styled.View`
+const InformacaoPublicacao = styled.View`
   flex-direction: column;
   height: 30px;
 `
