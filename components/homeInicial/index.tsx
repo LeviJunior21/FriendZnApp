@@ -1,39 +1,50 @@
-import styled from 'styled-components/native';
-import { Dimensions, FlatList, RefreshControl } from 'react-native';
-import { PublicacaoUser } from '../publicacao/publicacao';
-import { HomeProps } from '../../utils/interfaces';
-import { useDataManagement } from './useDataManagement';
-import TodasCategorias from './nav/todasCategorias';
+import styled from "styled-components/native";
+import Constants from "expo-constants";
+import HomePublicacoes from "./homePublicacoes";
+import TodasCategorias from "./nav/todasCategorias";
+import { Nav } from "./nav";
+import { StatusBar } from 'expo-status-bar';
+import { useState } from "react";
+import { Dimensions } from "react-native";
 
-export default function App(props: HomeProps) {
-  const { filteredPublicacoes, refreshing, refreshData } = useDataManagement(props);
+export default function HomeScreen() {
+    const [search, setSearch] = useState<string>("");
+    const [openCategoria, setOpenCategoria] = useState<boolean>(false);
 
-  return (
-    <Container
-    refreshControl={
-      <RefreshControl 
-      refreshing={refreshing} 
-      onRefresh={refreshData}/>
-    }
-    >
-      <FlatList
-      ItemSeparatorComponent={() => <Separator/>}
-      data={filteredPublicacoes}
-      renderItem={({index, item}) => 
-        <PublicacaoUser publicacao={item} index={index}></PublicacaoUser>
-      }/>
-    </Container>
-  );
+    return (
+        <Container>
+            <StatusBar backgroundColor={"#ffffff"}></StatusBar>
+            <Nav openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
+            <HomePublicacoes search={search}/>
+            <Button>
+                <Plus>+</Plus>
+            </Button>
+            <TodasCategorias openCategoria={openCategoria}/>
+        </Container>
+    )
 }
 
 const height = Dimensions.get('window').height;
-const Container = styled.ScrollView`
-  width: 100%;
-  height: 100%;
-  background-color: #303030;
+const Container = styled.SafeAreaView`
+    width: 100%;
+    height: 100%;
+    margin-top: ${Constants.statusBarHeight};
 `
 
-const Separator = styled.View`
-  height: 2px;
-  background-color: white;
+const Button = styled.TouchableOpacity`
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: green;
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+`
+
+const Plus = styled.Text`
+    color: white;
+    font-size: 18px;
 `
