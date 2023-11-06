@@ -6,11 +6,11 @@ import { PublicacaoUsuario } from "../../utils/interfaces";
 export const Nav = (props: PublicacaoUsuario) => {
     return (
         <Container>
-            <ArrowBack>
+            <ArrowBack onPress={() => props.navigation.navigation.navigate("Home")}>
                 <Icon name={"arrow-back"} color={"white"} size={30}></Icon>
             </ArrowBack>
             <TextTop>Escreva algo</TextTop>
-            <ArrowSend onPress={() => enviarPublicacao(props.categoria, props.desabafo)}>
+            <ArrowSend onPress={() => enviarPublicacao(props)}>
                 <Icon name={"send"} color={"white"} size={24}></Icon>
             </ArrowSend>
         </Container>

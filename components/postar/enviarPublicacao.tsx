@@ -1,15 +1,15 @@
-import { Categoria } from "../../utils/interfaces";
+import { Categoria, PublicacaoUsuario } from "../../utils/interfaces";
 
-export const enviarPublicacao = async(categoria: Categoria, desabafo: string) => {
-    if (categoria === Categoria.selecionar) {
+export const enviarPublicacao = async(props: PublicacaoUsuario) => {
+    if (props.categoria === Categoria.selecionar) {
         alert("Selecione uma categoria!");
     } else {
         const url: string = "http://10.0.0.181:8080/v1/publicacoes/publicacao?id=1";
         const dados = {
-            publicacao: desabafo, 
+            publicacao: props.desabafo, 
             date: new Date().toISOString(),
             codigoAcesso: 12345,
-            categoria: categoria
+            categoria: props.categoria
         }
         
         fetch(url, {
@@ -19,5 +19,7 @@ export const enviarPublicacao = async(categoria: Categoria, desabafo: string) =>
             },
             body: JSON.stringify(dados)
         });
+
+        props.navigation.navigation.navigate("Home");
     }
 }

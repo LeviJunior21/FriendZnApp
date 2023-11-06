@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
+import { NavigationProp } from '@react-navigation/native';
 
 interface PublicacaoInterface {
     id: number,
@@ -48,7 +49,8 @@ interface PropsCategoria {
 
 interface PublicacaoUsuario {
     categoria: Categoria,
-    desabafo: string
+    desabafo: string,
+    navigation: Navigation
 }
 
 enum Categoria {
@@ -70,4 +72,13 @@ enum Categoria {
     selecionar = "selecionar"
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria};
+type RootStackParamList = {
+    Home: undefined;
+    Postar: undefined;
+};
+
+interface Navigation {
+    navigation: NavigationProp<RootStackParamList, "Home">
+}
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation };
