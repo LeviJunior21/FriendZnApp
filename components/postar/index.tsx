@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
+import Constants from 'expo-constants';
 import { Nav } from "./nav"
 import { useState } from "react"
 import { Dimensions, FlatList, ScrollView } from "react-native";
@@ -45,7 +46,7 @@ export default function Postar() {
                 <ModalContent>
                     <TextChoice>{"Selecione uma categoria..."}</TextChoice>
                     <FlatList
-                        data={data}
+                        data={data.slice(1)}
                         renderItem={({item, index}) => 
                             <CategoriaButton onPress={() => handleCategoria(item.titulo, item.categoria)}>
                                 <ButtonContainer>
@@ -68,6 +69,7 @@ const Container = styled.View`
     background-color: #303030;
     width: 100%;
     height: 100%;
+    margin-top: ${Constants.statusBarHeight}px;
 `
 
 const SelectCategoty = styled.TouchableOpacity`
