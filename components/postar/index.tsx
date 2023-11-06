@@ -8,6 +8,7 @@ import { data } from "../homeInicial/nav/categories";
 export default function Postar() {
     const [categoria, setCategoria] = useState<string>("Selecione uma categoria...");
     const [mostrarCategoria, setMostrarCategoria] = useState<boolean>(true);
+    const [desabafo, setDesabafo] = useState<string>("");
 
     const handleCategoria = (novaCategoria: string) => {
         setCategoria(novaCategoria);
@@ -16,7 +17,7 @@ export default function Postar() {
 
     return (
         <Container>
-            <Nav></Nav>
+            <Nav categoria={categoria} desabafo={desabafo}></Nav>
             <SelectCategoty onPress={() => setMostrarCategoria(!mostrarCategoria)}>
                 <Categoria 
                 >{categoria}
@@ -29,6 +30,7 @@ export default function Postar() {
                     placeholderTextColor={"gray"}
                     cursorColor={"white"}
                     multiline={true}
+                    onChangeText={(text) => setDesabafo(text)}
                 />
             </ScrollView>
             <ModalContainer

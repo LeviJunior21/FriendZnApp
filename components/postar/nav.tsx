@@ -1,14 +1,16 @@
 import Icon from "react-native-vector-icons/Ionicons";
 import styled from "styled-components/native";
+import { enviarPublicacao } from "./enviarPublicacao";
+import { PublicacaoUsuario } from "../../utils/interfaces";
 
-export const Nav = () => {
+export const Nav = (props: PublicacaoUsuario) => {
     return (
         <Container>
             <ArrowBack>
                 <Icon name={"arrow-back"} color={"white"} size={30}></Icon>
             </ArrowBack>
             <TextTop>Escreva algo</TextTop>
-            <ArrowSend>
+            <ArrowSend onPress={() => enviarPublicacao(props.categoria, props.desabafo)}>
                 <Icon name={"send"} color={"white"} size={24}></Icon>
             </ArrowSend>
         </Container>

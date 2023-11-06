@@ -4,6 +4,6 @@ import Postar from "./components/postar";
 export default function App() {
 
     return (
-       <Postar/>
+       <HomeScreen/>
     )
 }

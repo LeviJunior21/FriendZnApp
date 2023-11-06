@@ -40,4 +40,9 @@ interface PropsCategoria {
     openCategoria: boolean
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria };
+interface PublicacaoUsuario {
+    categoria: string,
+    desabafo: string
+}
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario };
