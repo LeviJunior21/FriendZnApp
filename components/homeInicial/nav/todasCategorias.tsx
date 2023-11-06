@@ -1,19 +1,24 @@
 import styled from 'styled-components/native';
 import React, { useEffect } from 'react';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
-import { PropsCategoria } from '../../../utils/interfaces';
+import { Categoria, PropsCategoria } from '../../../utils/interfaces';
 import { Dimensions, FlatList, ScrollView } from 'react-native';
 import { data } from './categories';
 
 const TodasCategorias = (props: PropsCategoria) => {
     const heightShared = useSharedValue(height)
     const showCategorias = (value: number) => {
-        heightShared.value = withTiming(value, {duration: 300, })
+        heightShared.value = withTiming(value, {duration: 300, });
+    }
+
+    const handleCategoria = (categoria: Categoria) => {
+        props.setCategoriaEscolhida(categoria);
+        props.setOpenCategoria(!props.openCategoria)
     }
 
     useEffect(() => {
         showCategorias(props.openCategoria? 0.0 * height : height)
-    }, [props.openCategoria])
+    }, [props.openCategoria]);
 
     return (
         <CategoriaContainer style={{transform: [{translateY: heightShared}]}}>
@@ -22,18 +27,23 @@ const TodasCategorias = (props: PropsCategoria) => {
                     data={data}
                     numColumns={2}
                     renderItem={({item, index}) => 
-                    <Categoria 
-                    source={item.image}
-                    imageStyle={{
-                        opacity: 0.8, 
-                        objectFit: "cover", 
-                        width: 0.5 * width,
-                        height: 113,
-                        flex: 1
-                    }}>
-                        <Texto>{item.titulo}</Texto>
-                        <CheckBox/>
-                    </Categoria>}
+                        <CategoriaItemContainer 
+                        activeOpacity={1}
+                        onPress={() => handleCategoria(item.categoria)}
+                        >
+                            <Categorias
+                            source={item.image}
+                            imageStyle={{
+                                opacity: 0.8, 
+                                objectFit: "cover", 
+                                width: 0.5 * width,
+                                height: 113,
+                                flex: 1
+                            }}>
+                                <Texto>{item.titulo}</Texto>
+                            </Categorias>
+                        </CategoriaItemContainer>
+                    }
                 />
             </ScrollView>
         </CategoriaContainer>
@@ -52,26 +62,19 @@ const CategoriaContainer = styled(Animated.View)`
     z-index: 2;
 `
 
-const Categoria = styled.ImageBackground`
+const CategoriaItemContainer = styled.TouchableOpacity`
     width: 50%;
     height: 113px;
+`
+
+const Categorias = styled.ImageBackground`
+    width: 100%;
+    height: 100%;
     border-width: 2px;
     border-color: black;
     background-color: white;
     justify-content: center;
     align-items: center;
-`
-
-const CheckBox = styled.TouchableOpacity`
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    background-color: white;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border-width: 2px;
-    border-color: black;
 `
 
 const Texto = styled.Text`

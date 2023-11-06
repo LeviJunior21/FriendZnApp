@@ -1,3 +1,4 @@
+import { Categoria } from "../utils/interfaces";
 import { Comentario } from "./Comentario";
 import { Usuario } from "./Usuario";
 
@@ -6,6 +7,7 @@ export class Publicacao {
     private publicacao: string;
     private date: Date;
     private usuario: Usuario;
+    private categoria: Categoria;
     private comentarios: Comentario[] = [];
     
     constructor(builder: PublicacaoBuilder) {
@@ -14,6 +16,7 @@ export class Publicacao {
         this.date = builder.date;
         this.usuario = builder.usuario;
         this.comentarios = builder.comentarios;
+        this.categoria = builder.categoria;
     }
 
     public getId(): number {
@@ -36,6 +39,10 @@ export class Publicacao {
         return this.comentarios;
     }
 
+    public getCategoria(): Categoria {
+        return this.categoria;
+    }
+
     static builder(): PublicacaoBuilder {
         return new PublicacaoBuilder();
     }
@@ -47,6 +54,7 @@ class PublicacaoBuilder {
     date!: Date;
     usuario!: Usuario;
     comentarios: Comentario[] = [];
+    categoria!: Categoria;
 
     withId(id: number): PublicacaoBuilder {
         this.id = id;
@@ -70,6 +78,11 @@ class PublicacaoBuilder {
 
     withComentarios(comentarios: Comentario[]): PublicacaoBuilder {
         this.comentarios = comentarios;
+        return this;
+    }
+
+    withCategoria(categoria: Categoria): PublicacaoBuilder {
+        this.categoria = categoria;
         return this;
     }
 

@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
 import { Usuario } from "../model/Usuario";
 import { Comentario } from "../model/Comentario";
-import { PublicacaoInterface } from "./interfaces";
+import { Categoria, PublicacaoInterface } from "./interfaces";
 import { listarComentarios } from "./getComentarios";
 
 export const getPublicacoes = async(setPublicacoes: Dispatch<SetStateAction<Publicacao[]>>) => {
@@ -27,6 +27,7 @@ export const getPublicacoes = async(setPublicacoes: Dispatch<SetStateAction<Publ
                     .withDate(date)
                     .withComentarios(comentarios)
                     .withPublicacao(item.publicacao)
+                    .withCategoria(item.categoria)
                     .build();
             });
 

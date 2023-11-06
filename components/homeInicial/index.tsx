@@ -6,20 +6,22 @@ import { Nav } from "./nav";
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
 import { Dimensions } from "react-native";
+import { Categoria } from "../../utils/interfaces";
 
 export default function HomeScreen() {
     const [search, setSearch] = useState<string>("");
     const [openCategoria, setOpenCategoria] = useState<boolean>(false);
+    const [categoriaEscolhida, setCategoriaEscolhida] = useState<Categoria>(Categoria.todasCategorias);
 
     return (
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
-            <Nav openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
-            <HomePublicacoes search={search}/>
+            <Nav categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
+            <HomePublicacoes search={search} categoriaEscolhida={categoriaEscolhida}/>
             <Button>
                 <Plus>+</Plus>
             </Button>
-            <TodasCategorias openCategoria={openCategoria}/>
+            <TodasCategorias openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} categoriaEscolhida={categoriaEscolhida} setCategoriaEscolhida={setCategoriaEscolhida}/>
         </Container>
     )
 }

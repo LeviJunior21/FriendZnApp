@@ -4,8 +4,9 @@ import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 import { Dimensions } from "react-native";
 import React, { useState } from "react";
 import { NavProps } from "../../../utils/interfaces";
+import { getCategory } from "../../../utils/getCategory";
 
-export const Nav: React.FC<NavProps> = ({ search, setSearch, openCategoria, setOpenCategoria }) => {
+export const Nav: React.FC<NavProps> = ({ categoriaEscolhida, search, setSearch, openCategoria, setOpenCategoria }) => {
     const widthShared = useSharedValue(40);
     const [open, setOpen] = useState(false);
 
@@ -25,7 +26,7 @@ export const Nav: React.FC<NavProps> = ({ search, setSearch, openCategoria, setO
                 <Icon name={"menu-outline"} color={"white"} size={30}/>
             </DrawerButton>
             <Categoria onPress={handleCategoria}>
-                <TextCategoria>{"Todas\nCategorias"}</TextCategoria>
+                <TextCategoria>{getCategory(categoriaEscolhida)}</TextCategoria>
                 <CategoriaAnimatedIcon style={{transform: [{rotate: `${openCategoria? 180:0}deg`}]}}>
                     <Icon name={"chevron-down"} size={20} color={"white"}/>
                 </CategoriaAnimatedIcon>

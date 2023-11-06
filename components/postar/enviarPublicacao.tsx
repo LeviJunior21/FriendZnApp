@@ -1,12 +1,15 @@
-export const enviarPublicacao = async(categoria: string, desabafo: string) => {
-    if (categoria == "Selecione uma categoria...") {
+import { Categoria } from "../../utils/interfaces";
+
+export const enviarPublicacao = async(categoria: Categoria, desabafo: string) => {
+    if (categoria === Categoria.selecionar) {
         alert("Selecione uma categoria!");
     } else {
         const url: string = "http://10.0.0.181:8080/v1/publicacoes/publicacao?id=1";
         const dados = {
             publicacao: desabafo, 
             date: new Date().toISOString(),
-            codigoAcesso: 12345
+            codigoAcesso: 12345,
+            categoria: categoria
         }
         
         fetch(url, {

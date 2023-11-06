@@ -4,24 +4,27 @@ import { Nav } from "./nav"
 import { useState } from "react"
 import { Dimensions, FlatList, ScrollView } from "react-native";
 import { data } from "../homeInicial/nav/categories";
+import { Categoria } from "../../utils/interfaces";
 
 export default function Postar() {
     const [categoria, setCategoria] = useState<string>("Selecione uma categoria...");
     const [mostrarCategoria, setMostrarCategoria] = useState<boolean>(true);
     const [desabafo, setDesabafo] = useState<string>("");
+    const [enumCategoria, setEnumCatgegotia] = useState<Categoria>(Categoria.selecionar)
 
-    const handleCategoria = (novaCategoria: string) => {
-        setCategoria(novaCategoria);
+    const handleCategoria = (tituloCategoria: string, enumCategoria: Categoria) => {
+        setCategoria(tituloCategoria);
         setMostrarCategoria(!mostrarCategoria);
+        setEnumCatgegotia(enumCategoria);
     }
 
     return (
         <Container>
-            <Nav categoria={categoria} desabafo={desabafo}></Nav>
+            <Nav categoria={enumCategoria} desabafo={desabafo}></Nav>
             <SelectCategoty onPress={() => setMostrarCategoria(!mostrarCategoria)}>
-                <Categoria 
+                <Categorias
                 >{categoria}
-                </Categoria>
+                </Categorias>
                 <Icon name={"chevron-down"} size={20} color={"white"}/>
             </SelectCategoty>
             <ScrollView>
@@ -44,7 +47,7 @@ export default function Postar() {
                     <FlatList
                         data={data}
                         renderItem={({item, index}) => 
-                            <CategoriaButton onPress={() => handleCategoria(item.titulo)}>
+                            <CategoriaButton onPress={() => handleCategoria(item.titulo, item.categoria)}>
                                 <ButtonContainer>
                                     <RoundImage
                                     source={item.image}
@@ -78,7 +81,7 @@ const SelectCategoty = styled.TouchableOpacity`
     justify-content: space-between;
 `
 
-const Categoria = styled.Text`
+const Categorias = styled.Text`
     color: white;
     font-weight: 500;
     font-size: 16px;

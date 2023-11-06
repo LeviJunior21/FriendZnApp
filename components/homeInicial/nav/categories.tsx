@@ -11,21 +11,22 @@ import estudos from '../../../assets/categories/estudos.jpg';
 import dinheiro from '../../../assets/categories/dinheiro.webp';
 import familia from '../../../assets/categories/familia.jpg';
 import lazer from '../../../assets/categories/lazer.jpg';
-import comida from '../../../assets/categories/comida.jpg';
+import universo from '../../../assets/categories/universo.webp';
+import { Categoria } from '../../../utils/interfaces';
 
 export const data = [
-    {titulo: "Amizade" ,image: amizade}, 
-    {titulo: "Amor", image: amor}, 
-    {titulo: "Diversão", image: diversao}, 
-    {titulo: "Saúde", image: saude}, 
-    {titulo: "Tecnologia", image: tecnologia},
-    {titulo: "Esporte", image: esporte},
-    {titulo: "Sexualidade", image: sexualidade},
-    {titulo: "Outro", image: outro}, 
-    {titulo: "Astronomia", image: astronomia}, 
-    {titulo: "Estudos", image: estudos}, 
-    {titulo: "Dinheiro", image: dinheiro},
-    {titulo: "Família", image: familia},
-    {titulo: "Lazer", image: lazer},
-    {titulo: "Comida", image: comida}
+    {titulo: "Todas Categorias" ,image: universo, categoria: Categoria.todasCategorias},
+    {titulo: "Amizade" ,image: amizade, categoria: Categoria.amizade},
+    {titulo: "Amor", image: amor, categoria: Categoria.amor}, 
+    {titulo: "Diversão", image: diversao, categoria: Categoria.diversao}, 
+    {titulo: "Saúde", image: saude, categoria: Categoria.saude}, 
+    {titulo: "Tecnologia", image: tecnologia, categoria: Categoria.tecnologia},
+    {titulo: "Esporte", image: esporte, categoria: Categoria.esporte},
+    {titulo: "Sexualidade", image: sexualidade, categoria: Categoria.sexualidade},
+    {titulo: "Outro", image: outro, categoria: Categoria.outro}, 
+    {titulo: "Astronomia", image: astronomia, categoria: Categoria.astronomia}, 
+    {titulo: "Estudos", image: estudos, categoria: Categoria.estudos}, 
+    {titulo: "Dinheiro", image: dinheiro, categoria: Categoria.dinheiro},
+    {titulo: "Família", image: familia, categoria: Categoria.familia},
+    {titulo: "Lazer", image: lazer, categoria: Categoria.lazer},
 ];

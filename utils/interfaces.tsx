@@ -6,7 +6,8 @@ interface PublicacaoInterface {
     publicacao: string,
     date: string,
     usuario: UsuarioInterface,
-    comentarios: ComentarioInterface[]
+    comentarios: ComentarioInterface[],
+    categoria: Categoria
 }
 
 interface ComentarioInterface {
@@ -22,6 +23,7 @@ interface UsuarioInterface {
 
 interface HomeProps {
     search: string,
+    categoriaEscolhida: Categoria
 }
 
 interface PublicacaoProps {
@@ -33,16 +35,39 @@ interface NavProps {
     search: string,
     setSearch: Dispatch<SetStateAction<string>>,
     openCategoria: boolean,
+    categoriaEscolhida: Categoria,
     setOpenCategoria: Dispatch<SetStateAction<boolean>>
 };
 
 interface PropsCategoria {
-    openCategoria: boolean
+    openCategoria: boolean,
+    setOpenCategoria: Dispatch<SetStateAction<boolean>>,
+    categoriaEscolhida: Categoria,
+    setCategoriaEscolhida: Dispatch<SetStateAction<Categoria>>
 }
 
 interface PublicacaoUsuario {
-    categoria: string,
+    categoria: Categoria,
     desabafo: string
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario };
+enum Categoria {
+    todasCategorias = "Todas Categorias",
+    amizade = "amizade",
+    amor = "amor",
+    diversao = "diversao",
+    saude = "saude",
+    tecnologia = "tecnologia",
+    esporte = "esporte",
+    sexualidade = "sexualidade",
+    outro = "outro",
+    astronomia = "astronomia",
+    estudos = "estudos",
+    dinheiro = "dinheiro",
+    familia = "familia",
+    lazer = "lazer",
+    comida = "comida",
+    selecionar = "selecionar"
+}
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria};

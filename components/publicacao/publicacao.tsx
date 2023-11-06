@@ -14,7 +14,9 @@ export const PublicacaoUser:React.FC<PublicacaoProps> = ({publicacao, index}) =>
                     <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
                     <InformacaoPublicacao>
                         <DataPublicacao>{getCurrentDate(publicacao.getDate())}</DataPublicacao>
-                        <CategoriaText style={{color: getColorCategory(1)}}>{getCategory(1)}</CategoriaText>
+                        <CategoriaText 
+                        style={{color: getColorCategory(publicacao.getCategoria())}}
+                        >{getCategory(publicacao.getCategoria())}</CategoriaText>
                     </InformacaoPublicacao>
                 </UserInfoTop>
                 <PublicacaoUserContainer>
@@ -65,7 +67,8 @@ const PublicacaoContainer = styled.TouchableOpacity`
   width: 100%;
   min-height: 120px;
   max-height: 150px;
-  background-color: white;
+  border-bottom-width: 2px;
+  border-bottom-color: white;
 `
 
 const ComentarioInfo = styled.View`
