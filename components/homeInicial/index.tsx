@@ -5,7 +5,6 @@ import TodasCategorias from "./nav/todasCategorias";
 import { Nav } from "./nav";
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
-import { Dimensions } from "react-native";
 import { Categoria, Navigation } from "../../utils/interfaces";
 
 export default function HomeScreen(props: Navigation) {
@@ -26,7 +25,6 @@ export default function HomeScreen(props: Navigation) {
     )
 }
 
-const height = Dimensions.get('window').height;
 const Container = styled.SafeAreaView`
     width: 100%;
     height: 100%;

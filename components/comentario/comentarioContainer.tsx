@@ -65,7 +65,7 @@ const ModalContent = styled.View`
 `
 
 const NomeUsuario = styled.Text`
-    font-size: 18px;
+    font-size: 16px;
     color: white;
     font-weight: 500;
 `
