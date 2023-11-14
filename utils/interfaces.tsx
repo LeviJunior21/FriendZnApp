@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
 import { NavigationProp } from '@react-navigation/native';
+import { Comentario } from "../model/Comentario";
+import WebSocketTSX from "../components/comentario/WebSocketTSX";
 
 interface PublicacaoInterface {
     id: number,
@@ -24,12 +26,14 @@ interface UsuarioInterface {
 
 interface HomeProps {
     search: string,
-    categoriaEscolhida: Categoria
+    categoriaEscolhida: Categoria,
+    navigation: Navigation
 }
 
 interface PublicacaoProps {
     publicacao: Publicacao,
-    index: number
+    index: number,
+    navigation: Navigation
 }
 
 interface NavProps {
@@ -75,10 +79,38 @@ enum Categoria {
 type RootStackParamList = {
     Home: undefined;
     Postar: undefined;
+    Login: undefined;
+    Comentario: { publicacao: Publicacao };
 };
 
 interface Navigation {
     navigation: NavigationProp<RootStackParamList, "Home">
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation };
+interface UserInfo {
+    
+}
+
+interface UserInfoProps {
+    userInfo: any;
+    setUserInfo: Dispatch<SetStateAction<UserInfo>>
+}
+
+
+type ComentarioProps = {
+    route: {
+        params: {
+            publicacao: Publicacao;
+        };
+    };
+};
+
+interface PropsVisualizarComentario {
+    id: number;
+    comentarios: Comentario[];
+    webSocket: WebSocketTSX;
+    setComentarios:  Dispatch<SetStateAction<Comentario[]>>;
+    loading: boolean;
+}
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario};

@@ -22,10 +22,11 @@ const TodasCategorias = (props: PropsCategoria) => {
 
     return (
         <CategoriaContainer style={{transform: [{translateY: heightShared}]}}>
-            <ScrollView style={{flex: 1}}>
+            <ScrollView style={{flex: 1}} horizontal={false}>
                 <FlatList
                     data={data}
                     numColumns={2}
+                    horizontal={false}
                     renderItem={({item, index}) => 
                         <CategoriaItemContainer 
                         activeOpacity={1}
@@ -57,7 +58,7 @@ const width = Dimensions.get('window').width;
 const CategoriaContainer = styled(Animated.View)`
     top: 50px;
     width: 100%;
-    height: ${height - 50};
+    height: ${height - 50}px;
     position: absolute;
     z-index: 2;
 `

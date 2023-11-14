@@ -2,6 +2,7 @@
   "expo": {
     "name": "friendzone",
     "slug": "friendzone",
+    "scheme": "http",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.levijunior2020.friendzone"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f8e4fafe-a4f7-4096-9a91-2158778676d7"
+      }
     }
   }
 }

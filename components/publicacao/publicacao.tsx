@@ -6,10 +6,10 @@ import { getCurrentDate } from "../../utils/time";
 import { PublicacaoProps } from "../../utils/interfaces";
 import { getCategory, getColorCategory } from "../../utils/getCategory";
 
-export const PublicacaoUser:React.FC<PublicacaoProps> = ({publicacao, index}) => {
+export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, navigation }) => {
     return (
         <Animatable.View animation="fadeInDown" delay={index * 100} useNativeDriver>
-            <PublicacaoContainer>
+            <PublicacaoContainer onPress={() => navigation.navigation.navigate("Comentario", { publicacao: publicacao })}>
                 <UserInfoTop>
                     <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
                     <InformacaoPublicacao>

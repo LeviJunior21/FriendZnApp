@@ -7,7 +7,7 @@ import { Dimensions, FlatList, ScrollView } from "react-native";
 import { data } from "../homeInicial/nav/categories";
 import { Categoria, Navigation } from "../../utils/interfaces";
 
-export default function Postar(navigation: Navigation ) {
+export default function Postar(navigation: Navigation) {
     const [categoria, setCategoria] = useState<string>("Selecione uma categoria...");
     const [mostrarCategoria, setMostrarCategoria] = useState<boolean>(true);
     const [desabafo, setDesabafo] = useState<string>("");
@@ -107,7 +107,7 @@ const ModalContent = styled.View`
     background-color: gray;
     position: absolute;
     border-radius: 10px;
-    left: ${0.1 * width};
+    left: ${0.1 * width}px;
     padding: 10px;
 `
 

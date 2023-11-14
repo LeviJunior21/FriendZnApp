@@ -5,7 +5,7 @@ import { ComentarioInterface } from "./interfaces";
 
 export const getComentarios = async(id: number, setComentarios: Dispatch<SetStateAction<Comentario[]>>) => {
     try {
-        const response = await fetch(`http://10.0.0.181:8080/v1/comentarios/${id}`);
+        const response = await fetch(`http://10.0.0.181:8080/v1/comentarios/publicacao/${id}`);
 
         if (response.ok) {
             const data = await response.json();

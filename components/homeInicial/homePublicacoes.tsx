@@ -23,7 +23,7 @@ export default function HomePublicacoes(props: HomeProps) {
       <FlatList
       data={publicacoesFiltradas}
       renderItem={({index, item}) => 
-        <PublicacaoUser publicacao={item} index={index}></PublicacaoUser>
+        <PublicacaoUser navigation={props.navigation} publicacao={item} index={index}></PublicacaoUser>
       }/>
     </Container>
   );

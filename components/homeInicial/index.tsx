@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Dimensions } from "react-native";
 import { Categoria, Navigation } from "../../utils/interfaces";
 
-export default function HomeScreen( props: Navigation) {
+export default function HomeScreen(props: Navigation) {
     const [search, setSearch] = useState<string>("");
     const [openCategoria, setOpenCategoria] = useState<boolean>(false);
     const [categoriaEscolhida, setCategoriaEscolhida] = useState<Categoria>(Categoria.todasCategorias);
@@ -17,7 +17,7 @@ export default function HomeScreen( props: Navigation) {
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
             <Nav categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
-            <HomePublicacoes search={search} categoriaEscolhida={categoriaEscolhida}/>
+            <HomePublicacoes navigation={props} search={search} categoriaEscolhida={categoriaEscolhida}/>
             <Button onPress={() => props.navigation.navigate("Postar")}>
                 <Plus>+</Plus>
             </Button>
@@ -30,7 +30,7 @@ const height = Dimensions.get('window').height;
 const Container = styled.SafeAreaView`
     width: 100%;
     height: 100%;
-    margin-top: ${Constants.statusBarHeight};
+    margin-top: ${Constants.statusBarHeight}px;
 `
 
 const Button = styled.TouchableOpacity`
