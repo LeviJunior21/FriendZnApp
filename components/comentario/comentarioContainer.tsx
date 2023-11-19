@@ -6,18 +6,6 @@ import { Comentario } from "../../model/Comentario";
 import { useEffect } from "react";
 
 export default function ComentariosContainer(props: PropsVisualizarComentario) {
-    
-    useEffect(() => {
-        const onMessageCallback = (novoComentario: Comentario) => {
-            props.setComentarios((prevComentarios) => [...prevComentarios, novoComentario]);
-        };
-
-        props.webSocket.onMessage(onMessageCallback);
-
-        return () => {
-            props.webSocket.onMessage(onMessageCallback);
-        };
-    }, [props.webSocket]);
 
     return (
         <Container>
@@ -39,12 +27,17 @@ export default function ComentariosContainer(props: PropsVisualizarComentario) {
                 }
             />
             }
+            <SpaceBottom/>
         </Container>
     )
 }
 
 const Container = styled.SafeAreaView`
     flex: 1;
+`
+
+const SpaceBottom = styled.View`
+    height: 50px;
 `
 
 const Atividade = styled.ActivityIndicator``

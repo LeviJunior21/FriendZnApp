@@ -1,49 +1,74 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
 import ComentariosContainer from "./comentarioContainer";
-import WebSocketTSX from "./WebSocketTSX";
 import { ComentarioProps } from "../../utils/interfaces";
 import { getCurrentDate } from "../../utils/time";
-import { pathSendSocket, pathSocket } from "./pathSocket";
 import { Comentario } from "../../model/Comentario";
 import { Usuario } from "../../model/Usuario";
 import { Nav } from "./Nav";
+import SockJS from "sockjs-client";
+import Stomp, { Client } from "stompjs";
 import { getComentarios } from "../../utils/getComentarios";
 
 const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
-    const webSocket = new WebSocketTSX(pathSendSocket);
     const { publicacao } = route.params;
     const [message, setMessage] = useState<string>('');
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
+    const webSock = useRef<Client | null>(null);
+
     useEffect(() => {
-        getComentarios(publicacao.getId(), setComentarios);
-        setLoading(false);
-    }, [])
+        getComentarios({publicacao, setComentarios, setLoading});
+        var sock = new SockJS("http://10.0.0.181:8080/ws");
+        let stompClient: Client = Stomp.over(sock);
+        webSock.current = stompClient;
 
-    const sendMessage = () => {
-        if (message.length > 4) {
-            webSocket.onSend("/app/chat/message", message);
-            const usuario = Usuario.builder()
-                .withApelido("LeviJunior")
-                .withId(1)
-                .build();
+        webSock.current.connect({}, function (frame) {
+            webSock.current?.subscribe("/topic/public", function (message) {
+                const comentarioRecebido = JSON.parse(message.body);
+                const usuario = Usuario.builder()
+                    .withApelido("LeviJunior")
+                    .withId(1)
+                    .build();
 
-            const novoComentario = Comentario.builder()
-                .withComentario(message)
-                .withId(comentarios.length + 1)
-                .withUsuario(usuario)
-                .build();
+                const novoComentario = Comentario.builder()
+                    .withComentario(comentarioRecebido.comentario)
+                    .withId(comentarios.length + 1)
+                    .withUsuario(usuario)
+                    .build();
 
-            setComentarios((prevComentarios) => [...prevComentarios, novoComentario]);
+                setComentarios((prevComentarios) => [...prevComentarios, novoComentario]);
+            });
+        });
+
+        return () => {
+            if (webSock.current) {
+                webSock.current.disconnect(() => {console.log("Desconectado.")});
+            }
+        };
+    }, []);
+
+    const enviar = () => {
+        if (webSock.current != null && webSock.current.connected) {
+            const messageJSON = {
+                comentario: message,
+                codigoAcesso: 12345,
+                idPublicacao: 1,
+                idUsuario: 1
+            };
+            webSock.current?.send("/app/comentarios.sendMessage", {}, JSON.stringify(messageJSON));
 
             setMessage("");
-        }
-    }
 
+            console.log("Enviado");
+        } else {
+            console.error("Erro: WebSocket não conectado");
+        }
+    };
+    
     return (
         <Container>
             <Nav></Nav>
@@ -58,7 +83,6 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
                 <ComentariosContainer 
                 loading={loading}
                 id={publicacao.getId()} 
-                webSocket={webSocket}
                 comentarios={comentarios}
                 setComentarios={setComentarios}
                 />
@@ -70,7 +94,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
                     value={message}
                     cursorColor={"white"} 
                     multiline={true}></Input>
-                    <BotaoEnviar onPress={() => sendMessage()}>
+                    <BotaoEnviar onPress={() => enviar()}>
                         <Icon name={"send"} color={"green"} size={24}/>
                     </BotaoEnviar>
                 </EscreverComentario>

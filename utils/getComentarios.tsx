@@ -1,16 +1,17 @@
 import { Dispatch, SetStateAction } from "react";
 import { Usuario } from "../model/Usuario";
 import { Comentario } from "../model/Comentario";
-import { ComentarioInterface } from "./interfaces";
+import { ComentarioInterface, GetComentariosProps } from "./interfaces";
 
-export const getComentarios = async(id: number, setComentarios: Dispatch<SetStateAction<Comentario[]>>) => {
+export const getComentarios = async(props: GetComentariosProps) => {
     try {
-        const response = await fetch(`http://10.0.0.181:8080/v1/comentarios/publicacao/${id}`);
+        const response = await fetch(`http://10.0.0.181:8080/v1/comentarios/publicacao/${props.publicacao.getId()}`);
 
         if (response.ok) {
             const data = await response.json();
             const comentarios = listarComentarios(data);
-            setComentarios(comentarios);
+            props.setComentarios(comentarios);
+            props.setLoading(false);
         } else {
             console.error('Ocorreu um erro na requisição HTTP');
         }

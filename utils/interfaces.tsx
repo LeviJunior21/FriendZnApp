@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
 import { NavigationProp } from '@react-navigation/native';
 import { Comentario } from "../model/Comentario";
-import WebSocketTSX from "../components/comentario/WebSocketTSX";
 
 interface PublicacaoInterface {
     id: number,
@@ -108,9 +107,14 @@ type ComentarioProps = {
 interface PropsVisualizarComentario {
     id: number;
     comentarios: Comentario[];
-    webSocket: WebSocketTSX;
     setComentarios:  Dispatch<SetStateAction<Comentario[]>>;
     loading: boolean;
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario};
+interface GetComentariosProps {
+    publicacao: Publicacao; 
+    setComentarios: Dispatch<SetStateAction<Comentario[]>>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps};
