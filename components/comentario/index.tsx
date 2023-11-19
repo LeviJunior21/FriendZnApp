@@ -6,11 +6,11 @@ import ComentariosContainer from "./comentarioContainer";
 import { ComentarioProps } from "../../utils/interfaces";
 import { getCurrentDate } from "../../utils/time";
 import { Comentario } from "../../model/Comentario";
-import { Usuario } from "../../model/Usuario";
 import { Nav } from "./Nav";
 import SockJS from "sockjs-client";
 import Stomp, { Client } from "stompjs";
 import { getComentarios } from "../../utils/getComentarios";
+import { sendComentario, updateComentario } from "./WSComentario";
 
 const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
     const { publicacao } = route.params;
@@ -21,26 +21,14 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
     const webSock = useRef<Client | null>(null);
 
     useEffect(() => {
-        getComentarios({publicacao, setComentarios, setLoading});
+        getComentarios({ publicacao, setComentarios, setLoading });
         var sock = new SockJS("http://10.0.0.181:8080/ws");
         let stompClient: Client = Stomp.over(sock);
         webSock.current = stompClient;
 
         webSock.current.connect({}, function (frame) {
             webSock.current?.subscribe("/topic/public", function (message) {
-                const comentarioRecebido = JSON.parse(message.body);
-                const usuario = Usuario.builder()
-                    .withApelido("LeviJunior")
-                    .withId(1)
-                    .build();
-
-                const novoComentario = Comentario.builder()
-                    .withComentario(comentarioRecebido.comentario)
-                    .withId(comentarios.length + 1)
-                    .withUsuario(usuario)
-                    .build();
-
-                setComentarios((prevComentarios) => [...prevComentarios, novoComentario]);
+                updateComentario({ id: comentarios.length + 1, message, setComentarios });
             });
         });
 
@@ -52,21 +40,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
     }, []);
 
     const enviar = () => {
-        if (webSock.current != null && webSock.current.connected) {
-            const messageJSON = {
-                comentario: message,
-                codigoAcesso: 12345,
-                idPublicacao: 1,
-                idUsuario: 1
-            };
-            webSock.current?.send("/app/comentarios.sendMessage", {}, JSON.stringify(messageJSON));
-
-            setMessage("");
-
-            console.log("Enviado");
-        } else {
-            console.error("Erro: WebSocket não conectado");
-        }
+        sendComentario({webSock, publicacao, message, setMessage});
     };
     
     return (
