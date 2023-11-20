@@ -68,8 +68,8 @@ const TempoPublicacao = styled.Text`
     color: white;
 `
 const ContainerUsuario = styled.View`
-    width: 70%;
-    height: 60px;
+    width: 100%;
+    min-height: 60px;
     flex-direction: column;
 `
 
@@ -85,7 +85,7 @@ const ComentarioI = styled.TouchableOpacity`
 
 const ComentarioRealizado = styled.Text`
     margin-top: 4px;
-    min-height: 100px;
+    min-height: 10px;
     width: 100%;
     padding-vertical: 10px;
     color: white;

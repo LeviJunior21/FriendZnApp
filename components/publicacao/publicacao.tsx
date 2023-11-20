@@ -37,8 +37,9 @@ const PublicacaoText = styled.Text`
 
 const PublicacaoUserContainer = styled.View`
   width: 100%;
-  height: 60%;
-  padding: 10px;
+  min-height: 60px;
+  padding-horizontal: 10px;
+  padding-vertical: 14px;
   background-color: #303030;
 `
 
@@ -55,7 +56,8 @@ const DataPublicacao = styled.Text`
 
 const UserInfoTop = styled.View`
   width: 100%;
-  height: 20%;
+  height: 30px;
+  padding-left: 10px;
   background-color: #303030;
   flex-direction: row;
   align-items: center;
@@ -73,7 +75,7 @@ const PublicacaoContainer = styled.TouchableOpacity`
 
 const ComentarioInfo = styled.View`
     width: 100%;
-    height: 20%;
+    height: 30px;
     flex-direction: row;
     align-items: center;
     padding-horizontal: 10px;

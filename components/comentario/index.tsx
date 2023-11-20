@@ -39,39 +39,43 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
     }, []);
 
     const enviar = () => {
-        sendComentario({webSock, publicacao, message, setMessage});
+        if (message.length > 0) {
+            sendComentario({webSock, publicacao, message, setMessage});
+        }
     };
     
     return (
         <Container>
             <Nav></Nav>
-            <ContainerPublicacao>
-                <ContainerUsuario>
-                    <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
-                    <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>  
-                </ContainerUsuario>
-                <Publicacao>{publicacao.getPublicacao()}</Publicacao>
-            </ContainerPublicacao>
-            <ComentarioContainer>
-                <ComentariosContainer 
-                loading={loading}
-                id={publicacao.getId()} 
-                comentarios={comentarios}
-                setComentarios={setComentarios}
-                />
-                <EscreverComentario>
-                    <Input 
-                    placeholder="Escreva uma mensagem..." 
-                    placeholderTextColor={"white"} 
-                    onChangeText={(text) => setMessage(text)}
-                    value={message}
-                    cursorColor={"white"} 
-                    multiline={true}></Input>
-                    <BotaoEnviar onPress={() => enviar()}>
-                        <Icon name={"send"} color={"green"} size={24}/>
-                    </BotaoEnviar>
-                </EscreverComentario>
-            </ComentarioContainer>
+            <ScrollViewContainer>
+                <ContainerPublicacao>
+                    <ContainerUsuario>
+                        <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
+                        <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>  
+                    </ContainerUsuario>
+                    <Publicacao>{publicacao.getPublicacao()}</Publicacao>
+                </ContainerPublicacao>
+                <ComentarioContainer>
+                    <ComentariosContainer 
+                    loading={loading}
+                    id={publicacao.getId()} 
+                    comentarios={comentarios}
+                    setComentarios={setComentarios}
+                    />
+                </ComentarioContainer>
+            </ScrollViewContainer>
+            <EscreverComentario>
+                <Input 
+                placeholder="Escreva uma mensagem..." 
+                placeholderTextColor={"white"} 
+                onChangeText={(text) => setMessage(text)}
+                value={message}
+                cursorColor={"white"} 
+                multiline={true}></Input>
+                <BotaoEnviar onPress={() => enviar()}>
+                    <Icon name={"send"} color={"green"} size={24}/>
+                </BotaoEnviar>
+            </EscreverComentario>
         </Container>
     )
 }
@@ -148,4 +152,8 @@ const BotaoEnviar = styled.TouchableOpacity`
     align-items: center;
     height: 46px;
     width: 10%;
+`
+
+const ScrollViewContainer = styled.ScrollView`
+    flex: 1;
 `
