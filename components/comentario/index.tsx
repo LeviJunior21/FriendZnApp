@@ -17,7 +17,6 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
     const [message, setMessage] = useState<string>('');
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-
     const webSock = useRef<Client | null>(null);
 
     useEffect(() => {
@@ -27,7 +26,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
         webSock.current = stompClient;
 
         webSock.current.connect({}, function (frame) {
-            webSock.current?.subscribe("/topic/public", function (message) {
+            webSock.current?.subscribe("/topic/public/" + publicacao.getId(), function (message) {
                 updateComentario({ id: comentarios.length + 1, message, setComentarios });
             });
         });

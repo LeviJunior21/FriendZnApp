@@ -22,10 +22,10 @@ export const getComentarios = async(props: GetComentariosProps) => {
 
 export const listarComentarios = (data: ComentarioInterface[]) => {
     const comentarios: Comentario[] = data.map((item: ComentarioInterface) => {
-
+        console.log("Comentarios:", item)
         const usuario: Usuario = Usuario.builder()
-            .withApelido(item.usuario.apelido)
-            .withId(item.usuario.id)
+            .withApelido("LeviJunior")
+            .withId(1)
             .build();
 
         return Comentario.builder()
