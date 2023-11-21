@@ -87,6 +87,15 @@ interface Navigation {
     navigation: NavigationProp<RootStackParamList, "Home">
 }
 
+interface NavigationChat {
+    navigation: NavigationProp<RootStackParamList, "Home">;
+    route: {
+        params: {
+          nome: string;
+        };
+    };
+}
+
 interface UserInfo {
     
 }
@@ -105,6 +114,15 @@ type ComentarioProps = {
     };
 };
 
+type ChatProps = {
+    route: {
+        params: {
+            nome: string;
+            navigation: Navigation;
+        };
+    };
+};
+
 interface PropsVisualizarComentario {
     id: number;
     comentarios: Comentario[];
@@ -118,4 +136,4 @@ interface GetComentariosProps {
     setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps};
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat };

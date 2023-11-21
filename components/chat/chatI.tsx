@@ -11,7 +11,7 @@ interface Props{
 
 export default function ChatI(props: Props) {
     return (
-        <Container onPress={() => props.navigation.navigation.navigate("ChatScreen")}>
+        <Container onPress={() => props.navigation.navigation.navigate("ChatScreen", { nome: props.chat.getRemetente() })}>
             <AvatarContainer>
                 <Avatar></Avatar>
             </AvatarContainer>

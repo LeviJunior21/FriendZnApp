@@ -1,13 +1,15 @@
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Navigation } from "../../utils/interfaces";
+import { ChatProps, ComentarioProps, Navigation, NavigationChat } from "../../utils/interfaces";
 import { NavChat } from "./nav";
+import React from "react";
 
-export default function ChatScreen(props: Navigation) {
+export default function ChatScreen(props: NavigationChat) {
+    const { nome } = props.route.params;
     return (
         <Container>
-            <NavChat navigation={props}/>
+            <NavChat navigation={props.navigation} nome={nome}/>
         </Container>
     )
 }
