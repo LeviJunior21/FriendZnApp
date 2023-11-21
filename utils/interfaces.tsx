@@ -80,6 +80,7 @@ type RootStackParamList = {
     Postar: undefined;
     Login: undefined;
     Comentario: { publicacao: Publicacao };
+    ChatScreen: undefined;
 };
 
 interface Navigation {

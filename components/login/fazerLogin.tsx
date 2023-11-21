@@ -35,9 +35,29 @@ export default function FazerLogin(props: UserInfoProps) {
         }
     }, [response]);
 
+    const logar = async() => {
+        const YOUR_CLIENT_ID = "692576055710-0fv2a6lht7m40ocr76jc8e38ees33tq7.apps.googleusercontent.com";
+        const REDIRECT_URI = "exp://10.0.0.181:8081";
+
+        const result = await WebBrowser.openAuthSessionAsync(
+            `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${YOUR_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&state=1234_purpleGoogle&prompt=consent`,
+            REDIRECT_URI
+        );
+    
+        if (result.type === "success") {
+            const params = JSON.parse(result.url);
+            const { email, name, picture } = params.queryParams;    
+            const user = {
+              email,
+              name,
+              picture,
+            };
+        }
+    }
+
     return (
         <Header>
-            <TouchLogin onPress={() => promptAsync()}>
+            <TouchLogin onPress={() => logar()}>
                 <Icon name={"logo-google"} size={30} color={"white"} />
                 <TextLogin>Fazer login com a Google</TextLogin>
             </TouchLogin>
