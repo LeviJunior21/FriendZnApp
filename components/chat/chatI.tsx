@@ -1,8 +1,7 @@
 import styled from "styled-components/native";
 import { Chat } from "../../model/Chat";
 import { getCurrentDate } from "../../utils/time";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { Navigation, RootStackParamList } from "../../utils/interfaces";
+import { Navigation } from "../../utils/interfaces";
 
 interface Props{
     chat: Chat;
@@ -20,7 +19,7 @@ export default function ChatI(props: Props) {
                     <Nome>@{props.chat.getRemetente()}</Nome>
                     <Hora>{getCurrentDate(props.chat.getTimestamp())}</Hora>
                 </NameHourContainer>
-                <Mensagem numberOfLines={1}>{props.chat.getConversas()[0].getMensagem()}</Mensagem>
+                <Mensagem numberOfLines={1}>{props.chat.getConversas()[props.chat.getConversas().length - 1].getMensagem()}</Mensagem>
             </UserOutros>
         </Container>
     )
@@ -33,6 +32,7 @@ const Container = styled.TouchableOpacity`
     border-bottom-color: white;
     flex-direction: row;
     padding-vertical: 10px;
+    padding-left: 5px;
 `
 
 const AvatarContainer = styled.View`

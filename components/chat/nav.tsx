@@ -36,7 +36,9 @@ export function NavChat(props: Props) {
 
 const Container = styled.View`
     width: 100%;
-    height: 60px;
+    height: 50px;
+    align-items: center;
+    flex-direction: row;
     background-color: #10a17d;
 `
 

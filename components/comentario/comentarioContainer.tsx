@@ -2,8 +2,6 @@ import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { getCurrentDate } from "../../utils/time";
 import { PropsVisualizarComentario } from "../../utils/interfaces";
-import { Comentario } from "../../model/Comentario";
-import { useEffect } from "react";
 
 export default function ComentariosContainer(props: PropsVisualizarComentario) {
 

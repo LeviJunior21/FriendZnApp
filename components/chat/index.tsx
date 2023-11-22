@@ -30,13 +30,19 @@ export default function Chats(props: Navigation) {
             .withTipoConversa(TipoConversa.RECEIVER)
             .build();
 
+        const conversa4: Conversa = Conversa.builder()
+            .withMensagem("Qual é o seu nome?")
+            .withTimestamp(new Date())
+            .withTipoConversa(TipoConversa.SENDER)
+            .build();
+
         const chat: Chat = Chat.builder()
             .withConversas([])
             .withTimestamp(new Date())
             .withRemetente("Usuario")
             .build();
 
-        chat.setConversas([conversa1, conversa2, conversa3])
+        chat.setConversas([conversa1, conversa2, conversa3, conversa4])
         setChatData([chat]);
     }, []);
 
