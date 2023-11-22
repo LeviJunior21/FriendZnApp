@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
 import { NavigationProp } from '@react-navigation/native';
 import { Comentario } from "../model/Comentario";
+import { Chat } from "../model/Chat";
 
 interface PublicacaoInterface {
     id: number,
@@ -91,7 +92,7 @@ interface NavigationChat {
     navigation: NavigationProp<RootStackParamList, "Home">;
     route: {
         params: {
-          nome: string;
+          chat: Chat;
         };
     };
 }

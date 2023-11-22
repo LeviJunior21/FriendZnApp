@@ -1,6 +1,6 @@
 import Icon from "react-native-vector-icons/Ionicons"
 import styled from "styled-components/native"
-import { Navigation, RootStackParamList } from "../../utils/interfaces"
+import { RootStackParamList } from "../../utils/interfaces"
 import { NavigationProp } from "@react-navigation/native";
 
 export default function Nav() {

@@ -1,7 +1,7 @@
 import styled from "styled-components/native"
 import Constants from "expo-constants";
 import Nav from "./nav";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { Chat } from "../../model/Chat";
 import ChatI from "./chatI";
@@ -19,7 +19,7 @@ export default function Chats(props: Navigation) {
             .build();
 
         const conversa2: Conversa = Conversa.builder()
-            .withMensagem("Olá! Pode")
+            .withMensagem("Olá! Pode.")
             .withTimestamp(new Date())
             .withTipoConversa(TipoConversa.RECEIVER)
             .build();
@@ -33,7 +33,7 @@ export default function Chats(props: Navigation) {
         const chat: Chat = Chat.builder()
             .withConversas([])
             .withTimestamp(new Date())
-            .withRemetente("LeviJunior")
+            .withRemetente("Usuario")
             .build();
 
         chat.setConversas([conversa1, conversa2, conversa3])
