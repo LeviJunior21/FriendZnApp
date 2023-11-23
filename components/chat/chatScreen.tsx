@@ -2,66 +2,58 @@ import styled from "styled-components/native";
 import Constants from "expo-constants";
 import { NavigationChat } from "../../utils/interfaces";
 import { NavChat } from "./nav";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList } from "react-native";
 import { Conversa, TipoConversa } from "../../model/Conversa";
 import { getCurrentDate } from "../../utils/time";
 import SockJS from "sockjs-client";
 import Stomp, { Client } from "stompjs";
 import Icon from "react-native-vector-icons/Ionicons";
+import { atualizarConversas, enviarChat, webSockMensagemconnect } from "./websocket/chatEnviarAtualizar";
 
 export default function ChatScreen(props: NavigationChat) {
     const { chat } = props.route.params;
-    const conversas = useRef<Conversa[]>(props.route.params.chat.getConversas());
+    const [conversas, setConversas] = useState<Conversa[]>(props.route.params.chat.getConversas());
     const webSock = useRef<Client | null>(null);
     const [mensagem, setMensagem] = useState("");
+    const flatListRef = useRef<FlatList>(null);
 
     useEffect(() => {
-        /**
         var sock = new SockJS("http://10.0.0.181:8080/ws");
         let stompClient: Client = Stomp.over(sock);
         webSock.current = stompClient;
-
-        webSock.current.connect({}, function (frame) {
-            webSock.current?.subscribe("/topic/public/" + 1, function (message) {
-            });
-        });
+        webSockMensagemconnect(webSock, 2, setConversas);
 
         return () => {
-            if (webSock.current) {
-                webSock.current.disconnect(() => {console.log("Desconectado.")});
-            }
+            if (webSock.current) {webSock.current.disconnect(() => {console.log("Desconectado.")});}
         };
-        **/
+        
     }, []);
-
-    const enviar = () => {
-        //if (message.length > 0) {
-            //sendMensagem({webSock, publicacao, message, setMessage});
-        //}
-    };
 
     return (
         <Container>
             <NavChat navigation={props.navigation} nome={chat.getRemetente()}/>
             <ScrollContainer>
                 <FlatList
-                    data={conversas.current}
-                    renderItem={({item}) => {
-                        if (item.getTipoConversa() == TipoConversa.SENDER) {
-                            return (<ChatTopicSender>
-                                        <Mensagem>{item.getMensagem()}</Mensagem>
-                                        <Hora>{getCurrentDate(item.getTimestamp())}</Hora>
-                                    </ChatTopicSender>)
-                        }
-                        return (
-                            <ChatTopicReceiver>
-                                <Mensagem>{item.getMensagem()}</Mensagem>
-                                <Hora>{getCurrentDate(item.getTimestamp())}</Hora>
-                            </ChatTopicReceiver>
-                        )
-                    }}
-                />
+                data={conversas}
+                keyExtractor={(item, index) => index.toString()}
+                onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+                onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
+                renderItem={({item}) => {
+                    if (item.getTipoConversa() == TipoConversa.SENDER) {
+                        return (<ChatTopicSender>
+                                    <Mensagem>{item.getMensagem()}</Mensagem>
+                                    <Hora>{getCurrentDate(item.getTimestamp())}</Hora>
+                                </ChatTopicSender>)
+                    }
+                    return (
+                        <ChatTopicReceiver>
+                            <Mensagem>{item.getMensagem()}</Mensagem>
+                            <Hora>{getCurrentDate(item.getTimestamp())}</Hora>
+                        </ChatTopicReceiver>
+                    )
+                }}
+            />
             </ScrollContainer>
             <MessageSenderContainer>
                 <Input 
@@ -71,7 +63,7 @@ export default function ChatScreen(props: NavigationChat) {
                 value={mensagem}
                 onChangeText={(text) => setMensagem(text)}
                 />
-                <Sender>
+                <Sender onPress={() => enviarChat(mensagem, webSock, 1, 2, setMensagem)}>
                     <Icon name={"send"} color={"green"} size={30}/>
                 </Sender>
             </MessageSenderContainer>
