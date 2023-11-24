@@ -38,6 +38,6 @@ const conversaBuilder = (conversa: any): Conversa => {
     return Conversa.builder()
         .withMensagem(mensagemJSON.conteudo)
         .withTimestamp(new Date(mensagemJSON.data))
-        .withTipoConversa(TipoConversa.SENDER)
+        .withTipoConversa((mensagemJSON.remetente == 2)? TipoConversa.SENDER:TipoConversa.RECEIVER)
         .build();
 }
