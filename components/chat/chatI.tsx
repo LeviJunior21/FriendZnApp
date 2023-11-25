@@ -2,6 +2,9 @@ import styled from "styled-components/native";
 import { Chat } from "../../model/Chat";
 import { getCurrentDate } from "../../utils/time";
 import { Navigation } from "../../utils/interfaces";
+import { getUsuario } from "../../utils/getUsuario";
+import { useEffect, useState } from "react";
+import { Usuario } from "../../model/Usuario";
 
 interface Props{
     chat: Chat;
@@ -9,14 +12,24 @@ interface Props{
 }
 
 export default function ChatI(props: Props) {
+    const [usuario, setUsuario] = useState<Usuario>();
+
+    useEffect(() => {
+        const carregandoUsuario = async(usuarioID: number) => {
+            const loadUsuario: Usuario = await getUsuario(usuarioID);
+            setUsuario(loadUsuario);
+        }
+        carregandoUsuario(props.chat.getRemetente());
+    }, []);
+
     return (
-        <Container onPress={() => props.navigation.navigation.navigate("ChatScreen", { chat: props.chat })}>
+        <Container onPress={() => props.navigation.navigation.navigate("ChatScreen", { chat: props.chat, nome: usuario?.getApelido() })}>
             <AvatarContainer>
                 <Avatar></Avatar>
             </AvatarContainer>
             <UserOutros>
                 <NameHourContainer>
-                    <Nome>@{props.chat.getRemetente()}</Nome>
+                    <Nome>@{usuario?.getApelido()}</Nome>
                     <Hora>{getCurrentDate(props.chat.getTimestamp())}</Hora>
                 </NameHourContainer>
                 <Mensagem numberOfLines={1}>{props.chat.getConversas()[props.chat.getConversas().length - 1].getMensagem()}</Mensagem>

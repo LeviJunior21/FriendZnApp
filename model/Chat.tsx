@@ -1,9 +1,9 @@
-import { Conversa } from "./Conversa";
+import { Conversa, conversaBuilder } from "./Conversa";
 
 export class Chat {
     private conversas: Conversa[];
     private timestamp: Date;
-    private remetente: string;
+    private remetente: number;
 
     constructor(builder: ChatBuilder) {
         this.conversas = builder.getConversas();
@@ -19,7 +19,7 @@ export class Chat {
         return this.conversas;
     }
 
-    public getRemetente(): string {
+    public getRemetente(): number {
         return this.remetente;
     }
 
@@ -35,7 +35,7 @@ export class Chat {
 class ChatBuilder {
     private conversas!: Conversa[];
     private timestamp!: Date;
-    private remetente!: string;
+    private remetente!: number;
     
     public withConversas(conversas: Conversa[]): ChatBuilder {
         this.conversas = conversas;
@@ -47,7 +47,7 @@ class ChatBuilder {
         return this;
     }
 
-    public withRemetente(remetente: string): ChatBuilder {
+    public withRemetente(remetente: number): ChatBuilder {
         this.remetente = remetente;
         return this;
     }
@@ -60,11 +60,23 @@ class ChatBuilder {
         return this.conversas;
     }
 
-    public getRemetente(): string {
+    public getRemetente(): number {
         return this.remetente;
     }
 
     public build(): Chat {
         return new Chat(this);
     }
+}
+
+export const chatBuilder = (recoveredChat:any): Chat => {
+    const conversas:Conversa[] = recoveredChat.conversas.map(
+        (item:any) => conversaBuilder(item)
+    );
+    const newChat:Chat = Chat.builder()
+        .withConversas(conversas)
+        .withRemetente(recoveredChat.remetente)
+        .withTimestamp(new Date(recoveredChat.timestamp))
+        .build();
+    return newChat;
 }

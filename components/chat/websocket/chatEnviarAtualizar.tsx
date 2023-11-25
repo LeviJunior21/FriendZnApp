@@ -1,43 +1,36 @@
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useContext } from "react";
 import { Client } from "stompjs";
-import { Conversa, TipoConversa } from "../../../model/Conversa";
+import { Conversa, conversaBuilder } from "../../../model/Conversa";
 
 export const enviarChat = (mensagem: string, webSock: MutableRefObject<Client | null>, remetente: number, receptor: number, setMensagem: Dispatch<SetStateAction<string>> ) => {
     if (mensagem.length > 0 && webSock.current != null && webSock?.current.connected) {
         const messageJSON = {
-            conteudo: mensagem,
-            data: new Date(),
+            mensagem: mensagem,
+            timestamp: new Date(),
             remetente: remetente,
             receptor: receptor
         };
-        const subscribeMensagemPrivada: string = "/app/private-message";
-        webSock.current?.send(subscribeMensagemPrivada, {}, JSON.stringify(messageJSON));
+        const WsMensagemPrivada: string = "/app/private-message";
+        webSock.current?.send(WsMensagemPrivada, {}, JSON.stringify(messageJSON));
         setMensagem("");
     } else {
         console.error("Erro: WebSocket não conectado");
     }
 };
 
-export const atualizarConversas = (mensagemRecebida: any, setConversas: Dispatch<SetStateAction<Conversa[]>>) => {
-    const newConversa: Conversa = conversaBuilder(mensagemRecebida);
+export const atualizarConversas = (mensagemRecebida: any, setConversas: Dispatch<SetStateAction<Conversa[]>>, gravarConversa: (newConversa: Conversa, key: string) => void, key: string) => {
+    const data = JSON.parse(mensagemRecebida.body)
+    const newConversa: Conversa = conversaBuilder(data);
     setConversas(prevConversas => [...prevConversas, newConversa]);
+    gravarConversa(newConversa, key)
 }
 
-export const webSockMensagemconnect = (webSock: MutableRefObject<Client | null>, receptor: number, setConversas: Dispatch<SetStateAction<Conversa[]>>) => {
+export const webSockMensagemConnect = (webSock: MutableRefObject<Client | null>, receptor: number, setConversas: Dispatch<SetStateAction<Conversa[]>>, gravarConversa: (newConversa: Conversa, key: string) => void, key: string) => {
     if (webSock.current != null) {
         webSock.current.connect({}, function (frame) {
             webSock.current?.subscribe(`/user/${receptor}/private`, function (mensagemI) {
-                atualizarConversas(mensagemI, setConversas);
+                atualizarConversas(mensagemI, setConversas, gravarConversa, key);
             });
         });
     }
-}
-
-const conversaBuilder = (conversa: any): Conversa => {
-    const mensagemJSON = JSON.parse(conversa.body);
-    return Conversa.builder()
-        .withMensagem(mensagemJSON.conteudo)
-        .withTimestamp(new Date(mensagemJSON.data))
-        .withTipoConversa((mensagemJSON.remetente == 2)? TipoConversa.SENDER:TipoConversa.RECEIVER)
-        .build();
 }

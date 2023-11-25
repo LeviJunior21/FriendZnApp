@@ -3,6 +3,7 @@ import { Publicacao } from "../model/Publicacao";
 import { NavigationProp } from '@react-navigation/native';
 import { Comentario } from "../model/Comentario";
 import { Chat } from "../model/Chat";
+import { Conversa } from "../model/Conversa";
 
 interface PublicacaoInterface {
     id: number,
@@ -93,6 +94,7 @@ interface NavigationChat {
     route: {
         params: {
           chat: Chat;
+          nome: string;
         };
     };
 }

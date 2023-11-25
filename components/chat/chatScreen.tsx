@@ -2,37 +2,28 @@ import styled from "styled-components/native";
 import Constants from "expo-constants";
 import { NavigationChat } from "../../utils/interfaces";
 import { NavChat } from "./nav";
-import React, { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList } from "react-native";
 import { Conversa, TipoConversa } from "../../model/Conversa";
 import { getCurrentDate } from "../../utils/time";
-import SockJS from "sockjs-client";
-import Stomp, { Client } from "stompjs";
 import Icon from "react-native-vector-icons/Ionicons";
-import { atualizarConversas, enviarChat, webSockMensagemconnect } from "./websocket/chatEnviarAtualizar";
+import { enviarChat, webSockMensagemConnect } from "./websocket/chatEnviarAtualizar";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function ChatScreen(props: NavigationChat) {
-    const { chat } = props.route.params;
+    const { nome } = props.route.params;
     const [conversas, setConversas] = useState<Conversa[]>(props.route.params.chat.getConversas());
-    const webSock = useRef<Client | null>(null);
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
+    const { gravarConversa, webSock } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
-        var sock = new SockJS("http://10.0.0.181:8080/ws");
-        let stompClient: Client = Stomp.over(sock);
-        webSock.current = stompClient;
-        webSockMensagemconnect(webSock, 2, setConversas);
-
-        return () => {
-            if (webSock.current) {webSock.current.disconnect(() => {console.log("Desconectado.")});}
-        };
-        
+        webSockMensagemConnect(webSock, 2, setConversas, gravarConversa, "myKey");
     }, []);
 
     return (
         <Container>
-            <NavChat navigation={props.navigation} nome={chat.getRemetente()}/>
+            <NavChat navigation={props.navigation} nome={nome}/>
             <ScrollContainer>
                 <FlatList
                 data={conversas}
