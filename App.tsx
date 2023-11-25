@@ -14,31 +14,20 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { gravarConversa, lerChats } from "./data/utils"; 
 import { Client } from "stompjs";
 import { Chat } from "./model/Chat";
-import { Conversa, TipoConversa } from "./model/Conversa";
+import { Conversa, TipoConversa, conversaBuilder } from "./model/Conversa";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
     const webSock:MutableRefObject<Client | null> = useRef<Client | null>(null);
 
-    const [chatData, setChatData] = useState<Chat[]>([
-        Chat.builder()
-            .withConversas([
-                Conversa.builder()
-                .withMensagem("Oi")
-                .withRemetente(1)
-                .withTimestamp(new Date())
-                .withTipoConversa(TipoConversa.SENDER)
-                .build()
-            ])
-            .withRemetente(1)
-            .withTimestamp(new Date())
-            .build()
-    ]);
+    const [chatData, setChatData] = useState<Chat[]>([]);
 
     useEffect(() => {
+        carregarChat("myKey")
         var sock = new SockJS("http://10.0.0.181:8080/ws");
         let stompClient: Client = Stomp.over(sock);
         webSock.current = stompClient;
@@ -55,15 +44,27 @@ export default function App() {
         };
     },[])
 
+    const carregarChat = async(key: string) => {
+        const chatsCarregados: Chat[] = await lerChats(key);
+        setChatData(chatsCarregados);
+    }
+    
     useEffect(() => {
-        (async() => {
-            try {
-                const todosChats:Chat[] = await lerChats("myKey");
-                //setChatData(todosChats);
-            }
-            catch(e) {console.log("Ocorreu um erro ao recuperar os chats")}
-        })();
+        if (webSock.current != null) {
+            webSock.current.connect({}, function (frame) {
+                webSock.current?.subscribe(`/user/${2}/private`, function (mensagemI) {
+                    const data = JSON.parse(mensagemI.body)
+                    const newConversa: Conversa = conversaBuilder(data);
+                    atualizarChats(newConversa);
+                });
+            });
+        }
     }, [])
+
+    const atualizarChats = async(newConversa: Conversa) => {
+        const chats:Chat[] = await gravarConversa(newConversa, "myKey");
+        setChatData(chats);
+    }
 
     return (
         <Provider.Provider value={{gravarConversa, chatData, setChatData, webSock}}>

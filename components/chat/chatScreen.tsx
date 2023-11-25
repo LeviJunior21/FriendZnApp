@@ -7,19 +7,26 @@ import { Dimensions, FlatList } from "react-native";
 import { Conversa, TipoConversa } from "../../model/Conversa";
 import { getCurrentDate } from "../../utils/time";
 import Icon from "react-native-vector-icons/Ionicons";
-import { enviarChat, webSockMensagemConnect } from "./websocket/chatEnviarAtualizar";
+import { enviarChat } from "./websocket/chatEnviarAtualizar";
 import { ContextProvider, Provider } from "../../utils/Provider";
+import { buscarChat } from "../../data/utils";
+import { Chat } from "../../model/Chat";
 
 export default function ChatScreen(props: NavigationChat) {
-    const { nome } = props.route.params;
+    const {chat, nome } = props.route.params;
     const [conversas, setConversas] = useState<Conversa[]>(props.route.params.chat.getConversas());
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
-    const { gravarConversa, webSock } = useContext<ContextProvider>(Provider);
+    const {chatData, webSock } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
-        webSockMensagemConnect(webSock, 2, setConversas, gravarConversa, "myKey");
-    }, []);
+        carregarConversas()
+    }, [chatData]);
+
+    const carregarConversas = async() => {
+        const chatEncontrado:Chat = await buscarChat(chat.getRemetente(), "myKey");
+        setConversas([...chatEncontrado.getConversas()]);
+    }
 
     return (
         <Container>
@@ -54,7 +61,7 @@ export default function ChatScreen(props: NavigationChat) {
                 value={mensagem}
                 onChangeText={(text) => setMensagem(text)}
                 />
-                <Sender onPress={() => enviarChat(mensagem, webSock, 1, 2, setMensagem)}>
+                <Sender onPress={() => {enviarChat(mensagem, webSock, 1, 2, setMensagem)}}>
                     <Icon name={"send"} color={"green"} size={30}/>
                 </Sender>
             </MessageSenderContainer>

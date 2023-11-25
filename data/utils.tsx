@@ -4,21 +4,24 @@ import { Conversa } from "../model/Conversa";
 
 /**
 * @param {Conversa} newConversa - Conversa a ser gravada.
-* @param {Chat[]} chats - Lista de chat atual.
 * @param {string} key - Chave do banco AsyncStorage.
 **/
-export const gravarConversa = async(newConversa: Conversa, key: string) => {
+export const gravarConversa = async(newConversa: Conversa, key: string):Promise<Chat[]> => {
+    const chats:Chat[] = await lerChats(key);
     try {
-        const chats:Chat[] = await lerChats(key);
         for (let i = 0; i < chats.length; i++) {
             if (chats[i].getRemetente() == newConversa.getRemetente()) {
                 chats[i].setConversas([...chats[i].getConversas(), newConversa]);
+                break;
             }
         }
         const chatJSONString = JSON.stringify(chats);
         AsyncStorage.setItem(key, chatJSONString);
+        return chats;
     }
-    catch(e) {}
+    catch(e) {
+        return chats;
+    }
 }
 
 /**
@@ -65,4 +68,19 @@ export const gravarChat = async(newChat:Chat, key: string) => {
     const newChats = [...chats, newChat];
     const conversasJSONString = JSON.stringify(newChats);
     AsyncStorage.setItem(key, conversasJSONString);
+}
+
+export const buscarChat = async(id: number, key: string): Promise<Chat> => {
+    const chats:Chat[] = await lerChats(key);
+    try {
+        for (let i = 0; i < chats.length; i++) {
+            if (chats[i].getRemetente() == id) {
+                return chats[i];
+            }
+        }
+        return Chat.builder().build();
+    }
+    catch(e) {
+        return Chat.builder().build();
+    }
 }

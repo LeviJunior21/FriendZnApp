@@ -3,8 +3,11 @@ import { Chat } from "../../model/Chat";
 import { getCurrentDate } from "../../utils/time";
 import { Navigation } from "../../utils/interfaces";
 import { getUsuario } from "../../utils/getUsuario";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Usuario } from "../../model/Usuario";
+import { buscarChat } from "../../data/utils";
+import { Conversa } from "../../model/Conversa";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 interface Props{
     chat: Chat;
@@ -13,6 +16,8 @@ interface Props{
 
 export default function ChatI(props: Props) {
     const [usuario, setUsuario] = useState<Usuario>();
+    const [ultimaConversa, setUltimaConversa] = useState("");
+    const { chatData } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         const carregandoUsuario = async(usuarioID: number) => {
@@ -21,6 +26,17 @@ export default function ChatI(props: Props) {
         }
         carregandoUsuario(props.chat.getRemetente());
     }, []);
+
+
+    useEffect(() => {
+        buscarConversa()
+    }, [chatData])
+    
+    const buscarConversa = async() => {
+        const chat:Chat = await buscarChat(props.chat.getRemetente(), "myKey");
+        console.log(chat.getConversas())
+        setUltimaConversa(chat.getConversas()[chat.getConversas().length - 1].getMensagem());
+    }
 
     return (
         <Container onPress={() => props.navigation.navigation.navigate("ChatScreen", { chat: props.chat, nome: usuario?.getApelido() })}>
@@ -32,7 +48,7 @@ export default function ChatI(props: Props) {
                     <Nome>@{usuario?.getApelido()}</Nome>
                     <Hora>{getCurrentDate(props.chat.getTimestamp())}</Hora>
                 </NameHourContainer>
-                <Mensagem numberOfLines={1}>{props.chat.getConversas()[props.chat.getConversas().length - 1].getMensagem()}</Mensagem>
+                <Mensagem numberOfLines={1}>{ultimaConversa}</Mensagem>
             </UserOutros>
         </Container>
     )
