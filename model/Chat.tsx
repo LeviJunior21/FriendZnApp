@@ -33,7 +33,7 @@ export class Chat {
 }
 
 class ChatBuilder {
-    private conversas!: Conversa[];
+    private conversas: Conversa[] = [];
     private timestamp!: Date;
     private remetente!: number;
     

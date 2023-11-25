@@ -12,7 +12,7 @@ export default function Chats(props: Navigation) {
 
     return (
         <Container>
-            <Nav></Nav>
+            <Nav/>
             <FlatList
             data={chatData.filter(chat => chat.getConversas().length > 0)}
             renderItem={({item}) => 

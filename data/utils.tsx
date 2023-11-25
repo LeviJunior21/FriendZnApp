@@ -5,15 +5,22 @@ import { Conversa } from "../model/Conversa";
 /**
 * @param {Conversa} newConversa - Conversa a ser gravada.
 * @param {string} key - Chave do banco AsyncStorage.
+* @returns {Promise<Chat[]>} - Uma Promis que resolve para um array de objetos Chat.
 **/
 export const gravarConversa = async(newConversa: Conversa, key: string):Promise<Chat[]> => {
     const chats:Chat[] = await lerChats(key);
     try {
-        for (let i = 0; i < chats.length; i++) {
-            if (chats[i].getRemetente() == newConversa.getRemetente()) {
-                chats[i].setConversas([...chats[i].getConversas(), newConversa]);
-                break;
-            }
+        const index = chats.findIndex((chat:Chat) => chat.getRemetente() === newConversa.getRemetente());
+        if (index !== -1) {
+            chats[index].setConversas([...chats[index].getConversas(), newConversa]);
+        } else {
+            const dadosNecessarios = {
+                conversas: [newConversa], 
+                remetente: newConversa.getRemetente(), 
+                timestamp: newConversa.getTimestamp()
+            };
+            const newChat:Chat = chatBuilder(dadosNecessarios);
+            chats.push(newChat);
         }
         const chatJSONString = JSON.stringify(chats);
         AsyncStorage.setItem(key, chatJSONString);
@@ -30,15 +37,8 @@ export const gravarConversa = async(newConversa: Conversa, key: string):Promise<
 * @return {Promise<Conversa[]>} - Uma Promise que resolve para um array de objetos Comentario.
 **/
 export const lerConversaDoChat = async(remetente: number, key: string): Promise<Conversa[]> => {
-    let conversas:Conversa[] = [];
-    const chats: Chat[] = await lerChats(key);
-    for (let i = 0; i < chats.length; i++) {
-        if (chats[i].getRemetente() == remetente) {
-            conversas = chats[i].getConversas();
-            break;
-        }
-    }
-    return conversas;
+    const chat:Chat = await buscarChat(remetente, key);
+    return chat.getConversas();
 }
 
 /**
@@ -50,9 +50,7 @@ export const lerChats = async(key: string): Promise<Chat[]> => {
         const recoveryChat = await AsyncStorage.getItem(key);
         if (recoveryChat != null) {
             const recoveredChat = JSON.parse(recoveryChat);
-            const todosChats:Chat[] = recoveredChat.map((item:any) => {
-                return chatBuilder(item);
-            })
+            const todosChats:Chat[] = recoveredChat.map((item:any) => { return chatBuilder(item) })
             return todosChats;
         }
     } catch(e) {}
@@ -70,17 +68,27 @@ export const gravarChat = async(newChat:Chat, key: string) => {
     AsyncStorage.setItem(key, conversasJSONString);
 }
 
-export const buscarChat = async(id: number, key: string): Promise<Chat> => {
+/**
+@param {number} idRemetente - Novo chat.
+@param {string} key - Chave do banco AsyncStorage.
+@returns {Promise<Chat>} - Uma Promise que resolve para um Chat encontrado.
+**/
+export const buscarChat = async(idRemetente: number, key: string): Promise<Chat> => {
     const chats:Chat[] = await lerChats(key);
-    try {
-        for (let i = 0; i < chats.length; i++) {
-            if (chats[i].getRemetente() == id) {
-                return chats[i];
-            }
-        }
-        return Chat.builder().build();
-    }
-    catch(e) {
-        return Chat.builder().build();
+    const index:number = chats.findIndex((chat:Chat) => chat.getRemetente() === idRemetente);
+    if (index !== -1) { return chats[index] }
+    return Chat.builder().build();
+}
+
+/**
+@param {number} idRemetente - Novo chat.
+@param {string} key - Chave do banco AsyncStorage.
+**/
+export const deleteChat = async(idRemetente: number, key: string) => {
+    const chats:Chat[] = await lerChats(key);
+    const index:number = chats.findIndex(chat => chat.getRemetente() === idRemetente);
+    if (index !== -1) {
+        chats.splice(index, 1);
+        AsyncStorage.setItem(key, JSON.stringify(chats));
     }
 }

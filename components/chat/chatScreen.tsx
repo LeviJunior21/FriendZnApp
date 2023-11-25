@@ -17,11 +17,11 @@ export default function ChatScreen(props: NavigationChat) {
     const [conversas, setConversas] = useState<Conversa[]>(props.route.params.chat.getConversas());
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
-    const {chatData, webSock } = useContext<ContextProvider>(Provider);
+    const {chatData, webSock, setChatData } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         carregarConversas()
-    }, [chatData]);
+    }, [chatData, setChatData]);
 
     const carregarConversas = async() => {
         const chatEncontrado:Chat = await buscarChat(chat.getRemetente(), "myKey");
@@ -30,7 +30,7 @@ export default function ChatScreen(props: NavigationChat) {
 
     return (
         <Container>
-            <NavChat navigation={props.navigation} nome={nome}/>
+            <NavChat navigation={props.navigation} nome={nome} idRemetente={chat.getRemetente()}/>
             <ScrollContainer>
                 <FlatList
                 data={conversas}
@@ -61,7 +61,7 @@ export default function ChatScreen(props: NavigationChat) {
                 value={mensagem}
                 onChangeText={(text) => setMensagem(text)}
                 />
-                <Sender onPress={() => {enviarChat(mensagem, webSock, 1, 2, setMensagem)}}>
+                <Sender onPress={() => {enviarChat(mensagem, webSock, 1, chat.getRemetente(), setMensagem)}}>
                     <Icon name={"send"} color={"green"} size={30}/>
                 </Sender>
             </MessageSenderContainer>
