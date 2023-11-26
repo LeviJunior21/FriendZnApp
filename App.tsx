@@ -27,7 +27,7 @@ export default function App() {
     const [chatData, setChatData] = useState<Chat[]>([]);
 
     useEffect(() => {
-        AsyncStorage.setItem("myKey", JSON.stringify([]))
+        //AsyncStorage.setItem("myKey", JSON.stringify([]))
         carregarChat("myKey")
         var sock = new SockJS("http://10.0.0.181:8080/ws");
         let stompClient: Client = Stomp.over(sock);
