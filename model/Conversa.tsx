@@ -8,12 +8,14 @@ export class Conversa {
     private mensagem: string;
     private timestamp: Date;
     private remetente: number;
+    private receptor: number;
 
     constructor(builder: ConversaBuilder) {
         this.tipoConversa = builder.getTipoConversa();
         this.mensagem = builder.getMensagem();
         this.timestamp = builder.getTimestamp();
         this.remetente = builder.getRemetente();
+        this.receptor = builder.getReceptor();
     }
 
     public getTipoConversa(): TipoConversa {
@@ -32,10 +34,13 @@ export class Conversa {
         return this.remetente;
     }
 
+    public getReceptor(): number {
+        return this.receptor;
+    }
+
     static builder(): ConversaBuilder {
         return new ConversaBuilder();
     }
-
 }
 
 class ConversaBuilder {
@@ -43,6 +48,7 @@ class ConversaBuilder {
     private mensagem!: string;
     private timestamp!: Date;
     private remetente!: number;
+    private receptor!: number;
 
     public withTipoConversa(tipoConversa: TipoConversa): ConversaBuilder {
         this.tipoConversa = tipoConversa;
@@ -64,6 +70,11 @@ class ConversaBuilder {
         return this;
     }
 
+    public withReceptor(receptor: number): ConversaBuilder {
+        this.receptor = receptor;
+        return this;
+    }
+
     public getTipoConversa(): TipoConversa {
         return this.tipoConversa;
     }
@@ -80,6 +91,10 @@ class ConversaBuilder {
         return this.remetente
     }
 
+    public getReceptor(): number {
+        return this.receptor;
+    }
+
     public build(): Conversa {
         return new Conversa(this);
     }
@@ -89,8 +104,9 @@ export const conversaBuilder = (conversa: any): Conversa => {
     return Conversa.builder()
         .withMensagem(conversa.mensagem)
         .withTimestamp(new Date(conversa.timestamp))
-        .withTipoConversa((conversa.tipoConversa == 2)? TipoConversa.SENDER:TipoConversa.RECEIVER)
+        .withTipoConversa((conversa.remetente === 1)? TipoConversa.RECEIVER:TipoConversa.SENDER)
         .withRemetente(conversa.remetente)
+        .withReceptor(conversa.receptor)
         .build();
 }
 

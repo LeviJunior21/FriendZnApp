@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Chat, chatBuilder } from "../model/Chat";
 import { Conversa } from "../model/Conversa";
+import { myID } from "./myId";
 
 /**
 * @param {Conversa} newConversa - Conversa a ser gravada.
@@ -9,19 +10,29 @@ import { Conversa } from "../model/Conversa";
 **/
 export const gravarConversa = async(newConversa: Conversa, key: string):Promise<Chat[]> => {
     const chats:Chat[] = await lerChats(key);
+    let indexChat:number = -1;
+    let remetente:number = 1;
     try {
-        const index = chats.findIndex((chat:Chat) => chat.getRemetente() === newConversa.getRemetente());
-        if (index !== -1) {
-            chats[index].setConversas([...chats[index].getConversas(), newConversa]);
+        if (myID == newConversa.getRemetente()) {
+            indexChat = chats.findIndex((chat:Chat) => chat.getRemetente() === newConversa.getReceptor());
+            remetente = newConversa.getReceptor()
+        } else {
+            indexChat = chats.findIndex((chat:Chat) => chat.getRemetente() === newConversa.getRemetente());
+            remetente = newConversa.getRemetente();
+        }
+
+        if (indexChat !== -1) {
+            chats[indexChat].setConversas([...chats[indexChat].getConversas(), newConversa]);
         } else {
             const dadosNecessarios = {
                 conversas: [newConversa], 
-                remetente: newConversa.getRemetente(), 
+                remetente: remetente, 
                 timestamp: newConversa.getTimestamp()
             };
             const newChat:Chat = chatBuilder(dadosNecessarios);
             chats.push(newChat);
         }
+
         const chatJSONString = JSON.stringify(chats);
         AsyncStorage.setItem(key, chatJSONString);
         return chats;
@@ -30,6 +41,7 @@ export const gravarConversa = async(newConversa: Conversa, key: string):Promise<
         return chats;
     }
 }
+
 
 /**
 * @param {number} remetente - id do remetente.

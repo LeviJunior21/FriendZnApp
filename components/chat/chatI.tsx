@@ -27,7 +27,6 @@ export default function ChatI(props: Props) {
         carregandoUsuario(props.chat.getRemetente());
     }, []);
 
-
     useEffect(() => {
         buscarConversa()
     }, [chatData])
@@ -39,7 +38,7 @@ export default function ChatI(props: Props) {
     }
 
     return (
-        <Container onPress={() => props.navigation.navigation.navigate("ChatScreen", { chat: props.chat, nome: usuario?.getApelido() })}>
+        <Container onPress={() => props.navigation.navigation.navigate("ChatScreen", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido() })}>
             <AvatarContainer>
                 <Avatar></Avatar>
             </AvatarContainer>

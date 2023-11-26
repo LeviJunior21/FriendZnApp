@@ -18,15 +18,16 @@ import { Conversa, TipoConversa, conversaBuilder } from "./model/Conversa";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { myID } from "./data/myId";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
     const webSock:MutableRefObject<Client | null> = useRef<Client | null>(null);
-
     const [chatData, setChatData] = useState<Chat[]>([]);
 
     useEffect(() => {
+        AsyncStorage.setItem("myKey", JSON.stringify([]))
         carregarChat("myKey")
         var sock = new SockJS("http://10.0.0.181:8080/ws");
         let stompClient: Client = Stomp.over(sock);
@@ -52,9 +53,11 @@ export default function App() {
     useEffect(() => {
         if (webSock.current != null) {
             webSock.current.connect({}, function (frame) {
-                webSock.current?.subscribe(`/user/${2}/private`, function (mensagemI) {
+                webSock.current?.subscribe(`/user/${myID}/private`, function (mensagemI) {
+                    console.log("\n\n\n\n\n\n\nRecebida:" + mensagemI.body + "\n\n\n\n\n\n")
                     const data = JSON.parse(mensagemI.body)
-                    const newConversa: Conversa = conversaBuilder(data);
+                    const dadosConversa:any = {mensagem: data.mensagem, timestamp: data.timestamp, tipoConversa: data.tipoConversa, remetente: data.remetente, receptor: data.receptor}
+                    const newConversa: Conversa = conversaBuilder(dadosConversa);
                     atualizarChats(newConversa);
                 });
             });

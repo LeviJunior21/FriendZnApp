@@ -93,8 +93,8 @@ interface NavigationChat {
     navigation: NavigationProp<RootStackParamList, "Home">;
     route: {
         params: {
-          chat: Chat;
-          nome: string;
+          idRemetente: number,
+          nome: string
         };
     };
 }
@@ -110,6 +110,7 @@ interface UserInfoProps {
 
 
 type ComentarioProps = {
+    navigation: NavigationProp<RootStackParamList, "Home">;
     route: {
         params: {
             publicacao: Publicacao;

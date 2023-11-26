@@ -11,10 +11,11 @@ import { enviarChat } from "./websocket/chatEnviarAtualizar";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { buscarChat } from "../../data/utils";
 import { Chat } from "../../model/Chat";
+import { myID } from "../../data/myId";
 
 export default function ChatScreen(props: NavigationChat) {
-    const {chat, nome } = props.route.params;
-    const [conversas, setConversas] = useState<Conversa[]>(props.route.params.chat.getConversas());
+    const { idRemetente, nome } = props.route.params;
+    const [conversas, setConversas] = useState<Conversa[]>([]);
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
     const {chatData, webSock, setChatData } = useContext<ContextProvider>(Provider);
@@ -24,13 +25,13 @@ export default function ChatScreen(props: NavigationChat) {
     }, [chatData, setChatData]);
 
     const carregarConversas = async() => {
-        const chatEncontrado:Chat = await buscarChat(chat.getRemetente(), "myKey");
+        const chatEncontrado:Chat = await buscarChat(idRemetente, "myKey");
         setConversas([...chatEncontrado.getConversas()]);
     }
 
     return (
         <Container>
-            <NavChat navigation={props.navigation} nome={nome} idRemetente={chat.getRemetente()}/>
+            <NavChat navigation={props.navigation} nome={nome} idRemetente={idRemetente}/>
             <ScrollContainer>
                 <FlatList
                 data={conversas}
@@ -61,7 +62,7 @@ export default function ChatScreen(props: NavigationChat) {
                 value={mensagem}
                 onChangeText={(text) => setMensagem(text)}
                 />
-                <Sender onPress={() => {enviarChat(mensagem, webSock, 1, chat.getRemetente(), setMensagem)}}>
+                <Sender onPress={() => {enviarChat(mensagem, webSock, myID, idRemetente, setMensagem)}}>
                     <Icon name={"send"} color={"green"} size={30}/>
                 </Sender>
             </MessageSenderContainer>

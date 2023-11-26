@@ -25,19 +25,4 @@ export const enviarChat = (mensagem: string, webSock: MutableRefObject<Client | 
     }
 };
 
-export const atualizarConversas = (mensagemRecebida: any, setConversas: Dispatch<SetStateAction<Conversa[]>>, gravarConversa: (newConversa: Conversa, key: string) => void, key: string) => {
-    const data = JSON.parse(mensagemRecebida.body)
-    const newConversa: Conversa = conversaBuilder(data);
-    setConversas(prevConversas => [...prevConversas, newConversa]);
-    gravarConversa(newConversa, key)
-}
 
-export const webSockMensagemConnect = (webSock: MutableRefObject<Client | null>, receptor: number, setConversas: Dispatch<SetStateAction<Conversa[]>>, gravarConversa: (newConversa: Conversa, key: string) => void, key: string) => {
-    if (webSock.current != null) {
-        webSock.current.connect({}, function (frame) {
-            webSock.current?.subscribe(`/user/${receptor}/private`, function (mensagemI) {
-                atualizarConversas(mensagemI, setConversas, gravarConversa, key);
-            });
-        });
-    }
-}

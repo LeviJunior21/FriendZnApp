@@ -12,7 +12,7 @@ import Stomp, { Client } from "stompjs";
 import { getComentarios } from "../../utils/getComentarios";
 import { sendComentario, updateComentario } from "./WSComentario";
 
-const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
+const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     const { publicacao } = route.params;
     const [message, setMessage] = useState<string>('');
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
@@ -50,7 +50,9 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ route }) => {
             <ScrollViewContainer>
                 <ContainerPublicacao>
                     <ContainerUsuario>
-                        <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
+                        <TouchUserName onPress={() => navigation.navigate("ChatScreen", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() })}>
+                            <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
+                        </TouchUserName>
                         <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>  
                     </ContainerUsuario>
                     <Publicacao>{publicacao.getPublicacao()}</Publicacao>
@@ -156,4 +158,7 @@ const BotaoEnviar = styled.TouchableOpacity`
 
 const ScrollViewContainer = styled.ScrollView`
     flex: 1;
+`
+
+const TouchUserName = styled.TouchableOpacity`
 `
