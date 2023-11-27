@@ -2,8 +2,6 @@ import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
 import { NavigationProp } from '@react-navigation/native';
 import { Comentario } from "../model/Comentario";
-import { Chat } from "../model/Chat";
-import { Conversa } from "../model/Conversa";
 
 interface PublicacaoInterface {
     id: number,
@@ -82,7 +80,7 @@ type RootStackParamList = {
     Postar: undefined;
     Login: undefined;
     Comentario: { publicacao: Publicacao };
-    ChatScreen: undefined;
+    ChatPrivado: undefined;
 };
 
 interface Navigation {
@@ -99,9 +97,7 @@ interface NavigationChat {
     };
 }
 
-interface UserInfo {
-    
-}
+interface UserInfo {}
 
 interface UserInfoProps {
     userInfo: any;
@@ -132,6 +128,7 @@ interface PropsVisualizarComentario {
     comentarios: Comentario[];
     setComentarios:  Dispatch<SetStateAction<Comentario[]>>;
     loading: boolean;
+    navigation: NavigationProp<RootStackParamList, "Home">;
 }
 
 interface GetComentariosProps {

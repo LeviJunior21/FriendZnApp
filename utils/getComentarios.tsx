@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { Usuario } from "../model/Usuario";
 import { Comentario } from "../model/Comentario";
 import { ComentarioInterface, GetComentariosProps } from "./interfaces";
