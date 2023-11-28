@@ -8,7 +8,7 @@ import { buscarChat } from "../../../data/utils";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { ChatItemProps } from "./Interface";
 
-export default function ChatItem(props: ChatItemProps) {
+export default function ChatAceito(props: ChatItemProps) {
     const [usuario, setUsuario] = useState<Usuario>();
     const [ultimaConversa, setUltimaConversa] = useState("");
     const { chatData } = useContext<ContextProvider>(Provider);

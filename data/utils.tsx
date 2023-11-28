@@ -89,7 +89,7 @@ export const buscarChat = async(idRemetente: number, key: string): Promise<Chat>
     const chats:Chat[] = await lerChats(key);
     const index:number = chats.findIndex((chat:Chat) => chat.getRemetente() === idRemetente);
     if (index !== -1) { return chats[index] }
-    return Chat.builder().build();
+    return Chat.builder().withRemetente(index).build();
 }
 
 /**
@@ -103,4 +103,18 @@ export const deleteChat = async(idRemetente: number, key: string) => {
         chats.splice(index, 1);
         AsyncStorage.setItem(key, JSON.stringify(chats));
     }
+}
+
+/**
+ * Verifica a existência de um chat gravada no AsyncStorage.
+ * 
+ * @param {number} idRemetente - ID do remetente.
+ * @param {string} key - Chave do Banco de Dados do AsyncStorage.
+ * @returns {Promise<boolean>} - Retorna uma Promise de boolean para definir se está ou não no banco de dados.
+**/
+export const verificarPersistenciaChat = async(idRemetente: number, key: string): Promise<boolean> => {
+    let state: boolean = false;
+    const chat: Chat = await buscarChat(idRemetente, key);
+    if (chat.getRemetente() !== -1) { state = true; }
+    return state;
 }
