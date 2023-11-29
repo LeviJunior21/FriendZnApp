@@ -10,7 +10,9 @@ export type ContextProvider = {
     chatData: Chat[];
     setChatData: Dispatch<SetStateAction<Chat[]>>;
     setChatDeletado: Dispatch<SetStateAction<boolean>>;
-    chatDeletado: boolean
+    chatDeletado: boolean;
+    comentou: boolean;
+    setComentou: Dispatch<SetStateAction<boolean>>
 }
 
 export const Provider = createContext<ContextProvider>({
@@ -19,7 +21,9 @@ export const Provider = createContext<ContextProvider>({
     chatData: [],
     setChatData: () => {},
     setChatDeletado: () => {},
-    chatDeletado: false
+    chatDeletado: false,
+    comentou: false,
+    setComentou: () => {}
 });
 
 export type RootStackParamList = {

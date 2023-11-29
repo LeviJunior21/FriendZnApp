@@ -5,12 +5,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { getCurrentDate } from "../../utils/time";
 import { PublicacaoProps } from "../../utils/interfaces";
 import { getCategory, getColorCategory } from "../../utils/getCategory";
+import { avatar } from "../../data/avatar";
 
 export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, navigation }) => {
     return (
         <Animatable.View animation="fadeInDown" delay={index * 100} useNativeDriver>
             <PublicacaoContainer onPress={() => navigation.navigation.navigate("Comentario", { publicacao: publicacao })}>
                 <UserInfoTop>
+                    <Avatar source={avatar}/>
                     <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
                     <InformacaoPublicacao>
                         <DataPublicacao>{getCurrentDate(publicacao.getDate())}</DataPublicacao>
@@ -37,16 +39,23 @@ const PublicacaoText = styled.Text`
 
 const PublicacaoUserContainer = styled.View`
   width: 100%;
-  min-height: 60px;
+  min-height: 20px;
   padding-horizontal: 10px;
   padding-vertical: 14px;
   background-color: #303030;
+`
+
+const Avatar = styled.Image`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
 `
 
 const UserName = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: white;
+  margin-left: 4px;
 `
 
 const DataPublicacao = styled.Text`
@@ -56,13 +65,12 @@ const DataPublicacao = styled.Text`
 
 const UserInfoTop = styled.View`
   width: 100%;
-  height: 30px;
+  height: 60px;
   padding-left: 10px;
   background-color: #303030;
   flex-direction: row;
   align-items: center;
   padding-horizontal: 2px;
-  justify-content: space-between;
 `
 
 const PublicacaoContainer = styled.TouchableOpacity`
@@ -71,11 +79,13 @@ const PublicacaoContainer = styled.TouchableOpacity`
   max-height: 150px;
   border-bottom-width: 2px;
   border-bottom-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `
 
 const ComentarioInfo = styled.View`
     width: 100%;
-    height: 30px;
+    height: 28px;
     flex-direction: row;
     align-items: center;
     padding-horizontal: 10px;
@@ -92,6 +102,10 @@ const NumeroComentarios = styled.Text`
 const InformacaoPublicacao = styled.View`
   flex-direction: column;
   height: 30px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  align-self: flex-end;
 `
 
 const CategoriaText = styled.Text`

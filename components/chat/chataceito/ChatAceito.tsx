@@ -4,9 +4,10 @@ import { getCurrentDate } from "../../../utils/time";
 import { getUsuario } from "../../../utils/getUsuario";
 import { useContext, useEffect, useState } from "react";
 import { Usuario } from "../../../model/Usuario";
-import { buscarChat } from "../../../data/utils";
+import { buscarChat } from "../../../data/chatutils";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { ChatItemProps } from "./Interface";
+import { avatar } from "../../../data/avatar";
 
 export default function ChatAceito(props: ChatItemProps) {
     const [usuario, setUsuario] = useState<Usuario>();
@@ -30,7 +31,7 @@ export default function ChatAceito(props: ChatItemProps) {
     return (
         <Container onPress={() => props.navigation.navigation.navigate("ChatPrivado", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido() })}>
             <AvatarContainer>
-                <Avatar></Avatar>
+                <Avatar source={avatar}/>
             </AvatarContainer>
             <UserOutros>
                 <NameHourContainer>
@@ -88,9 +89,8 @@ const Mensagem = styled.Text`
     color: white;
 `
 
-const Avatar = styled.View`
+const Avatar = styled.Image`
     width: 60px;
     height: 60px;
     border-radius: 30px;
-    background-color: white;
 `

@@ -5,8 +5,9 @@ import { useContext, useEffect, useState } from "react";
 import { Usuario } from "../../../model/Usuario";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { getUsuario } from "../../../utils/getUsuario";
-import { buscarChat } from "../../../data/utils";
+import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
+import { avatar } from "../../../data/avatar";
 
 export default function ChatPedido(props: ChatPedidoProps) {
     const [usuario, setUsuario] = useState<Usuario>();
@@ -31,7 +32,7 @@ export default function ChatPedido(props: ChatPedidoProps) {
         <Container>
             <InfoContainer>
                 <AvatarContainer>
-                    <Avatar></Avatar>
+                    <Avatar source={avatar}/>
                 </AvatarContainer>
                 <UserOutros>
                    <NameHourContainer>
@@ -106,11 +107,10 @@ const Mensagem = styled.Text`
     color: white;
 `
 
-const Avatar = styled.View`
+const Avatar = styled.Image`
     width: 60px;
     height: 60px;
     border-radius: 30px;
-    background-color: white;
 `
 
 const PedidoContainer = styled.View`

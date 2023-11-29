@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { getCurrentDate } from "../../../utils/time";
 import { VisualizarComentarioProps } from "./Interface";
+import { avatar } from "../../../data/avatar";
 
 export default function ComentariosContainer(props: VisualizarComentarioProps) {
     return (
@@ -12,13 +13,19 @@ export default function ComentariosContainer(props: VisualizarComentarioProps) {
             </ModalContent>:
             <FlatList
                 data={props.comentarios}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => 
                     <ComentarioI>
                         <ContainerUsuario>
-                            <TouchUserName onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: item.getUsuario().getId(), nome: item.getUsuario().getApelido() })}>
-                                <NomeUsuario>@{item.getUsuario().getApelido()}</NomeUsuario>
-                            </TouchUserName>
-                            <TempoPublicacao>{getCurrentDate(new Date())}</TempoPublicacao>
+                            <InfoUserContainer>
+                                <Avatar source={avatar}/>
+                                <UserInfo>
+                                    <TouchUserName onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: item.getUsuario().getId(), nome: item.getUsuario().getApelido() })}>
+                                        <NomeUsuario>@{item.getUsuario().getApelido()}</NomeUsuario>
+                                    </TouchUserName>
+                                    <TempoPublicacao>{getCurrentDate(new Date())}</TempoPublicacao>
+                                </UserInfo>
+                            </InfoUserContainer>
                             <ComentarioRealizado>{item.getComentario()}</ComentarioRealizado>
                         </ContainerUsuario>
                     </ComentarioI>
@@ -90,4 +97,24 @@ const ComentarioRealizado = styled.Text`
 
 const TouchUserName = styled.TouchableOpacity`
 
+`
+
+const InfoUserContainer = styled.View`
+    width: 100%;
+    height: 60px;
+    flex-direction: row;
+    align-items: center;
+`
+
+const UserInfo = styled.View`
+    height: 60px;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 4px;
+`
+
+const Avatar = styled.Image`
+    width: 50px;
+    height: 50px;
 `

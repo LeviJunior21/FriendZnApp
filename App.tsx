@@ -4,16 +4,18 @@ import NavigationStack from "./components/home/rotas/NavigationStack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "./utils/Provider";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { gravarConversa, lerChats } from "./data/utils"; 
+import { gravarConversa, lerChats } from "./data/chatutils"; 
 import { Client } from "stompjs";
 import { Chat } from "./model/Chat";
 import { Conversa, conversaBuilder } from "./model/Conversa";
 import { myID } from "./data/myId";
+import { LogBox } from 'react-native';
 
 export default function App() {
     const webSock:MutableRefObject<Client | null> = useRef<Client | null>(null);
     const [chatData, setChatData] = useState<Chat[]>([]);
     const [chatDeletado, setChatDeletado] = useState<boolean>(false);
+    const [comentou, setComentou] = useState<boolean>(false);
 
     useEffect(() => {
         //AsyncStorage.setItem("myKey", JSON.stringify([]))
@@ -35,6 +37,7 @@ export default function App() {
 
     useEffect(() => {
         carregarChat("myKey");
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested', 'Non-seriazable values']);
     }, [chatDeletado, setChatDeletado])
 
     const atualizarChats = async(newConversa: Conversa) => {
@@ -56,7 +59,7 @@ export default function App() {
     }, [])
 
     return (
-        <Provider.Provider value={{gravarConversa, chatData, setChatData, webSock, setChatDeletado, chatDeletado}}>
+        <Provider.Provider value={{gravarConversa, chatData, setChatData, webSock, setChatDeletado, chatDeletado, comentou, setComentou}}>
             <NavigationContainer>
                 <NavigationStack/>
             </NavigationContainer>

@@ -1,3 +1,4 @@
+import { getUsuario } from "../utils/getUsuario";
 import { Categoria } from "../utils/interfaces";
 import { Comentario } from "./Comentario";
 import { Usuario } from "./Usuario";

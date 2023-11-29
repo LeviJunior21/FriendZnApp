@@ -3,11 +3,12 @@ import styled from "styled-components/native"
 import Constants from "expo-constants";
 import { RootStackParamList } from "../../../utils/interfaces"
 import { NavigationProp } from "@react-navigation/native";
-import { deleteChat } from "../../../data/utils";
+import { deleteChat } from "../../../data/chatutils";
 import { Dimensions, Modal } from "react-native";
 import { useContext, useState } from "react";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { NavChatProps } from "./Interface";
+import { avatar } from "../../../data/avatar";
 
 export function NavChat(props: NavChatProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -30,7 +31,7 @@ export function NavChat(props: NavChatProps) {
                 <Icon name={"arrow-back"} color={"white"} size={30}/>
             </ButtonBack>
             <AvatarContainer>
-                <Avatar></Avatar>
+                <Avatar source={avatar}/>
                 <Nome numberOfLines={1}>@{props.nome}</Nome>
             </AvatarContainer>
             <Options onPress={() => mostrarModal()}>
@@ -82,11 +83,10 @@ const AvatarContainer = styled.View`
     align-items: center;
 `
 
-const Avatar = styled.View`
+const Avatar = styled.Image`
     width: 50px;
     height: 50px;
     border-radius: 25px;
-    background-color: white;
 `
 
 const Nome = styled.Text`

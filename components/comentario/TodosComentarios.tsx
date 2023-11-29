@@ -4,13 +4,15 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ComentariosContainer from "./comentariochat/ComentarioContainer";
 import SockJS from "sockjs-client";
 import Stomp, { Client } from "stompjs";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ComentarioProps } from "../../utils/interfaces";
 import { getCurrentDate } from "../../utils/time";
 import { Comentario } from "../../model/Comentario";
 import { NavComentarios } from "./navcomentario.tsx/NavComentarios";
 import { getComentarios } from "../../utils/getComentarios";
 import { sendComentario, updateComentario } from "./wscomentarios/WSComentario";
+import { avatar } from "../../data/avatar";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     const { publicacao } = route.params;
@@ -18,7 +20,8 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const webSock = useRef<Client>(Stomp.over(new SockJS("http://10.0.0.181:8080/ws")));
-    
+    const { comentou, setComentou } = useContext<ContextProvider>(Provider);
+
     useEffect(() => {
         getComentarios({ publicacao, setComentarios, setLoading });
         webSock.current.connect({}, function (frame) {
@@ -26,14 +29,14 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
                 updateComentario({ id: comentarios.length + 1, message, setComentarios });
             });
         });
-
-        return () => {
-            if (webSock.current) { webSock.current.disconnect(() => {console.log("Desconectado.")}); }
-        };
+        return () => { if (webSock.current) { webSock.current.disconnect(() => {console.log("Desconectado.")}); }};
     }, []);
 
     const enviar = () => {
-        if (message.length > 0) { sendComentario({webSock, publicacao, message, setMessage}); }
+        if (message.length > 0) { 
+            sendComentario({webSock, publicacao, message, setMessage});
+            setComentou(!comentou);
+        }
     };
     
     return (
@@ -42,10 +45,13 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
             <ScrollViewContainer>
                 <ContainerPublicacao>
                     <ContainerUsuario>
-                        <TouchUserName onPress={() => navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() })}>
-                            <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
-                        </TouchUserName>
-                        <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>  
+                        <Avatar source={avatar}/>
+                        <InfoUserContainer>
+                            <TouchUserName onPress={() => navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() })}>
+                                <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
+                            </TouchUserName>
+                            <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>
+                        </InfoUserContainer>
                     </ContainerUsuario>
                     <Publicacao>{publicacao.getPublicacao()}</Publicacao>
                 </ContainerPublicacao>
@@ -104,7 +110,8 @@ const TempoPublicacao = styled.Text`
 const ContainerUsuario = styled.View`
     width: 70%;
     height: 60px;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
 `
 
 const Publicacao = styled.Text`
@@ -154,4 +161,18 @@ const ScrollViewContainer = styled.ScrollView`
 `
 
 const TouchUserName = styled.TouchableOpacity`
+`
+
+const InfoUserContainer = styled.View`
+    margin-left: 4px;
+    height: 100%;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+`
+
+const Avatar = styled.Image`
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
 `

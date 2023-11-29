@@ -8,23 +8,25 @@ import { FlatList } from "react-native";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { ListaDeChatsProps } from "./Interface";
 import { Chat } from "../../model/Chat";
-import { verificarPersistenciaChat } from "../../data/utils";
+import { verificarPersistenciaChat } from "../../data/chatutils";
 
 export default function ListaDeChats(props: ListaDeChatsProps) {
-    const { chatData } = useContext<ContextProvider>(Provider);
+    const { chatData, chatDeletado } = useContext<ContextProvider>(Provider);
     const [ solicitacoesChatPendentes, setSolicitacoesChatPendentes ] = useState<Chat[]>([]);
     const [ solicitacoesChatAceitas, setSolicitacoesChatAceitas ] = useState<Chat[]>([]);
 
     useEffect(() => {
+        setSolicitacoesChatPendentes([]); 
+        setSolicitacoesChatAceitas([]);
         chatData.map((chat: Chat) => {
             verificarPersistenciaDoChat(chat);
         });
-    }, []);
+    }, [chatData, chatDeletado]);
 
     const verificarPersistenciaDoChat = async(chat: Chat) => {
         await verificarPersistenciaChat(chat.getRemetente(), "myKey").then((response: boolean) => {
-            if (response && chat.getConversas().length > 0) { setSolicitacoesChatAceitas(prevState => [...prevState, chat]) }
-            else if (chat.getConversas().length > 0) { setSolicitacoesChatPendentes(prevState => [...prevState, chat]) }
+            if (response) { setSolicitacoesChatAceitas(prevState => [...prevState, chat]) }
+            else { setSolicitacoesChatPendentes(prevState => [...prevState, chat]) }
         });
     }
 

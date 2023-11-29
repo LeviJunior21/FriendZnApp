@@ -115,6 +115,7 @@ export const deleteChat = async(idRemetente: number, key: string) => {
 export const verificarPersistenciaChat = async(idRemetente: number, key: string): Promise<boolean> => {
     let state: boolean = false;
     const chat: Chat = await buscarChat(idRemetente, key);
+    console.log("remet: " + chat.getRemetente())
     if (chat.getRemetente() !== -1) { state = true; }
     return state;
 }

@@ -8,7 +8,7 @@ import { Conversa, TipoConversa } from "../../../model/Conversa";
 import { getCurrentDate } from "../../../utils/time";
 import { enviarChat } from "../websocket/chatEnviarAtualizar";
 import { ContextProvider, Provider } from "../../../utils/Provider";
-import { buscarChat } from "../../../data/utils";
+import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
 import { myID } from "../../../data/myId";
 import { NavigationChatProps } from "./Interface";
