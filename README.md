@@ -23,7 +23,8 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - Abra o aplicativo Expo Go no seu celular. Caso seu esteja logado com a mesma conta logada no terminal, então aparecerá automaticamente o endereço para rodar o aplicativo. Caso não esteja logado, abra a opção de ler QRCode e aponte seu celular para o QRCode mosrado no terminal.
 - Como o OAuth2 está em andamento, isso não é um problema. Vá no diretŕoio do FriendZone Java Springboot e execute o comando (go run RunApiRest.go), ele criará um usuário temporário, publicações e comentários. Você pode criar quantos usuários desejar. O ID temporário usado pelo App é igual a 1, então o primeiro usuário criado é o seu.
 
-### Segunda forma de usar (não recomendado ainda, pois o servidor está em desenvolvimento e é preciso habilitar o CORS para permitir requisições vindos de outros endereços além do padrão): 
+### Segunda forma de usar (não recomendado ainda).
+#### Ainda não é recomendável pois o servidor está em desenvolvimento e é preciso habilitar o CORS para permitir requisições vindos de outros endereços além do padrão que é usado pelo roteador do usuário.
 - Executar no terminal para construir o APK: eas build -p android --profile preview
 - Aguarde o EAS CLI cosntruir o aplicativo, você pode acompanhar a construção em tempo real visualizando os LOGS
 - Quando terminar a construção ele mostrará tanto no terminal, quanto no link de construção o link de Download do APK.
