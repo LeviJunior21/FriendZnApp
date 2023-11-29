@@ -7,7 +7,7 @@ Recentemente, diversas plataformas de redes sociais anônimas têm optado por se
 O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em manter a privacidadede seus dados, onde o usuário pode relatar experiência, desabafar, buscar ajuda, conversar, dentre outros, sem se preocupar em expor algum dado seu para ser publico.
 
 ### Como o aplicativo funciona
-
+- O aplicativo é feito utilizando a linguagem Typescript.
 - O aplicativo funciona junto ao aplicativo em Java Springboot que por sua vez funciona ao lado do servidor.
 - A comunicação com o servidor se dá usando métodos HTTP para criar e listar publicações.
 - Além disso o aplicativo se comunica com o servidor a partir de WebSocket para enviar e receber mensagem dos usuários, onde as mensagens recebidas são armazenadas no celular do usuário. Apenas mensagens não recebidas são alocadas temporariamente no servidor enquanto o usuário destinatário não se comunique com o servidor (offline).
