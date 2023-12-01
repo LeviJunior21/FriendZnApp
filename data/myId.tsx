@@ -1,1 +1,1 @@
-export const myID = 1;
+export const myID:number = 1;

@@ -1,10 +1,10 @@
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
-import { getCurrentDate } from "../../../utils/time";
 import { VisualizarComentarioProps } from "./Interface";
-import { avatar } from "../../../data/avatar";
+import ComentarioIndex from "../comentarioIndex/ComentarioIndex";
 
 export default function ComentariosContainer(props: VisualizarComentarioProps) {
+
     return (
         <Container>{props.loading?
             <ModalContent>
@@ -15,20 +15,7 @@ export default function ComentariosContainer(props: VisualizarComentarioProps) {
                 data={props.comentarios}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => 
-                    <ComentarioI>
-                        <ContainerUsuario>
-                            <InfoUserContainer>
-                                <Avatar source={avatar}/>
-                                <UserInfo>
-                                    <TouchUserName onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: item.getUsuario().getId(), nome: item.getUsuario().getApelido() })}>
-                                        <NomeUsuario>@{item.getUsuario().getApelido()}</NomeUsuario>
-                                    </TouchUserName>
-                                    <TempoPublicacao>{getCurrentDate(new Date())}</TempoPublicacao>
-                                </UserInfo>
-                            </InfoUserContainer>
-                            <ComentarioRealizado>{item.getComentario()}</ComentarioRealizado>
-                        </ContainerUsuario>
-                    </ComentarioI>
+                    <ComentarioIndex navigation={props.navigation} idPublicacao={props.id} comentario={item}/>
                 }
             />}
             <SpaceBottom/>
