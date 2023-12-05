@@ -50,7 +50,7 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - Instale o APP e rode o Java Springboot.
 - Execute o aplicativo. Pronto!
 
-## Contato e dúvidas
+## Contato e Dúvidas
 
 - levi.pereira.junior@ccc.ufcg.edu.br
 
