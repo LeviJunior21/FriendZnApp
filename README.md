@@ -4,7 +4,7 @@ Recentemente, diversas plataformas de redes sociais anônimas têm optado por se
 
 ## Sobre o FriendZone
 
-<div style="display: flex; flex-direction: row;">
+<div style="display: flex; flex-direction: row; flex-wrap: wrap;">
     <img src="https://i.ibb.co/7CfXpPX/Screenshot-20231204-110832-Expo-Go.jpg" alt="Imagem 1" width="230"/>
     <img src="https://i.ibb.co/sggM78R/Screenshot-20231125-192413-Expo-Go.jpg" alt="Imagem 2" width="230"/> 
     <img src="https://i.ibb.co/Mf0CLHh/Screenshot-20231204-110840-Expo-Go.jpg" alt="Imagem 3" width="230"/>  
