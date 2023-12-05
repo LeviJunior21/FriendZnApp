@@ -42,7 +42,9 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 
 #### Ainda não é recomendável pois o servidor está em desenvolvimento e é preciso habilitar o CORS para permitir requisições vindos de outros endereços além do padrão que é usado pelo roteador do usuário.
 - Executar no terminal para construir o APK:
-- > eas build -p android --profile preview
+ 
+        eas build -p android --profile preview
+
 - Aguarde o EAS CLI construir o aplicativo. Você pode acompanhar a construção em tempo real visualizando os LOGS
 - Quando terminar a construção ele mostrará tanto no terminal, quanto no link de construção o link de Download do APK.
 - Instale o APP e rode o Java Springboot.
