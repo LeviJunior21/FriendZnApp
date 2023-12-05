@@ -45,7 +45,7 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
  
         eas build -p android --profile preview
 
-- Aguarde o EAS CLI construir o aplicativo. Você pode acompanhar a construção em tempo real visualizando os LOGS
+- Aguarde o EAS CLI construir o aplicativo. Você pode acompanhar a construção em tempo real visualizando os LOGS.
 - Quando terminar a construção ele mostrará tanto no terminal, quanto no link de construção o link de Download do APK.
 - Instale o APP e rode o Java Springboot.
 - Execute o aplicativo. Pronto!
