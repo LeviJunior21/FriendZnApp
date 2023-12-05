@@ -53,4 +53,3 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 ## Contato e Dúvidas
 
 - levi.pereira.junior@ccc.ufcg.edu.br
-
