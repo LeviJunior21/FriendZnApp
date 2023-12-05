@@ -49,3 +49,8 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - Quando terminar a construção ele mostrará tanto no terminal, quanto no link de construção o link de Download do APK.
 - Instale o APP e rode o Java Springboot.
 - Execute o aplicativo. Pronto!
+
+## Contato e dúvidas
+
+- levi.pereira.junior@ccc.ufcg.edu.br
+
