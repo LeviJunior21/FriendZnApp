@@ -27,11 +27,15 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - Tenha o serviço Expo CLI em sua máquina. Faça login na sua conta (se preferir).
 - Tenha o aplicativo [Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt&gl=US&pli=1) instalado no seu celular para se comunicar com o serviço Expo CLI. Faça login no aplicativo (se preferir).
 - Execute o comando do diretório do projeto:
-- > npx expo --clear
+
+        npx expo --clear
+
 - Execute o aplicativo Java Springboot do FriendZone para que o App do FriendZone possa se comunicar com o servidor. (Os passos estão disponíveis aqui: [FriendZone](https://github.com/LeviJunior21/FriendZn)).
 - Abra o aplicativo Expo Go no seu celular. Caso seu esteja logado com a mesma conta logada no terminal, então aparecerá automaticamente o endereço para rodar o aplicativo. Caso não esteja logado, abra a opção de ler QRCode e aponte seu celular para o QRCode mostrado no terminal.
 - Como o OAuth2 está em andamento, isso não é um problema. Vá no diretŕoio do FriendZone Java Springboot e execute o comando:
-- > go run RunApiRest.go
+
+        go run RunApiRest.go
+
 - O código acima criará um usuário temporário, publicações e comentários. Você pode criar quantos usuários desejar. O ID temporário usado pelo App é igual a 1, então o primeiro usuário criado é o seu.
 
 ### Segunda forma de usar (não recomendado ainda).
