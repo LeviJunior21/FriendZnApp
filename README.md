@@ -5,10 +5,14 @@ Recentemente, diversas plataformas de redes sociais anônimas têm optado por se
 ## Sobre o FriendZone
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+    <img src="https://i.ibb.co/jG77JYD/Screenshot-20231205-234842-Expo-Go.jpg" alt="Imagem 2" width="230"/> 
+    <img src="https://i.ibb.co/9V41pmf/Screenshot-20231205-234850-Chrome.jpg" alt="Imagem 1" width="230"/>
+    <img src="https://i.ibb.co/fd1wZhG/Screenshot-20231205-234831-Expo-Go.jpg" alt="Imagem 3" width="230"/>  
+    <img src="https://i.ibb.co/HVv4fD9/Screenshot-20231205-234621-Expo-Go.jpg" alt="Imagem 4" width="230"/>     
     <img src="https://i.ibb.co/7CfXpPX/Screenshot-20231204-110832-Expo-Go.jpg" alt="Imagem 1" width="230"/>
     <img src="https://i.ibb.co/sggM78R/Screenshot-20231125-192413-Expo-Go.jpg" alt="Imagem 2" width="230"/> 
     <img src="https://i.ibb.co/Mf0CLHh/Screenshot-20231204-110840-Expo-Go.jpg" alt="Imagem 3" width="230"/>  
-    <img src="https://i.ibb.co/TPgHNQJ/Screenshot-20231204-110911-Expo-Go.jpg" alt="Imagem 4" width="230" /> 
+    <img src="https://i.ibb.co/TPgHNQJ/Screenshot-20231204-110911-Expo-Go.jpg" alt="Imagem 4" width="230"/> 
     <img src="https://i.ibb.co/7VJ2Rx1/Screenshot-20231204-111106-Expo-Go.jpg" alt="Imagem 5" width="230"/> 
 </div>  
 
@@ -32,6 +36,7 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 
 - Execute o aplicativo Java Springboot do FriendZone para que o App do FriendZone possa se comunicar com o servidor. (Os passos estão disponíveis aqui: [FriendZone](https://github.com/LeviJunior21/FriendZn)).
 - Abra o aplicativo Expo Go no seu celular. Caso seu esteja logado com a mesma conta logada no terminal, então aparecerá automaticamente o endereço para rodar o aplicativo. Caso não esteja logado, abra a opção de ler QRCode e aponte seu celular para o QRCode mostrado no terminal.
+- Login feito utilizando GitHub.
 - Como o OAuth2 está em andamento, isso não é um problema. Vá no diretŕoio do FriendZone Java Springboot e execute o comando:
 
         go run RunApiRest.go
