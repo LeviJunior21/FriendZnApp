@@ -8,6 +8,7 @@ import { buscarChat } from "../../../data/chatutils";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { ChatItemProps } from "./Interface";
 import { avatar } from "../../../data/avatar";
+import { keyBDChat } from "../../../data/constants";
 
 export default function ChatAceito(props: ChatItemProps) {
     const [usuario, setUsuario] = useState<Usuario>();
@@ -23,7 +24,7 @@ export default function ChatAceito(props: ChatItemProps) {
 
     useEffect(() => {
         const buscarConversa = async() => {
-            const chat:Chat = await buscarChat(props.chat.getRemetente(), "myKey");
+            const chat:Chat = await buscarChat(props.chat.getRemetente(), keyBDChat);
             setUltimaConversa(chat.getConversas()[chat.getConversas().length - 1].getMensagem());
         }; buscarConversa();
     }, [chatData])

@@ -6,29 +6,30 @@ import Stomp, { Client } from "stompjs";
 import { avatar } from "../../../data/avatar";
 import { getCurrentDate } from "../../../utils/time";
 import { ComentarioIndexProps, CurtidasInterface } from "./Interface";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getStatusGostouOuNao, sendStatusGostouOuNao } from "./Util";
+import { ContextProvider, Provider } from "../../../utils/Provider";
 
 export default function ComentarioIndex(props: ComentarioIndexProps) {
     const [curtidas, setCurtidas] = useState<CurtidasInterface>({gostou: 0, naoGostou: 0});
     const subscribe: string = `/topic/public/gostar-publicacao/${props.idPublicacao}/comentario/${props.comentario.getId()}`;
-    const webSock = useRef<Client>(Stomp.over(new SockJS("http://10.0.0.181:8080/ws")));
+    const { webSock } = useContext<ContextProvider>(Provider);
 
-    useEffect(() => {
-        getStatusGostouOuNao(props.idPublicacao, props.comentario.getId(), setCurtidas);
-        webSock.current.connect({}, function (frame) {
-            webSock.current?.subscribe(subscribe, function (message) {
-                const status = JSON.parse(message.body);
-                setCurtidas({gostou: curtidas.gostou + status.gostou, naoGostou: curtidas.naoGostou + status.naoGostou});
-            });
-        });
-        return () => { if (webSock.current) { webSock.current.disconnect(() => {console.log("Desconectado.")}); }};
-    }, []);
-
-    const gostouOuNao = (gostou: number) => {
+    const gostouOuNao = async(gostou: number) => {
         const destination: string = `/app/curtir-publicacao/${props.idPublicacao}/comentario/${props.comentario.getId()}/gostar/${gostou}`;
         sendStatusGostouOuNao(webSock, destination);
     };
+
+    useEffect(() =>{
+        getStatusGostouOuNao(props.idPublicacao, props.comentario.getId(), setCurtidas);
+    }, []);
+
+    useEffect(() => {
+        webSock.current!.subscribe(subscribe, function (message) {
+            const status = JSON.parse(message.body);
+            setCurtidas({gostou: curtidas.gostou + status.gostou, naoGostou: curtidas.naoGostou + status.naoGostou});
+        });
+    }, []);
 
     return (
         <ComentarioI>
@@ -131,7 +132,7 @@ const CurtidasSpace = styled.View`
     height: 30px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 `
 
 const LikeOuDeslikeContainer = styled.TouchableOpacity`

@@ -9,6 +9,7 @@ import { ContextProvider, Provider } from "../../utils/Provider";
 import { ListaDeChatsProps } from "./Interface";
 import { Chat } from "../../model/Chat";
 import { verificarPersistenciaChat } from "../../data/chatutils";
+import { keyBDChat } from "../../data/constants";
 
 export default function ListaDeChats(props: ListaDeChatsProps) {
     const { chatData, chatDeletado } = useContext<ContextProvider>(Provider);
@@ -24,7 +25,7 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
     }, [chatData, chatDeletado]);
 
     const verificarPersistenciaDoChat = async(chat: Chat) => {
-        await verificarPersistenciaChat(chat.getRemetente(), "myKey").then((response: boolean) => {
+        await verificarPersistenciaChat(chat.getRemetente(), keyBDChat).then((response: boolean) => {
             if (response) { setSolicitacoesChatAceitas(prevState => [...prevState, chat]) }
             else { setSolicitacoesChatPendentes(prevState => [...prevState, chat]) }
         });

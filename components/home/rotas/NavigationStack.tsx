@@ -5,6 +5,7 @@ import Postar from "../../postar/Postar";
 import TodosComentarios from "../../comentario/TodosComentarios";
 import NavigationBottoms from "./NaviagationBottoms";
 import ChatPrivado from "../../chat/chatprivado/ChatPrivado";
+import Cadastro from "../../usuario/cadastro/Cadastro";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function NavigationStack() {
@@ -15,6 +16,7 @@ export default function NavigationStack() {
             <Stack.Screen name={"Comentario"} component={TodosComentarios}/>
             <Stack.Screen name={"Home"} component={NavigationBottoms}/>
             <Stack.Screen name={"ChatPrivado"} component={ChatPrivado}/>
+            <Stack.Screen name={"Cadastro"} component={Cadastro}/>
         </Stack.Navigator>
     )
 }

@@ -12,6 +12,7 @@ import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
 import { myID } from "../../../data/myId";
 import { NavigationChatProps } from "./Interface";
+import { keyBDChat } from "../../../data/constants";
 
 export default function ChatPrivado(props: NavigationChatProps) {
     const { idRemetente, nome } = props.route.params;
@@ -22,7 +23,7 @@ export default function ChatPrivado(props: NavigationChatProps) {
 
     useEffect(() => {
         const carregarConversas = async() => {
-            const chatEncontrado:Chat = await buscarChat(idRemetente, "myKey");
+            const chatEncontrado:Chat = await buscarChat(idRemetente, keyBDChat);
             setConversas([...chatEncontrado.getConversas()]);
         }; carregarConversas()
     }, [chatData, setChatData]);

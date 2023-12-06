@@ -9,11 +9,6 @@ import FazerLogin from "./FazerLogin";
 
 export default function Login(props: Navigation) {
     const [userInfo, setUserInfo] = useState<UserInfo>();
-    const [accept, setAccept] = useState<boolean>(false);
-    const [save, setSave] = useState<boolean>(false);
-    const [accessToken, setAccessToken] = useState();
-    const [loginPress, setLoginPress] = useState(false);
-    const [hasData, setHasData] = useState(false);
     
     return (
         <Container>
@@ -24,7 +19,10 @@ export default function Login(props: Navigation) {
                 </ButtonBack>
                 <TextLogin>Fazer Login</TextLogin>
             </Nav>
-            <FazerLogin userInfo={userInfo} setUserInfo={setUserInfo}/>
+            <FazerLogin 
+            navigation={props.navigation} 
+            userInfo={userInfo} 
+            setUserInfo={setUserInfo}/>
         </Container>
     )
 }

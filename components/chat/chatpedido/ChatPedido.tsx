@@ -8,6 +8,7 @@ import { getUsuario } from "../../../utils/getUsuario";
 import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
 import { avatar } from "../../../data/avatar";
+import { keyBDChat } from "../../../data/constants";
 
 export default function ChatPedido(props: ChatPedidoProps) {
     const [usuario, setUsuario] = useState<Usuario>();
@@ -23,7 +24,7 @@ export default function ChatPedido(props: ChatPedidoProps) {
 
     useEffect(() => {
         const buscarConversa = async() => {
-            const chat:Chat = await buscarChat(props.chat.getRemetente(), "myKey");
+            const chat:Chat = await buscarChat(props.chat.getRemetente(), keyBDChat);
             setUltimaConversa(chat.getConversas()[chat.getConversas().length - 1].getMensagem());
         }; buscarConversa();
     }, [chatData])

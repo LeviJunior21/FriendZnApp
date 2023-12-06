@@ -12,6 +12,7 @@ export const sendComentario = (props: SendComentarioProps) => {
             codigoAcesso: 12345,
             idUsuario: myID
         };
+        
         const subscribe: string = "/app/comentarios.sendMessage/" + props.publicacao.getId();
         props.webSock.current?.send(subscribe, {}, JSON.stringify(messageJSON));
         props.setMessage("");

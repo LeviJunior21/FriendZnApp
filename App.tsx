@@ -9,7 +9,7 @@ import { Client } from "stompjs";
 import { Chat } from "./model/Chat";
 import { Conversa, conversaBuilder } from "./model/Conversa";
 import { myID } from "./data/myId";
-import { LogBox } from 'react-native';
+import { keyBDChat } from "./data/constants";
 
 export default function App() {
     const webSock:MutableRefObject<Client | null> = useRef<Client | null>(null);
@@ -18,16 +18,14 @@ export default function App() {
     const [comentou, setComentou] = useState<boolean>(false);
 
     useEffect(() => {
-        //AsyncStorage.setItem("myKey", JSON.stringify([]))
         carregarChat("myKey")
         var sock = new SockJS("http://10.0.0.181:8080/ws");
         let stompClient: Client = Stomp.over(sock);
         webSock.current = stompClient;
-        webSock.current.connect({}, () => {
-            if (webSock.current?.connected) { console.log("Conexão WebSocket estabelecida"); } 
-            else { console.log("Conexão WebSocket não está estabelecida"); }
-        })
-        return () => { if (webSock.current) { webSock.current.disconnect(() => { console.log("Desconectado.") }); }};
+        webSock.current.connect({}, () => {});
+        return () => { if (webSock.current) { 
+            webSock.current.disconnect(() => { console.log("Desconectado.") });
+        }};
     },[])
 
     const carregarChat = async(key: string) => {
@@ -36,18 +34,17 @@ export default function App() {
     }
 
     useEffect(() => {
-        carregarChat("myKey");
-        LogBox.ignoreLogs(['VirtualizedLists should never be nested', 'Non-seriazable values']);
+        carregarChat(keyBDChat);
     }, [chatDeletado, setChatDeletado])
 
     const atualizarChats = async(newConversa: Conversa) => {
-        const chats:Chat[] = await gravarConversa(newConversa, "myKey");
+        const chats:Chat[] = await gravarConversa(newConversa, keyBDChat);
         setChatData(chats);
     }
     
     useEffect(() => {
         if (webSock.current != null) {
-            webSock.current.connect({}, function (frame) {
+            webSock.current.connect({}, () => {
                 webSock.current?.subscribe(`/user/${myID}/private`, function (mensagemI) {
                     const data = JSON.parse(mensagemI.body)
                     const dadosConversa:any = {mensagem: data.mensagem, timestamp: data.timestamp, tipoConversa: data.tipoConversa, remetente: data.remetente, receptor: data.receptor}

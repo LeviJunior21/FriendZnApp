@@ -24,7 +24,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
 
     useEffect(() => {
         getComentarios({ publicacao, setComentarios, setLoading });
-        webSock.current.connect({}, function (frame) {
+        webSock.current.connect({}, () => {
             webSock.current?.subscribe("/topic/public/" + publicacao.getId(), function (message) {
                 updateComentario({ id: comentarios.length + 1, message, setComentarios });
             });

@@ -11,7 +11,6 @@ export default function HomePublicacoes(props: HomeProps) {
   ? filteredPublicacoes
   : filteredPublicacoes.filter((publicacao) => publicacao.getCategoria() === props.categoriaEscolhida);
 
-
   return (
     <Container
     refreshControl={

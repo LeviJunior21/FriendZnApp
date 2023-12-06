@@ -15,7 +15,10 @@ export default function ComentariosContainer(props: VisualizarComentarioProps) {
                 data={props.comentarios}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => 
-                    <ComentarioIndex navigation={props.navigation} idPublicacao={props.id} comentario={item}/>
+                    <ComentarioIndex 
+                    navigation={props.navigation} 
+                    idPublicacao={props.id} 
+                    comentario={item}/>
                 }
             />}
             <SpaceBottom/>

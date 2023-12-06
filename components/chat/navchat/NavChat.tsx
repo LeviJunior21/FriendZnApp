@@ -1,21 +1,20 @@
 import Icon from "react-native-vector-icons/Ionicons"
 import styled from "styled-components/native"
 import Constants from "expo-constants";
-import { RootStackParamList } from "../../../utils/interfaces"
-import { NavigationProp } from "@react-navigation/native";
 import { deleteChat } from "../../../data/chatutils";
 import { Dimensions, Modal } from "react-native";
 import { useContext, useState } from "react";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { NavChatProps } from "./Interface";
 import { avatar } from "../../../data/avatar";
+import { keyBDChat } from "../../../data/constants";
 
 export function NavChat(props: NavChatProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const { chatDeletado, setChatDeletado } = useContext<ContextProvider>(Provider);
 
     const deleteAndGoBack = async(id: number) => {
-        await deleteChat(id, "myKey");
+        await deleteChat(id, keyBDChat);
         setModalVisible(false);
         setChatDeletado(!chatDeletado);
         props.navigation.goBack();
@@ -34,6 +33,9 @@ export function NavChat(props: NavChatProps) {
                 <Avatar source={avatar}/>
                 <Nome numberOfLines={1}>@{props.nome}</Nome>
             </AvatarContainer>
+            <Call onPress={() => mostrarModal()}>
+                <Icon name={"call"} color={"white"} size={24}/>
+            </Call>
             <Options onPress={() => mostrarModal()}>
                 <Icon name={"ellipsis-vertical"} color={"white"} size={24}/>
             </Options>
@@ -103,6 +105,15 @@ const Options = styled.TouchableOpacity`
     align-items: center;
     position: absolute;
     right: 10px;
+`
+
+const Call = styled.TouchableOpacity`
+    widht: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 60px;
 `
 
 const ModalContainer = styled.View`

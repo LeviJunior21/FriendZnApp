@@ -81,6 +81,7 @@ type RootStackParamList = {
     Login: undefined;
     Comentario: { publicacao: Publicacao };
     ChatPrivado: undefined;
+    Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
 };
 
 interface Navigation {
@@ -101,7 +102,8 @@ interface UserInfo {}
 
 interface UserInfoProps {
     userInfo: any;
-    setUserInfo: Dispatch<SetStateAction<UserInfo>>
+    setUserInfo: Dispatch<SetStateAction<UserInfo>>;
+    navigation: NavigationProp<RootStackParamList, "Home">;
 }
 
 
