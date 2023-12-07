@@ -69,7 +69,7 @@ export default function App() {
                 });
             });
         }
-    }, [])
+    }, [ setMeusDados ]);
 
     return (
         <Provider.Provider value={{meusDados, setMeusDados, gravarConversa, chatData, setChatData, webSock, setChatDeletado, chatDeletado, comentou, setComentou}}>

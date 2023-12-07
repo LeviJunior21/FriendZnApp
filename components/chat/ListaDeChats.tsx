@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ChatAceito from "./chataceito/ChatAceito";
 import ChatPedido from "./chatpedido/ChatPedido";
 import { useContext, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { ListaDeChatsProps } from "./Interface";
 import { Chat } from "../../model/Chat";
@@ -47,6 +47,7 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
                     <NegarSolicitacoesText>Negar Todos</NegarSolicitacoesText>
                 </NegarSolicitacoesButton>
             </ContainerSolicitacaoPendente>:<></>}
+            <ScrollContainer>
             <FlatListContainer>
                 <FlatList
                 data={solicitacoesChatPendentes}
@@ -59,10 +60,12 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
                 renderItem={({item}) => <ChatAceito chat={item} navigation={props}/>}
                 />
             </FlatListContainer>
+            </ScrollContainer>
         </Container>
     )
 }
 
+const height = Dimensions.get("window").height;
 const ContainerSolicitacaoPendente = styled.View`
     width: 100%;
     height: 60px;
@@ -101,7 +104,7 @@ const SolicitacaoPendenteText = styled.Text`
 `
 
 const NegarSolicitacoesButton = styled.TouchableOpacity`
-    width: 140;
+    width: 140px;
     height: 36px;
     justify-content: center;
     align-items: center;
@@ -118,4 +121,10 @@ const NegarSolicitacoesText = styled.Text`
 
 const FlatListContainer = styled.View`
     width: 100%;
+`
+
+const ScrollContainer = styled.ScrollView`
+    width: 100%;
+    min-height: 60px;
+    max-height: ${height - 100}px;
 `
