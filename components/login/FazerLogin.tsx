@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
 import Icon from "react-native-vector-icons/Ionicons";
 import * as WebBrowser from "expo-web-browser";
@@ -6,6 +6,8 @@ import { UserInfoProps } from '../../utils/interfaces';
 import { Dimensions } from 'react-native';
 import { buscarInformacoesGitHub, discovery } from './Config';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import { verificarExistenciaGithubServidor } from '../../utils/getUsuario';
+import { myID } from '../../data/myId';
 
 WebBrowser.maybeCompleteAuthSession();
 export default function FazerLogin(props: UserInfoProps) {
@@ -20,16 +22,34 @@ export default function FazerLogin(props: UserInfoProps) {
         discovery
     );
     
+    useEffect(() => {
+        checarExistencia();
+    }, [])
+
+    const checarExistencia = async() => {
+        await myID().then(response => {
+            if (response != -1) {
+                props.navigation.navigate("Home");
+            }
+        });
+    }
+
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { code } = response.params;
-            buscarDados(code);
+            buscarDadosGitHub(code);
         }
     }, [response]);
 
-    const buscarDados = async(code: string) => {
+    const buscarDadosGitHub = async(code: string) => {
         const response = await buscarInformacoesGitHub(code);
-        props.navigation.navigate("Cadastro", { navigation: props.navigation, dados: response });
+        const result: boolean = await verificarExistenciaGithubServidor(response.id);
+        
+        if (result) {
+            props.navigation.navigate("Home");
+        } else {
+            props.navigation.navigate("Cadastro", { navigation: props.navigation, dados: response });
+        }
     }
 
     return (

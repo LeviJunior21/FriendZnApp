@@ -12,15 +12,15 @@ import { ContextProvider, Provider } from "../../../utils/Provider";
 
 export default function ComentarioIndex(props: ComentarioIndexProps) {
     const [curtidas, setCurtidas] = useState<CurtidasInterface>({gostou: 0, naoGostou: 0});
-    const subscribe: string = `/topic/public/gostar-publicacao/${props.idPublicacao}/comentario/${props.comentario.getId()}`;
+    const subscribe: string = "/topic/public/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
     const { webSock } = useContext<ContextProvider>(Provider);
 
     const gostouOuNao = async(gostou: number) => {
-        const destination: string = `/app/curtir-publicacao/${props.idPublicacao}/comentario/${props.comentario.getId()}/gostar/${gostou}`;
-        sendStatusGostouOuNao(webSock, destination);
+        const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
+        sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou);
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         getStatusGostouOuNao(props.idPublicacao, props.comentario.getId(), setCurtidas);
     }, []);
 

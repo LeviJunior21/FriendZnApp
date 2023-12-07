@@ -15,10 +15,13 @@ export const getStatusGostouOuNao = async(idPublicacao: number, idComentario: nu
     catch(e: any) {}
 }
 
-export const sendStatusGostouOuNao = async(webSocket: MutableRefObject<Client | null>, destination: string) => {
+export const sendStatusGostouOuNao = async(webSocket: MutableRefObject<Client | null>, destination: string, idPublicacao: number, idComentario: number, gostou: number) => {
     const messageJSON = {
         idUsuario: myID,
-        codigoAcesso: 12345
+        codigoAcesso: 12345,
+        idPublicacao: idPublicacao,
+        idComentario: idComentario,
+        gostar: gostou
     };  
 
     webSocket.current?.send(destination, {}, JSON.stringify(messageJSON));

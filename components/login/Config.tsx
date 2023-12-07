@@ -29,7 +29,6 @@ export const criarToken = async (code: string) => {
     const responseData = await response.json();
     return responseData;
 };
-  
 
 export const buscarInformacoesGitHub = async(code: string) => {
     const { token_type, scope, access_token } = await criarToken(code);

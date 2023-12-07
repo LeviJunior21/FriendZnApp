@@ -19,17 +19,27 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
     }, []);
 
     const cadastrar = async() => {
+        
         const dadosLogin = {apelido: apelido, dadosLogin: dados};
-        cadastrarUsuario(dadosLogin).then(response => {
-            if (response) {
-                const dadosLoginStringJSON: string = JSON.stringify(dadosLogin);
-                AsyncStorage.setItem(dadosLoginStringJSON, keyUser);
-                navigation.navigate("Home");
-            } else {
-                navigation.navigate("Login");
+        const response = await cadastrarUsuario(dadosLogin);
+        
+        const myID = Number(response.id);
+        const responseOk: boolean = myID > 0;
+        console.log("idididiididid" + myID)
+        if (responseOk) {
+            const myInfo = {myIDAuth: dados.id, myID: myID.toString()};
+            const myInfoString = JSON.stringify(myInfo);
+            try {
+                await AsyncStorage.setItem(myInfoString, keyUser);
+                console.log("salvo")
             }
-        });
-    }
+            catch(e: any) {}
+            navigation.navigate("Home");
+        } else {
+            navigation.navigate("Login");
+        }
+    };
+    
 
     return (
         <Container>
@@ -57,6 +67,7 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
                 <ApelidoText>Insira um apelido:</ApelidoText>
                 <ApelidoInput 
                 onChangeText={(text: string) => setApelido(text)}
+                placeholder={"Digite o seu apelido..."}
                 style={{borderColor: (apelido == "")? "red":"green"}}
                 numberOfLines={1} 
                 maxLength={14}
