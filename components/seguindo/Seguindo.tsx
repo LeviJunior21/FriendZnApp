@@ -8,15 +8,14 @@ import { Publicacao } from "../../model/Publicacao";
 import { useContext, useEffect, useState } from "react";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { getPublicacoesSeguidas } from "../../utils/getPublicacoesSeguidas";
-import { myID } from "../../data/myId";
 
 export default function Seguindo(props: NavigationProps) {
     const [publicacoesSeguidas, setPublicacoesSeguidas] = useState<Publicacao[]>([]);
-    const { comentou } = useContext<ContextProvider>(Provider);
-    
+    const { comentou, meusDados } = useContext<ContextProvider>(Provider);
+
     useEffect(() => {
         const buscarSeguindo = async() => {
-            await getPublicacoesSeguidas(myID, setPublicacoesSeguidas);
+            await getPublicacoesSeguidas(meusDados.idServer, setPublicacoesSeguidas);
         }; buscarSeguindo();
     }, [comentou]);
 

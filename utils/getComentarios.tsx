@@ -30,6 +30,7 @@ export const listarComentarios = (data: ComentarioInterface[]) => {
         return Comentario.builder()
             .withComentario(item.comentario)
             .withId(item.id)
+            .withTimestamp(new Date(item.timestamp))
             .withUsuario(usuario)
             .build();
     })

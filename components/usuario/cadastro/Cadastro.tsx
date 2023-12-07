@@ -1,9 +1,9 @@
-import styled from "styled-components/native"
-import { CadastroProps } from "./Interface"
-import { useEffect, useState } from "react"
+import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CadastroProps } from "./Interface";
+import { useEffect, useState } from "react";
 import { keyUser } from "../../../data/constants";
 import { cadastrarUsuario } from "../utils/CadastrarUsuario";
 
@@ -25,12 +25,14 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
         
         const myID = Number(response.id);
         const responseOk: boolean = myID > 0;
-        console.log("idididiididid" + myID)
+        console.log("idAuth: " + dados.id)
+        console.log("idServer: " + myID)
+
         if (responseOk) {
-            const myInfo = {myIDAuth: dados.id, myID: myID.toString()};
+            const myInfo = {idAuth: Number(dados.id), idServer: myID};
             const myInfoString = JSON.stringify(myInfo);
             try {
-                await AsyncStorage.setItem(myInfoString, keyUser);
+                await AsyncStorage.setItem(keyUser, myInfoString);
                 console.log("salvo")
             }
             catch(e: any) {}

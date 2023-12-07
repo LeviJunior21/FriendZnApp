@@ -10,7 +10,6 @@ import { enviarChat } from "../websocket/chatEnviarAtualizar";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
-import { myID } from "../../../data/myId";
 import { NavigationChatProps } from "./Interface";
 import { keyBDChat } from "../../../data/constants";
 
@@ -19,7 +18,7 @@ export default function ChatPrivado(props: NavigationChatProps) {
     const [conversas, setConversas] = useState<Conversa[]>([]);
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
-    const {chatData, webSock, setChatData } = useContext<ContextProvider>(Provider);
+    const {chatData, webSock, setChatData, meusDados } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         const carregarConversas = async() => {
@@ -27,6 +26,10 @@ export default function ChatPrivado(props: NavigationChatProps) {
             setConversas([...chatEncontrado.getConversas()]);
         }; carregarConversas()
     }, [chatData, setChatData]);
+
+    const enviarMensagem = async() => {
+        enviarChat(mensagem, webSock, meusDados.idServer, idRemetente, setMensagem);
+    }
 
     return (
         <Container>
@@ -61,7 +64,7 @@ export default function ChatPrivado(props: NavigationChatProps) {
                 value={mensagem}
                 onChangeText={(text) => setMensagem(text)}
                 />
-                <Sender onPress={() => {enviarChat(mensagem, webSock, myID, idRemetente, setMensagem)}}>
+                <Sender onPress={() => {enviarMensagem()}}>
                     <Icon name={"send"} color={"green"} size={30}/>
                 </Sender>
             </MessageSenderContainer>

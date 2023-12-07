@@ -1,14 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Chat, chatBuilder } from "../model/Chat";
 import { Conversa } from "../model/Conversa";
-import { myID } from "./myId";
 
 /**
 * @param {Conversa} newConversa - Conversa a ser gravada.
 * @param {string} key - Chave do banco AsyncStorage.
 * @returns {Promise<Chat[]>} - Uma Promis que resolve para um array de objetos Chat.
 **/
-export const gravarConversa = async(newConversa: Conversa, key: string):Promise<Chat[]> => {
+export const gravarConversa = async(myID: number, newConversa: Conversa, key: string):Promise<Chat[]> => {
     const chats:Chat[] = await lerChats(key);
     let indexChat:number = -1;
     let remetente:number = 1;

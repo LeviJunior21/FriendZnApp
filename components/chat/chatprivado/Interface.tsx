@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../../utils/Provider";
+import { RootStackParamList } from "../../../utils/interfaces";
 
 export interface NavigationChatProps {
     navigation: NavigationProp<RootStackParamList, "Home">;

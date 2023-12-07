@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components/native';
 import Icon from "react-native-vector-icons/Ionicons";
 import * as WebBrowser from "expo-web-browser";
@@ -7,11 +7,10 @@ import { Dimensions } from 'react-native';
 import { buscarInformacoesGitHub, discovery } from './Config';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { verificarExistenciaGithubServidor } from '../../utils/getUsuario';
-import { myID } from '../../data/myId';
+import { ContextProvider, Provider } from '../../utils/Provider';
 
 WebBrowser.maybeCompleteAuthSession();
 export default function FazerLogin(props: UserInfoProps) {
-
     const [request, response, promptAsync] = useAuthRequest({
             clientId: '78d452f31d2506c3b031',
             scopes: ['identity'],
@@ -21,18 +20,6 @@ export default function FazerLogin(props: UserInfoProps) {
         },
         discovery
     );
-    
-    useEffect(() => {
-        checarExistencia();
-    }, [])
-
-    const checarExistencia = async() => {
-        await myID().then(response => {
-            if (response != -1) {
-                props.navigation.navigate("Home");
-            }
-        });
-    }
 
     React.useEffect(() => {
         if (response?.type === 'success') {

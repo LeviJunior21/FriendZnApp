@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Comentario } from "../../../model/Comentario";
 import { NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../../utils/Provider";
+import { RootStackParamList } from "../../../utils/interfaces";
 
 export interface VisualizarComentarioProps {
     id: number;

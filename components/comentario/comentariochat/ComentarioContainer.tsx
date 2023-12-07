@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
+import ComentarioIndex from "../comentarioIndex/ComentarioIndex";
 import { FlatList } from "react-native";
 import { VisualizarComentarioProps } from "./Interface";
-import ComentarioIndex from "../comentarioIndex/ComentarioIndex";
 
 export default function ComentariosContainer(props: VisualizarComentarioProps) {
 

@@ -4,20 +4,28 @@ import HomePublicacoes from "./HomePublicacoes";
 import TodasCategorias from "./nav/TodasCategorias";
 import { NavCategoria } from "./nav/NavCategoria";
 import { StatusBar } from 'expo-status-bar';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Categoria, Navigation } from "../../utils/interfaces";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function HomeScreen(props: Navigation) {
     const [search, setSearch] = useState<string>("");
     const [openCategoria, setOpenCategoria] = useState<boolean>(false);
     const [categoriaEscolhida, setCategoriaEscolhida] = useState<Categoria>(Categoria.todasCategorias);
+    const { meusDados } = useContext<ContextProvider>(Provider);
+
+    const verificarLogin = () => {
+        if (meusDados.idServer != -1) {
+            props.navigation.navigate("Postar");
+        }
+    }
 
     return (
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
             <NavCategoria categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
             <HomePublicacoes navigation={props} search={search} categoriaEscolhida={categoriaEscolhida}/>
-            <Button onPress={() => props.navigation.navigate("Postar")}>
+            <Button onPress={() => verificarLogin()}>
                 <Plus>+</Plus>
             </Button>
             <TodasCategorias openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} categoriaEscolhida={categoriaEscolhida} setCategoriaEscolhida={setCategoriaEscolhida}/>

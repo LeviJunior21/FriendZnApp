@@ -1,15 +1,27 @@
 import Icon from "react-native-vector-icons/Ionicons";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
+import FazerLogin from "./FazerLogin";
 import { StatusBar } from "expo-status-bar";
 import { Navigation, UserInfo } from "../../utils/interfaces";
 import { Dimensions } from "react-native";
-import { useState } from "react";
-import FazerLogin from "./FazerLogin";
+import { useContext, useEffect, useState } from "react";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function Login(props: Navigation) {
     const [userInfo, setUserInfo] = useState<UserInfo>();
-    
+    const { meusDados } = useContext<ContextProvider>(Provider);
+
+    useEffect(() => {
+        checarExistencia();
+    }, [])
+
+    const checarExistencia = async() => {
+        if (meusDados.idServer != -1) {
+            props.navigation.navigate("Home");
+        }
+    }
+
     return (
         <Container>
             <StatusBar backgroundColor={"white"}/>

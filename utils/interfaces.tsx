@@ -16,6 +16,7 @@ interface ComentarioInterface {
     id: number,
     comentario: string,
     usuario: UsuarioInterface,
+    timestamp: string
 }
 
 interface UsuarioInterface {
@@ -53,6 +54,7 @@ interface PropsCategoria {
 interface PublicacaoUsuario {
     categoria: Categoria,
     desabafo: string,
+    meusDados: DadosProps,
     navigation: Navigation
 }
 
@@ -80,7 +82,7 @@ type RootStackParamList = {
     Postar: undefined;
     Login: undefined;
     Comentario: { publicacao: Publicacao };
-    ChatPrivado: undefined;
+    ChatPrivado: {};
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
 };
 
@@ -139,4 +141,10 @@ interface GetComentariosProps {
     setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat };
+interface DadosProps {
+    idAuth: number, 
+    idServer: number
+}
+
+
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat, DadosProps };

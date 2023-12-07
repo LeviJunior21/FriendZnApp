@@ -1,3 +1,3 @@
-export const keyBDChat = "myKey";
+export const keyBDChat = "myKeyChat";
 
 export const keyUser = "myKeyUser";

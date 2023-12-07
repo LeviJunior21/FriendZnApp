@@ -2,16 +2,18 @@ import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Constants from 'expo-constants';
 import { Nav } from "./NavPostar"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Dimensions, FlatList, ScrollView } from "react-native";
 import { data } from "../home/nav/Categorias";
 import { Categoria, Navigation } from "../../utils/interfaces";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function Postar(navigation: Navigation) {
     const [categoria, setCategoria] = useState<string>("Selecione uma categoria...");
     const [mostrarCategoria, setMostrarCategoria] = useState<boolean>(true);
     const [desabafo, setDesabafo] = useState<string>("");
     const [enumCategoria, setEnumCatgegotia] = useState<Categoria>(Categoria.selecionar)
+    const { meusDados } = useContext<ContextProvider>(Provider);
 
     const handleCategoria = (tituloCategoria: string, enumCategoria: Categoria) => {
         setCategoria(tituloCategoria);
@@ -21,7 +23,7 @@ export default function Postar(navigation: Navigation) {
 
     return (
         <Container>
-            <Nav navigation={navigation} categoria={enumCategoria} desabafo={desabafo}></Nav>
+            <Nav meusDados={meusDados} navigation={navigation} categoria={enumCategoria} desabafo={desabafo}></Nav>
             <SelectCategoty onPress={() => setMostrarCategoria(!mostrarCategoria)}>
                 <Categorias
                 >{categoria}

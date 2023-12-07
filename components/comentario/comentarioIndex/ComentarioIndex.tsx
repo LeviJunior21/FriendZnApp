@@ -1,12 +1,10 @@
 import styled from "styled-components/native";
-import SockJS from "sockjs-client";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconFontiso from "react-native-vector-icons/Fontisto";
-import Stomp, { Client } from "stompjs";
 import { avatar } from "../../../data/avatar";
 import { getCurrentDate } from "../../../utils/time";
 import { ComentarioIndexProps, CurtidasInterface } from "./Interface";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getStatusGostouOuNao, sendStatusGostouOuNao } from "./Util";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 
@@ -40,7 +38,7 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
                         <TouchUserName onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })}>
                             <NomeUsuario>@{props.comentario.getUsuario().getApelido()}</NomeUsuario>
                         </TouchUserName>
-                    <TempoPublicacao>{getCurrentDate(new Date())}</TempoPublicacao>
+                    <TempoPublicacao>{getCurrentDate(props.comentario.getTimestamp())}</TempoPublicacao>
                    </UserInfo>
                 </InfoUserContainer>
                 <ComentarioRealizado>{props.comentario.getComentario()}</ComentarioRealizado>
@@ -71,13 +69,13 @@ const TempoPublicacao = styled.Text`
     font-size: 11px;
     color: white;
 `
-const ContainerUsuario = styled.View`
+const ContainerUsuario = styled.TouchableOpacity`
     width: 100%;
     min-height: 60px;
     flex-direction: column;
 `
 
-const ComentarioI = styled.TouchableOpacity`
+const ComentarioI = styled.View`
     width: 100%;
     min-height: 110px;
     padding-vertical: 10px;

@@ -1,16 +1,15 @@
-import { myID } from "../../../data/myId";
 import { Comentario } from "../../../model/Comentario";
 import { getUsuario } from "../../../utils/getUsuario";
 import { SendComentarioProps, UpdateComentarioProps } from "./Interface";
 
-export const sendComentario = (props: SendComentarioProps) => {
+export const sendComentario = async(props: SendComentarioProps) => {
     if (props.webSock.current != null && props.webSock?.current.connected) {
         const messageJSON = {
             idPublicacao: props.publicacao.getId(),
             comentario: props.message,
             timestamp: new Date(),
-            codigoAcesso: 12345,
-            idUsuario: myID
+            codigoAcesso: props.meusDados.idAuth,
+            idUsuario: props.meusDados.idServer
         };
         
         const subscribe: string = "/app/comentarios.sendMessage/" + props.publicacao.getId();
@@ -26,15 +25,11 @@ export const updateComentario = async(props: UpdateComentarioProps) => {
         const usuario = await getUsuario(comentarioRecebido.usuarioId);
         const novoComentario = Comentario.builder()
             .withComentario(comentarioRecebido.comentario)
-            .withId(randint(1,1000))
+            .withId(Number(comentarioRecebido.id))
             .withUsuario(usuario)
             .withTimestamp(new Date(comentarioRecebido.timestamp))
             .build();
         props.setComentarios((prevComentarios) => [...prevComentarios, novoComentario]);
         
     } catch(e: any) {}
-}
-
-function randint(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
 }

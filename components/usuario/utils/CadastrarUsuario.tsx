@@ -1,6 +1,5 @@
 import { LoginType } from "./LoginType";
 
-
 export const cadastrarUsuario = async(dados: any): Promise<any> => {
 
     const url: string = "http://10.0.0.181:8080/v1/usuarios";
