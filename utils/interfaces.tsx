@@ -16,7 +16,8 @@ interface ComentarioInterface {
     id: number,
     comentario: string,
     usuario: UsuarioInterface,
-    timestamp: string
+    timestamp: string,
+    usuarioId: number
 }
 
 interface UsuarioInterface {

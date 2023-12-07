@@ -32,7 +32,7 @@ export default function App() {
 
     useLayoutEffect(() => {
         carregarDados();
-    }, [])
+    }, [ setMeusDados ])
 
     const carregarDados = async() => {
         carregarMyID(setMeusDados).then(result => {

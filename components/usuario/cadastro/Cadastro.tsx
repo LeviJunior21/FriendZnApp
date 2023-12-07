@@ -3,14 +3,16 @@ import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CadastroProps } from "./Interface";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { keyUser } from "../../../data/constants";
 import { cadastrarUsuario } from "../utils/CadastrarUsuario";
+import { ContextProvider, Provider } from "../../../utils/Provider";
 
 const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
     const [imageLogin, setImageLogin] = useState<string>("https://i.redd.it/rdv8uzobsmv71.png");
     const [apelido, setApelido] = useState<string>("");
     const { dados } = route.params;
+    const { setMeusDados } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         const carregarDados = async() => {
@@ -33,7 +35,7 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
             const myInfoString = JSON.stringify(myInfo);
             try {
                 await AsyncStorage.setItem(keyUser, myInfoString);
-                console.log("salvo")
+                setMeusDados(myInfo);
             }
             catch(e: any) {}
             navigation.navigate("Home");

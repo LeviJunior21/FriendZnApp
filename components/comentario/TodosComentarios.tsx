@@ -115,6 +115,7 @@ const ContainerUsuario = styled.View`
 `
 
 const Publicacao = styled.Text`
+    margin-top: 10px;
     width: 100%;
     min-height: 10px;
     color: white;

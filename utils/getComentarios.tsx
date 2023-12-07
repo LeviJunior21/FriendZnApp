@@ -1,6 +1,7 @@
 import { Usuario } from "../model/Usuario";
 import { Comentario } from "../model/Comentario";
 import { ComentarioInterface, GetComentariosProps } from "./interfaces";
+import { getUsuario } from "./getUsuario";
 
 export const getComentarios = async(props: GetComentariosProps) => {
     try {
@@ -8,23 +9,24 @@ export const getComentarios = async(props: GetComentariosProps) => {
 
         if (response.ok) {
             const data = await response.json();
-            const comentarios = listarComentarios(data);
+            console.log(data)
+            const comentarios = await listarComentarios(data);
             props.setComentarios(comentarios);
             props.setLoading(false);
         } else {
             console.error('Ocorreu um erro na requisição HTTP');
         }
-        } catch (error) {
-            console.error('Ocorreu ao buscar os dados:', error);
+    } catch (error: any) {
+        console.error('Ocorreu ao buscar os dados:', error);
     }
 }
 
-export const listarComentarios = (data: ComentarioInterface[]) => {
-    const comentarios: Comentario[] = data.map((item: ComentarioInterface) => {
-        console.log("Comentarios:", item)
+export const listarComentarios = async(data: ComentarioInterface[]): Promise<Comentario[]> => {
+    const comentarios: Comentario[] = await Promise.all(data.map(async (item: ComentarioInterface) => {
+        const usuarioData = await getUsuario(item.usuarioId);
         const usuario: Usuario = Usuario.builder()
-            .withApelido("LeviJunior")
-            .withId(1)
+            .withApelido(usuarioData.getApelido())
+            .withId(item.usuarioId)
             .build();
 
         return Comentario.builder()
@@ -33,7 +35,7 @@ export const listarComentarios = (data: ComentarioInterface[]) => {
             .withTimestamp(new Date(item.timestamp))
             .withUsuario(usuario)
             .build();
-    })
+    }));
 
     return comentarios;
 }
