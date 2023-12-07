@@ -26,7 +26,7 @@ export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, na
                 </PublicacaoUserContainer>
                 <ComentarioInfo>
                     <NumeroComentarios>{publicacao.getComentarios().length}</NumeroComentarios>
-                    <MaterialIcons name="chat-bubble-outline"color={"white"} size={16}></MaterialIcons>
+                    <MaterialIcons name="chat-bubble-outline" color={"white"} size={16}></MaterialIcons>
                 </ComentarioInfo>
             </PublicacaoContainer>
         </Animatable.View>
@@ -76,9 +76,7 @@ const UserInfoTop = styled.View`
 const PublicacaoContainer = styled.TouchableOpacity`
   width: 100%;
   min-height: 120px;
-  max-height: 150px;
-  border-bottom-width: 2px;
-  border-bottom-color: white;
+  max-height: 240px;
   padding-top: 10px;
   padding-bottom: 10px;
 `

@@ -29,7 +29,6 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
                 updateComentario({ message, setComentarios });
             });
         });
-        return () => { if (webSock.current) { webSock.current.disconnect(() => {}); }};
     }, []);
 
     const enviar = () => {

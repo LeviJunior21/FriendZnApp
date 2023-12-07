@@ -1,5 +1,3 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../utils/interfaces";
 import Login from "../../login/Login";
 import Postar from "../../postar/Postar";
 import TodosComentarios from "../../comentario/TodosComentarios";
@@ -8,6 +6,8 @@ import ChatPrivado from "../../chat/chatprivado/ChatPrivado";
 import Cadastro from "../../usuario/cadastro/Cadastro";
 import { useContext, useEffect } from "react";
 import { ContextProvider, Provider } from "../../../utils/Provider";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../utils/interfaces";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function NavigationStack() {
