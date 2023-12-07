@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components/native';
 import Icon from "react-native-vector-icons/Ionicons";
 import * as WebBrowser from "expo-web-browser";
@@ -7,7 +7,6 @@ import { Dimensions } from 'react-native';
 import { buscarInformacoesGitHub, discovery } from './Config';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { verificarExistenciaGithubServidor } from '../../utils/getUsuario';
-import { ContextProvider, Provider } from '../../utils/Provider';
 
 WebBrowser.maybeCompleteAuthSession();
 export default function FazerLogin(props: UserInfoProps) {
@@ -21,7 +20,7 @@ export default function FazerLogin(props: UserInfoProps) {
         discovery
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (response?.type === 'success') {
             const { code } = response.params;
             buscarDadosGitHub(code);

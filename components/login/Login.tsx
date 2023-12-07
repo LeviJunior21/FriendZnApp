@@ -1,4 +1,3 @@
-import Icon from "react-native-vector-icons/Ionicons";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import FazerLogin from "./FazerLogin";
@@ -26,9 +25,6 @@ export default function Login(props: Navigation) {
         <Container>
             <StatusBar backgroundColor={"white"}/>
             <Nav>
-                <ButtonBack onPress={() => props.navigation.navigate("Home")}>
-                    <Icon name={"arrow-back"} size={30} color={"white"}></Icon>
-                </ButtonBack>
                 <TextLogin>Fazer Login</TextLogin>
             </Nav>
             <FazerLogin 
@@ -50,6 +46,7 @@ const Container = styled.View`
 const Nav = styled.View`
     width: 100%;
     height: 50px;
+    padding-horizontal: 10px;
     background-color: #10a17d;
     flex-direction: row;
     align-items: center;
