@@ -10,15 +10,15 @@ import { Client } from "stompjs";
  * @param {Dispatch<SetStateAction<string>>} setMensagem - Estado para atualizar as mensagens.
 **/
 export const enviarChat = (
-    mensagem: string, webSock: 
-    MutableRefObject<Client | null>, 
+    mensagem: string, 
+    webSock: MutableRefObject<Client | null>, 
     remetente: number, 
     receptor: number, 
     setMensagem: Dispatch<SetStateAction<string>> 
 ) => {
     if (mensagem.length > 0 && webSock.current != null && webSock?.current.connected) {
         const messageJSON = {
-            mensagem: mensagem,
+            mensagem: mensagem.replace(/^\s+|\s+$/g, ''),
             timestamp: new Date(),
             remetente: remetente,
             receptor: receptor

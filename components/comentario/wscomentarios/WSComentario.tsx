@@ -6,7 +6,7 @@ export const sendComentario = async(props: SendComentarioProps) => {
     if (props.webSock.current != null && props.webSock?.current.connected) {
         const messageJSON = {
             idPublicacao: props.publicacao.getId(),
-            comentario: props.message,
+            comentario: props.message.replace(/^\s+|\s+$/g, ''),
             timestamp: new Date(),
             codigoAcesso: props.meusDados.idAuth,
             idUsuario: props.meusDados.idServer
