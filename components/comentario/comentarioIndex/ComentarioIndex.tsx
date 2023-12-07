@@ -11,8 +11,8 @@ import { ContextProvider, Provider } from "../../../utils/Provider";
 export default function ComentarioIndex(props: ComentarioIndexProps) {
     const [curtidas, setCurtidas] = useState<CurtidasInterface>({gostou: 0, naoGostou: 0});
     const subscribe: string = "/topic/public/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
-    const { webSock } = useContext<ContextProvider>(Provider);
-
+    const { webSock, meusDados } = useContext<ContextProvider>(Provider);
+    
     const gostouOuNao = async(gostou: number) => {
         const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
         sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou);
@@ -29,13 +29,19 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
         });
     }, []);
 
+    const abrirChatPrivado = () => {
+        if (meusDados.idServer !== props.comentario.getUsuario().getId()) {
+            props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
+        }
+    }
+
     return (
         <ComentarioI>
             <ContainerUsuario>
                 <InfoUserContainer>
                     <Avatar source={avatar}/>
                     <UserInfo>
-                        <TouchUserName onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })}>
+                        <TouchUserName onPress={() => abrirChatPrivado()}>
                             <NomeUsuario>@{props.comentario.getUsuario().getApelido()}</NomeUsuario>
                         </TouchUserName>
                     <TempoPublicacao>{getCurrentDate(props.comentario.getTimestamp())}</TempoPublicacao>

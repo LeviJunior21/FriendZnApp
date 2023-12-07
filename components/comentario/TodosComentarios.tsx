@@ -37,6 +37,12 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
             setComentou(!comentou);
         }
     };
+
+    const abrirChat = () => {
+        if (meusDados.idServer !== publicacao.getUsuario().getId()) {
+            navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() });
+        }
+    }
     
     return (
         <Container>
@@ -46,7 +52,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
                     <ContainerUsuario>
                         <Avatar source={avatar}/>
                         <InfoUserContainer>
-                            <TouchUserName onPress={() => navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() })}>
+                            <TouchUserName onPress={() => abrirChat()}>
                                 <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
                             </TouchUserName>
                             <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>
