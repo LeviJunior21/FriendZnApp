@@ -24,7 +24,7 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - A comunicação com o servidor se dá usando métodos HTTP para criar e listar publicações.
 - Além disso o aplicativo se comunica com o servidor a partir de WebSocket para enviar e receber mensagem dos usuários, onde as mensagens recebidas são armazenadas no celular do usuário. Apenas mensagens não recebidas são alocadas temporariamente no servidor enquanto o usuário destinatário não se comunique com o servidor (offline).
 - É possível comentar as publicações dos usuários em tempo real utilizando WebSockets e paralelamente o comentário é salvo ao lado do servidor.
-- O login de usuário é feito a partir do serviço OAuth2 da Google junto a API WebBrowser do React Native. (Em Andamento).
+- O login de usuário é feito a partir do serviço OAuth2 do GitHub junto a API WebBrowser do React Native.
 
 ## Como executar o App
 
@@ -36,12 +36,7 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 
 - Execute o aplicativo Java Springboot do FriendZone para que o App do FriendZone possa se comunicar com o servidor. (Os passos estão disponíveis aqui: [FriendZone](https://github.com/LeviJunior21/FriendZn)).
 - Abra o aplicativo Expo Go no seu celular. Caso seu esteja logado com a mesma conta logada no terminal, então aparecerá automaticamente o endereço para rodar o aplicativo. Caso não esteja logado, abra a opção de ler QRCode e aponte seu celular para o QRCode mostrado no terminal.
-- Login feito utilizando GitHub.
-- Como o OAuth2 está em andamento, isso não é um problema. Vá no diretŕoio do FriendZone Java Springboot e execute o comando:
-
-        go run RunApiRest.go
-
-- O código acima criará um usuário temporário, publicações e comentários. Você pode criar quantos usuários desejar. O ID temporário usado pelo App é igual a 1, então o primeiro usuário criado é o seu.
+- O login do usuário é feito utilizando o GitHub.
 
 ### Segunda forma de usar (não recomendado ainda).
 
