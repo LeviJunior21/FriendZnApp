@@ -38,6 +38,7 @@ interface PublicacaoProps {
 }
 
 interface NavProps {
+    navigation: NavigationProp<RootStackParamList, "Home">,
     search: string,
     setSearch: Dispatch<SetStateAction<string>>,
     openCategoria: boolean,
@@ -85,6 +86,7 @@ type RootStackParamList = {
     Comentario: { publicacao: Publicacao };
     ChatPrivado: {};
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
+    Configuracoes: {}
 };
 
 interface Navigation {

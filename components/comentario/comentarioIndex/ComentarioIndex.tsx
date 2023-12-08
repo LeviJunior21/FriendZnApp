@@ -30,8 +30,12 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     }, []);
 
     const abrirChatPrivado = () => {
-        if (meusDados.idServer !== props.comentario.getUsuario().getId()) {
-            props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
+        if (meusDados.idServer !== -1) { 
+            if(meusDados.idServer !== props.comentario.getUsuario().getId()) {
+                props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
+            }
+        } else {
+            props.navigation.navigate("Login");
         }
     }
 

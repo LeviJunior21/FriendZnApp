@@ -32,15 +32,23 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     }, []);
 
     const enviar = () => {
-        if (message.length > 0) { 
-            sendComentario({webSock, meusDados, publicacao, message, setMessage});
-            setComentou(!comentou);
+        if (meusDados.idServer !== -1 && meusDados.idAuth !== -1) {
+           if (message.length > 0) { 
+                sendComentario({webSock, meusDados, publicacao, message, setMessage});
+                setComentou(!comentou);
+            }
+        } else {
+            navigation.navigate("Login");
         }
     };
 
     const abrirChat = () => {
-        if (meusDados.idServer !== publicacao.getUsuario().getId()) {
-            navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() });
+        if (meusDados.idServer !== -1) {
+            if(meusDados.idServer !== publicacao.getUsuario().getId()) {
+                navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() });
+            }
+        } else {
+            navigation.navigate("Login");
         }
     }
     

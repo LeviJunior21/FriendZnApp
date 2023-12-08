@@ -6,7 +6,7 @@ import { Dimensions } from "react-native";
 import { NavProps } from "../../../utils/interfaces";
 import { getCategory } from "../../../utils/getCategory";
 
-export const NavCategoria: React.FC<NavProps> = ({ categoriaEscolhida, search, setSearch, openCategoria, setOpenCategoria }) => {
+export const NavCategoria: React.FC<NavProps> = ({navigation, categoriaEscolhida, search, setSearch, openCategoria, setOpenCategoria }) => {
     const widthShared = useSharedValue(40);
     const [open, setOpen] = useState(false);
 
@@ -22,7 +22,7 @@ export const NavCategoria: React.FC<NavProps> = ({ categoriaEscolhida, search, s
 
     return (
         <Container>
-            <DrawerButton>
+            <DrawerButton onPress={() => navigation.navigate("Configuracoes", {navigation: navigation})}>
                 <Icon name={"menu-outline"} color={"white"} size={30}/>
             </DrawerButton>
             <Categoria onPress={handleCategoria}>
@@ -75,7 +75,7 @@ const Container = styled.View`
     z-index: 3;
 `
 
-const DrawerButton = styled.View`
+const DrawerButton = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
     justify-content: center;

@@ -27,8 +27,6 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
         
         const myID = Number(response.id);
         const responseOk: boolean = myID > 0;
-        console.log("idAuth: " + dados.id)
-        console.log("idServer: " + myID)
 
         if (responseOk) {
             const myInfo = {idAuth: Number(dados.id), idServer: myID};
@@ -44,7 +42,6 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
         }
     };
     
-
     return (
         <Container>
             <NavCadastroContainer>

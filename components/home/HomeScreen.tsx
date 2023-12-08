@@ -15,15 +15,17 @@ export default function HomeScreen(props: Navigation) {
     const { meusDados } = useContext<ContextProvider>(Provider);
 
     const verificarLogin = () => {
-        if (meusDados.idServer != -1) {
+        if (meusDados.idServer != -1 && meusDados.idAuth != -1) {
             props.navigation.navigate("Postar");
+        } else {
+            props.navigation.navigate("Login");
         }
     }
 
     return (
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
-            <NavCategoria categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch}/>
+            <NavCategoria categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch} navigation={props.navigation}/>
             <HomePublicacoes navigation={props} search={search} categoriaEscolhida={categoriaEscolhida}/>
             <Button onPress={() => verificarLogin()}>
                 <Plus>+</Plus>
