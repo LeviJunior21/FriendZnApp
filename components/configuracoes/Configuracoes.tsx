@@ -12,7 +12,13 @@ export default function Configuracoes(props: ConfiguracoesProps) {
 
     const deletarDados = async() => {
         try {
-            const response = await fetch(`http://10.0.0.181:8080/v1/usuarios/deletar/id/${meusDados.idServer}`);
+            const response = await fetch(`http://10.0.0.181:8080/v1/usuarios/id/${meusDados.idServer}`, {
+                method: "DELETE", 
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+           
             await deslogar();
             props.navigation.navigate("Home");
         }
