@@ -11,10 +11,10 @@ import { keyBDChat } from "../../../data/constants";
 
 export function NavChat(props: NavChatProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const { chatDeletado, setChatDeletado } = useContext<ContextProvider>(Provider);
-
+    const { chatDeletado, setChatDeletado, meusDados } = useContext<ContextProvider>(Provider);
+    
     const deleteAndGoBack = async(id: number) => {
-        await deleteChat(id, keyBDChat);
+        await deleteChat(id, meusDados.idServer, keyBDChat);
         setModalVisible(false);
         setChatDeletado(!chatDeletado);
         props.navigation.goBack();

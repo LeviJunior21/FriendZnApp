@@ -7,12 +7,12 @@ import { Conversa } from "../model/Conversa";
 * @param {string} key - Chave do banco AsyncStorage.
 * @returns {Promise<Chat[]>} - Uma Promis que resolve para um array de objetos Chat.
 **/
-export const gravarConversa = async(myID: number, newConversa: Conversa, key: string):Promise<Chat[]> => {
-    const chats:Chat[] = await lerChats(key);
+export const gravarConversa = async(idServer: number, newConversa: Conversa, key: string):Promise<Chat[]> => {
+    const chats:Chat[] = await lerChats(key, idServer);
     let indexChat:number = -1;
     let remetente:number = 1;
     try {
-        if (myID == newConversa.getRemetente()) {
+        if (idServer == newConversa.getRemetente()) {
             indexChat = chats.findIndex((chat:Chat) => chat.getRemetente() === newConversa.getReceptor());
             remetente = newConversa.getReceptor()
         } else {
@@ -28,7 +28,7 @@ export const gravarConversa = async(myID: number, newConversa: Conversa, key: st
                 remetente: remetente, 
                 timestamp: newConversa.getTimestamp()
             };
-            const newChat:Chat = chatBuilder(dadosNecessarios);
+            const newChat:Chat = chatBuilder(dadosNecessarios, idServer);
             chats.push(newChat);
         }
 
@@ -47,8 +47,8 @@ export const gravarConversa = async(myID: number, newConversa: Conversa, key: st
 * @param {string} key - Chave do banco AsyncStorage.
 * @return {Promise<Conversa[]>} - Uma Promise que resolve para um array de objetos Comentario.
 **/
-export const lerConversaDoChat = async(remetente: number, key: string): Promise<Conversa[]> => {
-    const chat:Chat = await buscarChat(remetente, key);
+export const lerConversaDoChat = async(remetente: number, idServer:number, key: string): Promise<Conversa[]> => {
+    const chat:Chat = await buscarChat(remetente, idServer, key);
     return chat.getConversas();
 }
 
@@ -56,12 +56,12 @@ export const lerConversaDoChat = async(remetente: number, key: string): Promise<
 * @param {string} key - Chave do banco AsyncStorage.
 * @return {Promise<Chat[]>} - Uma Promise que resolve para um array de objetos Chat.
 **/
-export const lerChats = async(key: string): Promise<Chat[]> => {
+export const lerChats = async(key: string, idServer: number): Promise<Chat[]> => {
     try {
         const recoveryChat = await AsyncStorage.getItem(key);
         if (recoveryChat != null) {
             const recoveredChat = JSON.parse(recoveryChat);
-            const todosChats:Chat[] = recoveredChat.map((item:any) => { return chatBuilder(item) })
+            const todosChats:Chat[] = recoveredChat.map((item:any) => { return chatBuilder(item, idServer) })
             return todosChats;
         }
     } catch(e) {}
@@ -72,8 +72,8 @@ export const lerChats = async(key: string): Promise<Chat[]> => {
 @param {Chat} newChat - Novo chat.
 @param {string} key - Chave do banco AsyncStorage.
 **/
-export const gravarChat = async(newChat:Chat, key: string) => {
-    const chats = await lerChats(key);
+export const gravarChat = async(newChat:Chat, idServer: number, key: string) => {
+    const chats = await lerChats(key, idServer);
     const newChats = [...chats, newChat];
     const conversasJSONString = JSON.stringify(newChats);
     AsyncStorage.setItem(key, conversasJSONString);
@@ -84,8 +84,8 @@ export const gravarChat = async(newChat:Chat, key: string) => {
 @param {string} key - Chave do banco AsyncStorage.
 @returns {Promise<Chat>} - Uma Promise que resolve para um Chat encontrado.
 **/
-export const buscarChat = async(idRemetente: number, key: string): Promise<Chat> => {
-    const chats:Chat[] = await lerChats(key);
+export const buscarChat = async(idRemetente: number, idServer: number, key: string): Promise<Chat> => {
+    const chats:Chat[] = await lerChats(key, idServer);
     const index:number = chats.findIndex((chat:Chat) => chat.getRemetente() === idRemetente);
     if (index !== -1) { return chats[index] }
     return Chat.builder().withRemetente(index).build();
@@ -95,8 +95,8 @@ export const buscarChat = async(idRemetente: number, key: string): Promise<Chat>
 @param {number} idRemetente - Novo chat.
 @param {string} key - Chave do banco AsyncStorage.
 **/
-export const deleteChat = async(idRemetente: number, key: string) => {
-    const chats:Chat[] = await lerChats(key);
+export const deleteChat = async(idRemetente: number, idServer: number, key: string) => {
+    const chats:Chat[] = await lerChats(key, idServer);
     const index:number = chats.findIndex(chat => chat.getRemetente() === idRemetente);
     if (index !== -1) {
         chats.splice(index, 1);
@@ -111,9 +111,9 @@ export const deleteChat = async(idRemetente: number, key: string) => {
  * @param {string} key - Chave do Banco de Dados do AsyncStorage.
  * @returns {Promise<boolean>} - Retorna uma Promise de boolean para definir se está ou não no banco de dados.
 **/
-export const verificarPersistenciaChat = async(idRemetente: number, key: string): Promise<boolean> => {
+export const verificarPersistenciaChat = async(idRemetente: number, idServer: number, key: string): Promise<boolean> => {
     let state: boolean = false;
-    const chat: Chat = await buscarChat(idRemetente, key);
+    const chat: Chat = await buscarChat(idRemetente, idServer, key);
     console.log("remet: " + chat.getRemetente())
     if (chat.getRemetente() !== -1) { state = true; }
     return state;

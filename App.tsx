@@ -45,7 +45,7 @@ export default function App() {
     }
 
     const carregarChat = async(key: string) => {
-        const chatsCarregados: Chat[] = await lerChats(key);
+        const chatsCarregados: Chat[] = await lerChats(key, meusDados.idServer);
         setChatData(chatsCarregados);
     }
 
@@ -63,8 +63,8 @@ export default function App() {
             webSock.current.connect({}, () => {
                 webSock.current?.subscribe(`/user/${meusDados.idServer}/private`, function (mensagemI) {
                     const data = JSON.parse(mensagemI.body)
-                    const dadosConversa:any = {mensagem: data.mensagem, timestamp: data.timestamp, remetente: data.remetente, receptor: data.receptor, idServer: 1}
-                    const newConversa: Conversa = conversaBuilder(dadosConversa);
+                    const dadosConversa:any = {mensagem: data.mensagem, timestamp: data.timestamp, remetente: data.remetente, receptor: data.receptor, idServer: meusDados.idServer}
+                    const newConversa: Conversa = conversaBuilder(dadosConversa, meusDados.idServer);
                     atualizarChats(newConversa);
                 });
             });

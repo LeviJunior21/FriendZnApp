@@ -69,9 +69,9 @@ class ChatBuilder {
     }
 }
 
-export const chatBuilder = (recoveredChat:any): Chat => {
+export const chatBuilder = (recoveredChat:any, idServer: number): Chat => {
     const conversas:Conversa[] = recoveredChat.conversas.map(
-        (item:any) => conversaBuilder(item)
+        (item:any) => conversaBuilder(item, idServer)
     );
     const newChat:Chat = Chat.builder()
         .withConversas(conversas)

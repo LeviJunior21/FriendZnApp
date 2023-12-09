@@ -72,13 +72,13 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
                 </EscolhaAvatarContainer>
             </AvatarContainer>
             <InformacoesContainer>
-                <ApelidoText>Insira um apelido:</ApelidoText>
+                <ApelidoText>Insira um apelido (até 15 caracteres):</ApelidoText>
                 <ApelidoInput 
                 onChangeText={(text: string) => setApelido(text)}
                 placeholder={"Digite o seu apelido..."}
                 style={{borderColor: (apelido == "")? "red":"green"}}
                 numberOfLines={1} 
-                maxLength={14}
+                maxLength={15}
                 />
             </InformacoesContainer>
             <CadastrarContainer>

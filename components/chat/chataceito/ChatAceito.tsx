@@ -13,7 +13,7 @@ import { keyBDChat } from "../../../data/constants";
 export default function ChatAceito(props: ChatItemProps) {
     const [usuario, setUsuario] = useState<Usuario>();
     const [ultimaConversa, setUltimaConversa] = useState("");
-    const { chatData } = useContext<ContextProvider>(Provider);
+    const { chatData, meusDados } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         const carregandoUsuario = async(usuarioID: number) => {
@@ -24,7 +24,7 @@ export default function ChatAceito(props: ChatItemProps) {
 
     useEffect(() => {
         const buscarConversa = async() => {
-            const chat:Chat = await buscarChat(props.chat.getRemetente(), keyBDChat);
+            const chat:Chat = await buscarChat(props.chat.getRemetente(), meusDados.idServer, keyBDChat);
             setUltimaConversa(chat.getConversas()[chat.getConversas().length - 1].getMensagem());
         }; buscarConversa();
     }, [chatData])

@@ -22,7 +22,7 @@ export default function ChatPrivado(props: NavigationChatProps) {
 
     useEffect(() => {
         const carregarConversas = async() => {
-            const chatEncontrado:Chat = await buscarChat(idRemetente, keyBDChat);
+            const chatEncontrado:Chat = await buscarChat(idRemetente, meusDados.idServer, keyBDChat);
             setConversas([...chatEncontrado.getConversas()]);
         }; carregarConversas()
     }, [chatData, setChatData]);
