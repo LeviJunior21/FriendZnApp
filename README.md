@@ -25,6 +25,8 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - Além disso o aplicativo se comunica com o servidor a partir de WebSocket para enviar e receber mensagem dos usuários, onde as mensagens recebidas são armazenadas no celular do usuário. Apenas mensagens não recebidas são alocadas temporariamente no servidor enquanto o usuário destinatário não se comunique com o servidor (offline).
 - É possível comentar as publicações dos usuários em tempo real utilizando WebSockets e paralelamente o comentário é salvo ao lado do servidor.
 - O login de usuário é feito a partir do serviço OAuth2 do GitHub junto a API WebBrowser do React Native.
+- É possível deslogar do app.
+- É possível apagar os dados do usuário logado no servidor, apagando todos os dadas suas publicaçõs e comentários em cascata.
 
 ## Como executar o App
 
