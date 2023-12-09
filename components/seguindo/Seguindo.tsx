@@ -30,10 +30,10 @@ export default function Seguindo(props: NavigationProps) {
                 </NavButtonIconContainer>
             </NavContainer>
             <FlatList
-                data={publicacoesSeguidas}
-                renderItem={({item, index}) => 
-                    <PublicacaoUser navigation={props} publicacao={item} index={index}/>
-                }
+            data={publicacoesSeguidas}
+            renderItem={({item, index}) => 
+                <PublicacaoUser navigation={props} publicacao={item} index={index}/>
+            }
             />
         </Container>
     )

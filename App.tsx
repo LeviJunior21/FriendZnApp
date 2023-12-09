@@ -59,17 +59,17 @@ export default function App() {
     }
     
     useEffect(() => {
-        if (webSock.current != null) {
+        if (webSock.current !== null && meusDados.idServer !== -1) {
             webSock.current.connect({}, () => {
                 webSock.current?.subscribe(`/user/${meusDados.idServer}/private`, function (mensagemI) {
                     const data = JSON.parse(mensagemI.body)
-                    const dadosConversa:any = {mensagem: data.mensagem, timestamp: data.timestamp, tipoConversa: data.tipoConversa, remetente: data.remetente, receptor: data.receptor}
+                    const dadosConversa:any = {mensagem: data.mensagem, timestamp: data.timestamp, remetente: data.remetente, receptor: data.receptor, idServer: 1}
                     const newConversa: Conversa = conversaBuilder(dadosConversa);
                     atualizarChats(newConversa);
                 });
             });
         }
-    }, [ setMeusDados ]);
+    }, [ meusDados ]);
 
     return (
         <Provider.Provider value={{meusDados, setMeusDados, gravarConversa, chatData, setChatData, webSock, setChatDeletado, chatDeletado, comentou, setComentou}}>

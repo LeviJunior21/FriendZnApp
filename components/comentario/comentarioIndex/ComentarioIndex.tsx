@@ -14,8 +14,10 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     const { webSock, meusDados } = useContext<ContextProvider>(Provider);
     
     const gostouOuNao = async(gostou: number) => {
-        const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
-        sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou);
+        if (meusDados.idAuth !== -1 && meusDados.idServer !== -1 && props.comentario.getUsuario().getId() !== meusDados.idServer) {
+            const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
+            sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou, meusDados.idServer, meusDados.idAuth);
+        }
     };
 
     useEffect(() => {
@@ -23,14 +25,14 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     }, []);
 
     useEffect(() => {
-        webSock.current!.subscribe(subscribe, function (message) {
+        webSock.current?.subscribe(subscribe, function (message) {
             const status = JSON.parse(message.body);
             setCurtidas({gostou: curtidas.gostou + status.gostou, naoGostou: curtidas.naoGostou + status.naoGostou});
         });
     }, []);
 
     const abrirChatPrivado = () => {
-        if (meusDados.idServer !== -1) { 
+        if (meusDados.idServer !== -1 && meusDados.idAuth != -1) { 
             if(meusDados.idServer !== props.comentario.getUsuario().getId()) {
                 props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
             }

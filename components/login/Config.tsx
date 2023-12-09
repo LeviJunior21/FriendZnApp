@@ -1,3 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { keyUser } from "../../data/constants";
+
 export const discovery = {
     authorizationEndpoint: 'https://github.com/login/oauth/authorize',
     tokenEndpoint: 'https://github.com/login/oauth/access_token',
@@ -43,4 +46,18 @@ export const buscarInformacoesGitHub = async(code: string) => {
 
     const data = response.json();
     return data;
+}
+
+interface DataUser {idAuth: number, idServer: number}
+export const buscarIDUsuarioByGitHubIdAuth = async(idAuth: number): Promise<number> => {
+    let result: number = -1;
+
+    try {
+        const response = await fetch('http://10.0.0.181:8080/v1/usuarios/github/' + idAuth);
+        const responseJSON = await response.json();
+        result = Number(responseJSON);
+    }
+    catch(e: any) {}
+
+    return result;
 }

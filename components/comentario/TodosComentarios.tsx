@@ -43,7 +43,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     };
 
     const abrirChat = () => {
-        if (meusDados.idServer !== -1) {
+        if (meusDados.idServer !== -1 && meusDados.idAuth != -1) {
             if(meusDados.idServer !== publicacao.getUsuario().getId()) {
                 navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() });
             }

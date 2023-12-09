@@ -1,15 +1,20 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components/native';
 import Icon from "react-native-vector-icons/Ionicons";
 import * as WebBrowser from "expo-web-browser";
 import { UserInfoProps } from '../../utils/interfaces';
 import { Dimensions } from 'react-native';
-import { buscarInformacoesGitHub, discovery } from './Config';
+import { buscarIDUsuarioByGitHubIdAuth, buscarInformacoesGitHub, discovery } from './Config';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { verificarExistenciaGithubServidor } from '../../utils/getUsuario';
+import { ContextProvider, Provider } from '../../utils/Provider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { keyBDChat, keyUser } from '../../data/constants';
 
 WebBrowser.maybeCompleteAuthSession();
 export default function FazerLogin(props: UserInfoProps) {
+    const { meusDados, setMeusDados } = useContext<ContextProvider>(Provider);
+
     const [request, response, promptAsync] = useAuthRequest({
             clientId: '78d452f31d2506c3b031',
             scopes: ['identity'],
@@ -30,9 +35,21 @@ export default function FazerLogin(props: UserInfoProps) {
     const buscarDadosGitHub = async(code: string) => {
         const response = await buscarInformacoesGitHub(code);
         const result: boolean = await verificarExistenciaGithubServidor(response.id);
-        
         if (result) {
-            props.navigation.navigate("Home");
+            if (meusDados.idAuth === -1 && meusDados.idServer === -1) {
+                const findIDUsuarioByIDAuth: number = await buscarIDUsuarioByGitHubIdAuth(response.id);
+                if (findIDUsuarioByIDAuth != -1) {
+                    const dadosUsuarioJSON = { idAuth: response.id ,idServer: findIDUsuarioByIDAuth };
+                    const dadosUsuarioJSONString:string = JSON.stringify(dadosUsuarioJSON);
+                    await AsyncStorage.setItem(keyUser, dadosUsuarioJSONString);
+                    setMeusDados(dadosUsuarioJSON);
+                    props.navigation.navigate("Home");
+                } else {
+                    alert("Ocorreu um erro inesperado, contate o suporte.")
+                }
+            } else {
+                props.navigation.navigate("Home");
+            }
         } else {
             props.navigation.navigate("Cadastro", { navigation: props.navigation, dados: response });
         }

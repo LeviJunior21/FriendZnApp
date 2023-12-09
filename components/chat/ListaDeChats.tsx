@@ -26,12 +26,12 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
 
     const verificarPersistenciaDoChat = async(chat: Chat) => {
         await verificarPersistenciaChat(chat.getRemetente(), keyBDChat).then((response: boolean) => {
-            if (response) { setSolicitacoesChatAceitas(prevState => [...prevState, chat]) }
-            else { setSolicitacoesChatPendentes(prevState => [...prevState, chat]) }
+            if (response) { setSolicitacoesChatAceitas(prevState => [...prevState, chat]); }
+            else { setSolicitacoesChatPendentes(prevState => [...prevState, chat]); }
         });
     }
 
-    const existeSolicitacaoChatPendente = (): boolean => solicitacoesChatPendentes.length > 0;
+    const existeSolicitacaoChatPendente = (): boolean => (solicitacoesChatPendentes.length > 0);
 
     return (
         <Container>
@@ -48,18 +48,18 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
                 </NegarSolicitacoesButton>
             </ContainerSolicitacaoPendente>:<></>}
             <ScrollContainer>
-            <FlatListContainer>
-                <FlatList
-                data={solicitacoesChatPendentes}
-                renderItem={({item}) => <ChatPedido chat={item} navigation={props}/>}
-                />
-            </FlatListContainer>
-            <FlatListContainer style={{flex: 1}}>
-                <FlatList
-                data={solicitacoesChatAceitas}
-                renderItem={({item}) => <ChatAceito chat={item} navigation={props}/>}
-                />
-            </FlatListContainer>
+                <FlatListContainer>
+                    <FlatList
+                    data={solicitacoesChatPendentes}
+                    renderItem={({item}) => <ChatPedido chat={item} navigation={props}/>}
+                    />
+                </FlatListContainer>
+                <FlatListContainer style={{flex: 1}}>
+                    <FlatList
+                    data={solicitacoesChatAceitas}
+                    renderItem={({item}) => <ChatAceito chat={item} navigation={props}/>}
+                    />
+                </FlatListContainer>
             </ScrollContainer>
         </Container>
     )
@@ -74,6 +74,7 @@ const ContainerSolicitacaoPendente = styled.View`
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    background-color: gray;
 `
 
 const Container = styled.SafeAreaView`

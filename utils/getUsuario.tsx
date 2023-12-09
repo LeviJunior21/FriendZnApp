@@ -22,7 +22,6 @@ export const getUsuario = async(id: number):Promise<Usuario> => {
 }
 
 export const verificarExistenciaGithubServidor = async(idAuth: number): Promise<boolean> => {
-    console.log("ID: " + idAuth);
     let result: boolean = false;
     try {
         const responseJSON = await fetch("http://10.0.0.181:8080/v1/usuarios/github?idAuth=" + idAuth);

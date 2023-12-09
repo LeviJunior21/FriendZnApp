@@ -1,7 +1,6 @@
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { CurtidasInterface } from "./Interface";
 import { Client } from "stompjs";
-import { myInfo } from "../../../data/myId";
 
 export const getStatusGostouOuNao = async(idPublicacao: number, idComentario: number, setCurtidas: Dispatch<SetStateAction<CurtidasInterface>>) => {
     try {
@@ -15,12 +14,11 @@ export const getStatusGostouOuNao = async(idPublicacao: number, idComentario: nu
     catch(e: any) {}
 }
 
-export const sendStatusGostouOuNao = async(webSocket: MutableRefObject<Client | null>, destination: string, idPublicacao: number, idComentario: number, gostou: number) => {
-    const myInfos = await myInfo();
+export const sendStatusGostouOuNao = async(webSocket: MutableRefObject<Client | null>, destination: string, idPublicacao: number, idComentario: number, gostou: number, idServer: number, idAuth: number) => {
 
     const messageJSON = {
-        idUsuario: myInfos.myID,
-        codigoAcesso: myInfos.myIDAuth,
+        idUsuario: idServer,
+        codigoAcesso: idAuth,
         idPublicacao: idPublicacao,
         idComentario: idComentario,
         gostar: gostou

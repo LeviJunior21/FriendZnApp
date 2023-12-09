@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { keyUser } from "../../../data/constants";
 import { cadastrarUsuario } from "../utils/CadastrarUsuario";
 import { ContextProvider, Provider } from "../../../utils/Provider";
+import { verificarExistenciaGithubServidor } from "../../../utils/getUsuario";
 
 const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
     const [imageLogin, setImageLogin] = useState<string>("https://i.redd.it/rdv8uzobsmv71.png");
@@ -21,24 +22,30 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
     }, []);
 
     const cadastrar = async() => {
-        
-        const dadosLogin = {apelido: apelido, dadosLogin: dados};
-        const response = await cadastrarUsuario(dadosLogin);
-        
-        const myID = Number(response.id);
-        const responseOk: boolean = myID > 0;
+        const existeIDAuthCadastrado = await verificarExistenciaGithubServidor(Number(dados.id));
+    
+        if (!existeIDAuthCadastrado) {
+            const dadosLogin = {apelido: apelido, dadosLogin: dados};
+            const response = await cadastrarUsuario(dadosLogin);
+            
+            const myID = Number(response.id);
+            const responseOk: boolean = myID > 0;
 
-        if (responseOk) {
-            const myInfo = {idAuth: Number(dados.id), idServer: myID};
-            const myInfoString = JSON.stringify(myInfo);
-            try {
-                await AsyncStorage.setItem(keyUser, myInfoString);
-                setMeusDados(myInfo);
+            if (responseOk) {
+                const myInfo = {idAuth: Number(dados.id), idServer: myID};
+                const myInfoString = JSON.stringify(myInfo);
+                try {
+                    await AsyncStorage.setItem(keyUser, myInfoString);
+                    setMeusDados(myInfo);
+                }
+                catch(e: any) {}
+                navigation.navigate("Home");
+            } else {
+                navigation.navigate("Login");
             }
-            catch(e: any) {}
-            navigation.navigate("Home");
         } else {
-            navigation.navigate("Login");
+            alert("ID do Auth já está cadastrado para essa conta.");
+            navigation.navigate("Home");
         }
     };
     

@@ -101,10 +101,11 @@ class ConversaBuilder {
 }
 
 export const conversaBuilder = (conversa: any): Conversa => {
+    console.log(conversa.idServer)
     return Conversa.builder()
         .withMensagem(conversa.mensagem)
         .withTimestamp(new Date(conversa.timestamp))
-        .withTipoConversa((conversa.remetente === 1)? TipoConversa.RECEIVER:TipoConversa.SENDER)
+        .withTipoConversa((Number(conversa.remetente) === Number(conversa.idServer))? TipoConversa.SENDER:TipoConversa.RECEIVER)
         .withRemetente(conversa.remetente)
         .withReceptor(conversa.receptor)
         .build();
