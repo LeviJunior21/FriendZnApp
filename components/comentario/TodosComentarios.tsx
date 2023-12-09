@@ -19,21 +19,20 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     const [message, setMessage] = useState<string>('');
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const webSock = useRef<Client>(Stomp.over(new SockJS("http://10.0.0.181:8080/ws")));
-    const { comentou, setComentou, meusDados } = useContext<ContextProvider>(Provider);
+    const { comentou, setComentou, meusDados, webSock } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         getComentarios({ publicacao, setComentarios, setLoading });
-        webSock.current.connect({}, () => {
+        if (webSock.current?.connected) {
             webSock.current?.subscribe("/topic/public/" + publicacao.getId(), function (message) {
                 updateComentario({ message, setComentarios });
-            });
-        });
+           });
+        }
     }, []);
 
     const enviar = () => {
         if (meusDados.idServer !== -1 && meusDados.idAuth !== -1) {
-           if (message.length > 0) { 
+           if (message.length > 0) {
                 sendComentario({webSock, meusDados, publicacao, message, setMessage});
                 setComentou(!comentou);
             }

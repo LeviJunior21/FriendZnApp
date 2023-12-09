@@ -11,7 +11,7 @@ export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeg
 
         if (response.ok) {
             const data = await response.json();
-            const publicacoes: Publicacao[] = data.map((item: PublicacaoInterface) => {
+            const publicacoes: Publicacao[] = await Promise.all(data.map(async (item: PublicacaoInterface) => {
                 const date = new Date(item.date);
 
                 const usuario: Usuario = Usuario.builder()
@@ -19,7 +19,7 @@ export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeg
                     .withId(item.usuario.id)
                     .build();
 
-                const comentarios: Comentario[] = listarComentarios(item.comentarios);
+                const comentarios: Comentario[] = await listarComentarios(item.comentarios);
                 
                 return Publicacao.builder()
                     .withId(item.id)
@@ -29,7 +29,7 @@ export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeg
                     .withPublicacao(item.publicacao)
                     .withCategoria(item.categoria)
                     .build();
-            });
+            }));
 
             setPublicacoesSeguidas(publicacoes);
         } else {

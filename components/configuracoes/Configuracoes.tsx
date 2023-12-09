@@ -8,7 +8,16 @@ import { useContext } from "react";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function Configuracoes(props: ConfiguracoesProps) {
-    const { setMeusDados, setChatData } = useContext<ContextProvider>(Provider);
+    const { meusDados, setMeusDados, setChatData } = useContext<ContextProvider>(Provider);
+
+    const deletarDados = async() => {
+        try {
+            const response = await fetch(`http://10.0.0.181:8080/v1/usuarios/deletar/id/${meusDados.idServer}`);
+            await deslogar();
+            props.navigation.navigate("Home");
+        }
+        catch(e: any) {}
+    }
 
     const deslogar = async() => {
         try {
@@ -35,7 +44,7 @@ export default function Configuracoes(props: ConfiguracoesProps) {
                     <TextDados style={{color: "white"}}>Editar perfil</TextDados>
                 </EditarPerfilButton>
                 <DadosContainer>
-                    <ButtonDeletarDados>
+                    <ButtonDeletarDados onPress={() => deletarDados()}>
                         <TextDados style={{color: "red"}}>Deletar Dados</TextDados>
                     </ButtonDeletarDados>
                     <ButtonDeslogar onPress={() => deslogar()}>

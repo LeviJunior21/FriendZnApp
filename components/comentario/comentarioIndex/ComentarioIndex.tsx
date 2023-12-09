@@ -25,14 +25,16 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     }, []);
 
     useEffect(() => {
-        webSock.current?.subscribe(subscribe, function (message) {
-            const status = JSON.parse(message.body);
-            setCurtidas({gostou: curtidas.gostou + status.gostou, naoGostou: curtidas.naoGostou + status.naoGostou});
-        });
+        if (webSock.current?.connected) {
+            webSock.current?.subscribe(subscribe, function (message) {
+                const status = JSON.parse(message.body);
+                setCurtidas({gostou: curtidas.gostou + status.gostou, naoGostou: curtidas.naoGostou + status.naoGostou});
+            });
+        }
     }, []);
 
     const abrirChatPrivado = () => {
-        if (meusDados.idServer !== -1 && meusDados.idAuth != -1) { 
+        if (meusDados.idServer !== -1 && meusDados.idAuth !== -1) { 
             if(meusDados.idServer !== props.comentario.getUsuario().getId()) {
                 props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
             }

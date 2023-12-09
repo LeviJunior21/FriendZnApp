@@ -42,7 +42,7 @@ const PublicacaoUserContainer = styled.View`
   min-height: 20px;
   padding-horizontal: 10px;
   padding-vertical: 14px;
-  background-color: #303030;
+  background-color: #404040;
 `
 
 const Avatar = styled.Image`
@@ -67,7 +67,7 @@ const UserInfoTop = styled.View`
   width: 100%;
   height: 60px;
   padding-left: 10px;
-  background-color: #303030;
+  background-color: #404040;
   flex-direction: row;
   align-items: center;
   padding-horizontal: 2px;
@@ -87,7 +87,7 @@ const ComentarioInfo = styled.View`
     flex-direction: row;
     align-items: center;
     padding-horizontal: 10px;
-    background-color: #303030;
+    background-color: #404040;
     `
 
 const NumeroComentarios = styled.Text`

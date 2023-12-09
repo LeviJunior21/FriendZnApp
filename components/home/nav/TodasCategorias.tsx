@@ -27,6 +27,7 @@ const TodasCategorias = (props: PropsCategoria) => {
                     data={data}
                     numColumns={2}
                     horizontal={false}
+                    style={{height: height}}
                     renderItem={({item, index}) => 
                         <CategoriaItemContainer 
                         activeOpacity={1}
