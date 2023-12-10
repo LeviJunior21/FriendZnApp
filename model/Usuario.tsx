@@ -15,6 +15,10 @@ export class Usuario {
         return this.apelido;
     }
 
+    equals(other: Usuario): boolean {
+      return this.id === other.id;
+    }
+
     static builder(): UsuarioBuilder {
         return new UsuarioBuilder();
     }

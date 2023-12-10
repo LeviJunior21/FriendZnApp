@@ -9,4 +9,5 @@ export interface VisualizarComentarioProps {
     setComentarios:  Dispatch<SetStateAction<Comentario[]>>;
     loading: boolean;
     navigation: NavigationProp<RootStackParamList, "Home">;
+    remetentePublicacao: number;
 }

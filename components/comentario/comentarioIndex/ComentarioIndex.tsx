@@ -5,16 +5,17 @@ import { avatar } from "../../../data/avatar";
 import { getCurrentDate } from "../../../utils/time";
 import { ComentarioIndexProps, CurtidasInterface } from "./Interface";
 import { useContext, useEffect, useState } from "react";
-import { getStatusGostouOuNao, sendStatusGostouOuNao } from "./Util";
+import { construirUsuarios, getStatusGostouOuNao, sendStatusGostouOuNao } from "./Util";
 import { ContextProvider, Provider } from "../../../utils/Provider";
+import { Usuario } from "../../../model/Usuario";
 
 export default function ComentarioIndex(props: ComentarioIndexProps) {
-    const [curtidas, setCurtidas] = useState<CurtidasInterface>({gostou: 0, naoGostou: 0});
+    const [curtidas, setCurtidas] = useState<CurtidasInterface>({ gostou: [], naoGostou: [] });
     const subscribe: string = "/topic/public/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
     const { webSock, meusDados } = useContext<ContextProvider>(Provider);
     
-    const gostouOuNao = async(gostou: number) => {
-        if (meusDados.idAuth !== -1 && meusDados.idServer !== -1 && props.comentario.getUsuario().getId() !== meusDados.idServer) {
+    const gostouOuNao = (gostou: number) => {
+        if (meusDados.idAuth !== -1 && meusDados.idServer !== -1 && props.comentario.getUsuario().getId() === meusDados.idServer) {
             const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
             sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou, meusDados.idServer, meusDados.idAuth);
         }
@@ -24,11 +25,18 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
         getStatusGostouOuNao(props.idPublicacao, props.comentario.getId(), setCurtidas);
     }, []);
 
+    const curtidoPeloAutor = () => {
+        let result = false;
+        curtidas.gostou.forEach((usuario: Usuario) => { if (usuario.getId() == props.remetentePublicacao) {result = true}});
+        return result;
+    }
+
     useEffect(() => {
         if (webSock.current?.connected) {
             webSock.current?.subscribe(subscribe, function (message) {
                 const status = JSON.parse(message.body);
-                setCurtidas({gostou: curtidas.gostou + status.gostou, naoGostou: curtidas.naoGostou + status.naoGostou});
+                construirUsuarios(status, setCurtidas);
+                console.log(message)
             });
         }
     }, []);
@@ -58,14 +66,20 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
                 <ComentarioRealizado>{props.comentario.getComentario()}</ComentarioRealizado>
             </ContainerUsuario>
             <CurtidasContainer>
+                {curtidoPeloAutor()?<CurtidoPeloAutorContainer>
+                    <Icon name={"heart"} color={"red"} size={20}/>
+                    <CurtidoPeloAutorText>Curtido pelo autor</CurtidoPeloAutorText>
+                </CurtidoPeloAutorContainer>
+                :<CurtidoPeloAutorContainer></CurtidoPeloAutorContainer>
+                }
                 <CurtidasSpace>
                     <LikeOuDeslikeContainer onPress={() => gostouOuNao(1)}>
                         <Icon name={"heart"} color={"white"} size={14}/>
-                        <LikeouDeslike>+{curtidas.gostou}</LikeouDeslike>
+                        <LikeouDeslike>+{curtidas.gostou.length}</LikeouDeslike>
                     </LikeOuDeslikeContainer>
-                    <LikeOuDeslikeContainer>
-                        <IconFontiso name={"dislike"} color={"white"} size={14} onPress={() => gostouOuNao(0)}/>
-                        <LikeouDeslike>-{curtidas.naoGostou}</LikeouDeslike>
+                    <LikeOuDeslikeContainer onPress={() => gostouOuNao(-1)}>
+                        <IconFontiso name={"dislike"} color={"white"} size={14}/>
+                        <LikeouDeslike>-{curtidas.naoGostou.length}</LikeouDeslike>
                     </LikeOuDeslikeContainer>
                 </CurtidasSpace>
             </CurtidasContainer>
@@ -136,7 +150,7 @@ const CurtidasContainer = styled.View`
     height: 20px;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 `
 
 const CurtidasSpace = styled.View`
@@ -157,4 +171,19 @@ const LikeOuDeslikeContainer = styled.TouchableOpacity`
 
 const LikeouDeslike = styled.Text`
     color: white;
+`
+
+const CurtidoPeloAutorContainer = styled.View`
+    width: 140px;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-left: 2px;
+`
+
+const CurtidoPeloAutorText = styled.Text`
+    color: white;
+    font-size: 11px;
 `

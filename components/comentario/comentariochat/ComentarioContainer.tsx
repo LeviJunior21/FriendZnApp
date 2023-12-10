@@ -16,6 +16,7 @@ export default function ComentariosContainer(props: VisualizarComentarioProps) {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => 
                     <ComentarioIndex 
+                    remetentePublicacao={props.remetentePublicacao}
                     navigation={props.navigation} 
                     idPublicacao={props.id} 
                     comentario={item}/>

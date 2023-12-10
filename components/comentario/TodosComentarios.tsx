@@ -69,6 +69,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
                 </ContainerPublicacao>
                 <ComentarioContainer>
                     <ComentariosContainer 
+                    remetentePublicacao={publicacao.getUsuario().getId()}
                     loading={loading}
                     id={publicacao.getId()} 
                     comentarios={comentarios}
