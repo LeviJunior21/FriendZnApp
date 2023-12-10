@@ -15,7 +15,7 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     const { webSock, meusDados } = useContext<ContextProvider>(Provider);
     
     const gostouOuNao = (gostou: number) => {
-        if (meusDados.idAuth !== -1 && meusDados.idServer !== -1 && props.comentario.getUsuario().getId() === meusDados.idServer) {
+        if (meusDados.idAuth !== -1 && meusDados.idServer !== -1) {
             const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
             sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou, meusDados.idServer, meusDados.idAuth);
         }
@@ -27,7 +27,7 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
 
     const curtidoPeloAutor = () => {
         let result = false;
-        curtidas.gostou.forEach((usuario: Usuario) => { if (usuario.getId() == props.remetentePublicacao) {result = true}});
+        curtidas.gostou.forEach((usuario: Usuario) => { if (usuario.getId() === props.remetentePublicacao) {result = true}});
         return result;
     }
 
@@ -174,13 +174,12 @@ const LikeouDeslike = styled.Text`
 `
 
 const CurtidoPeloAutorContainer = styled.View`
-    width: 140px;
+    width: 130px;
     height: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-left: 2px;
 `
 
 const CurtidoPeloAutorText = styled.Text`
