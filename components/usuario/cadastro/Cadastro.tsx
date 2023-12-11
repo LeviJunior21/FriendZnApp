@@ -14,7 +14,7 @@ import { SexoSelecionado } from "./Sexo";
 const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
     const [imageLogin, setImageLogin] = useState<boolean>(false);
     const [apelido, setApelido] = useState<string>("");
-    const [idade, setIdade] = useState<string>("");
+    const [idade, setIdade] = useState<number>(0);
     const { dados } = route.params;
     const { setMeusDados } = useContext<ContextProvider>(Provider);
     const [sexoSelecionado, setSexoSelecionado] = useState<SexoSelecionado>(SexoSelecionado.NENHUM);
@@ -28,34 +28,38 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
 
     const cadastrar = async() => {
         if (apelido.length >= 5) {
-            if (Number(idade) > 0) {
-                const existeIDAuthCadastrado = await verificarExistenciaGithubServidor(Number(dados.id));
-            
-                if (!existeIDAuthCadastrado) {
-                    const dadosLogin = {apelido: apelido, dadosLogin: dados};
-                    const response = await cadastrarUsuario(dadosLogin);
-                    
-                    const myID = Number(response.id);
-                    const responseOk: boolean = myID > 0;
+            if (sexoSelecionado !== SexoSelecionado.NENHUM) {
+                if (idade > 0) {
+                    const existeIDAuthCadastrado = await verificarExistenciaGithubServidor(Number(dados.id));
+                
+                    if (!existeIDAuthCadastrado) {
+                        const dadosLogin = {apelido: apelido, idade: idade, sexo: sexoSelecionado, dadosLogin: dados};
+                        const response = await cadastrarUsuario(dadosLogin);
+                        
+                        const myID = Number(response.id);
+                        const responseOk: boolean = myID > 0;
 
-                    if (responseOk) {
-                        const myInfo = {idAuth: Number(dados.id), idServer: myID};
-                        const myInfoString = JSON.stringify(myInfo);
-                        try {
-                            await AsyncStorage.setItem(keyUser, myInfoString);
-                            setMeusDados(myInfo);
+                        if (responseOk) {
+                            const myInfo = {idAuth: Number(dados.id), idServer: myID};
+                            const myInfoString = JSON.stringify(myInfo);
+                            try {
+                                await AsyncStorage.setItem(keyUser, myInfoString);
+                                setMeusDados(myInfo);
+                            }
+                            catch(e: any) {}
+                            navigation.navigate("Home");
+                        } else {
+                            navigation.navigate("Login");
                         }
-                        catch(e: any) {}
-                        navigation.navigate("Home");
                     } else {
-                        navigation.navigate("Login");
+                        alert("ID do Auth já está cadastrado para essa conta.");
+                        navigation.navigate("Home");
                     }
                 } else {
-                    alert("ID do Auth já está cadastrado para essa conta.");
-                    navigation.navigate("Home");
+                    alert("Selecione a sua idade.")
                 }
             } else {
-                alert("Selecione a sua idade.")
+                alert("Selecione o sexo do usuário.")
             }
         } else {
             alert("Digite um apelido maior ou igual 5 caracteres.")
@@ -121,7 +125,7 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
                     </InputContainer>
                     <InputContainer>
                         <InputInfo
-                        onChangeText={(text: string) => setIdade(text)}
+                        onChangeText={(text: string) => setIdade(Number(text))}
                         placeholder={"Idade"}
                         numberOfLines={1} 
                         maxLength={100}

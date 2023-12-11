@@ -151,6 +151,7 @@ const EscreverComentario = styled.View`
     justify-content: space-between;
     border-top-width: 1px;
     border-top-color: white;
+    padding-horizontal: 4px;
 `
 
 const Input = styled.TextInput`

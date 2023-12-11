@@ -8,6 +8,8 @@ export const cadastrarUsuario = async(dados: any): Promise<any> => {
         email: dados.dadosLogin.email?dados.dadosLogin.email : "email",
         codigoAcesso: dados.dadosLogin.id,
         idAuth: dados.dadosLogin.id,
+        idade: dados.idade,
+        sexo: dados.sexo,
         loginType: LoginType.GitHub
     }
     
