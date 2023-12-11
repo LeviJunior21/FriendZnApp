@@ -5,14 +5,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { getCurrentDate } from "../../utils/time";
 import { PublicacaoProps } from "../../utils/interfaces";
 import { getCategory, getColorCategory } from "../../utils/getCategory";
-import { avatar } from "../../data/avatar";
+import { avatarMasculino } from "../../data/avatar";
 
 export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, navigation }) => {
     return (
         <Animatable.View animation="fadeInDown" delay={index * 100} useNativeDriver>
             <PublicacaoContainer onPress={() => navigation.navigation.navigate("Comentario", { publicacao: publicacao })}>
                 <UserInfoTop>
-                    <Avatar source={avatar}/>
+                    <Avatar source={avatarMasculino}/>
                     <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
                     <InformacaoPublicacao>
                         <DataPublicacao>{getCurrentDate(publicacao.getDate())}</DataPublicacao>
@@ -101,8 +101,8 @@ const InformacaoPublicacao = styled.View`
   flex-direction: column;
   height: 30px;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0px;
+  top: 10px;
   align-self: flex-end;
 `
 

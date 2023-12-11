@@ -8,12 +8,17 @@ import { keyUser } from "../../../data/constants";
 import { cadastrarUsuario } from "../utils/CadastrarUsuario";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { verificarExistenciaGithubServidor } from "../../../utils/getUsuario";
+import { avatarMasculino, avatarFeminino } from "../../../data/avatar";
+import { SexoSelecionado } from "./Sexo";
 
 const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
-    const [imageLogin, setImageLogin] = useState<string>("https://i.redd.it/rdv8uzobsmv71.png");
+    const [imageLogin, setImageLogin] = useState<boolean>(false);
     const [apelido, setApelido] = useState<string>("");
+    const [idade, setIdade] = useState<string>("");
     const { dados } = route.params;
     const { setMeusDados } = useContext<ContextProvider>(Provider);
+    const [sexoSelecionado, setSexoSelecionado] = useState<SexoSelecionado>(SexoSelecionado.NENHUM);
+    const minhaImagem = route.params.dados.avatar_url;
 
     useEffect(() => {
         const carregarDados = async() => {
@@ -22,70 +27,118 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
     }, []);
 
     const cadastrar = async() => {
-        const existeIDAuthCadastrado = await verificarExistenciaGithubServidor(Number(dados.id));
-    
-        if (!existeIDAuthCadastrado) {
-            const dadosLogin = {apelido: apelido, dadosLogin: dados};
-            const response = await cadastrarUsuario(dadosLogin);
+        if (apelido.length >= 5) {
+            if (Number(idade) > 0) {
+                const existeIDAuthCadastrado = await verificarExistenciaGithubServidor(Number(dados.id));
             
-            const myID = Number(response.id);
-            const responseOk: boolean = myID > 0;
+                if (!existeIDAuthCadastrado) {
+                    const dadosLogin = {apelido: apelido, dadosLogin: dados};
+                    const response = await cadastrarUsuario(dadosLogin);
+                    
+                    const myID = Number(response.id);
+                    const responseOk: boolean = myID > 0;
 
-            if (responseOk) {
-                const myInfo = {idAuth: Number(dados.id), idServer: myID};
-                const myInfoString = JSON.stringify(myInfo);
-                try {
-                    await AsyncStorage.setItem(keyUser, myInfoString);
-                    setMeusDados(myInfo);
+                    if (responseOk) {
+                        const myInfo = {idAuth: Number(dados.id), idServer: myID};
+                        const myInfoString = JSON.stringify(myInfo);
+                        try {
+                            await AsyncStorage.setItem(keyUser, myInfoString);
+                            setMeusDados(myInfo);
+                        }
+                        catch(e: any) {}
+                        navigation.navigate("Home");
+                    } else {
+                        navigation.navigate("Login");
+                    }
+                } else {
+                    alert("ID do Auth já está cadastrado para essa conta.");
+                    navigation.navigate("Home");
                 }
-                catch(e: any) {}
-                navigation.navigate("Home");
             } else {
-                navigation.navigate("Login");
+                alert("Selecione a sua idade.")
             }
         } else {
-            alert("ID do Auth já está cadastrado para essa conta.");
-            navigation.navigate("Home");
+            alert("Digite um apelido maior ou igual 5 caracteres.")
         }
     };
     
+    const escolherSexo = (sexo: SexoSelecionado) => {
+        if (sexoSelecionado == SexoSelecionado.NENHUM) {
+            setSexoSelecionado(sexo);
+        } else {
+            setImageLogin(!imageLogin);
+        }
+    }
+
     return (
         <Container>
             <NavCadastroContainer>
                 <ButtonBack onPress={() => navigation.navigate("Login")}>
                     <Icon name={"arrow-back"} size={30} color={"white"}></Icon>
                 </ButtonBack>
-                <TextNavCadastro>Cadastrar Usuário</TextNavCadastro>
+                <TextNavCadastro>Criar conta</TextNavCadastro>
             </NavCadastroContainer>
-            <AvatarContainer>
-                <Avatar source={{uri: imageLogin}}></Avatar>
-                <EscolhaAvatarContainer>
-                    <SelecionarImagemText>Selecione a imagem</SelecionarImagemText>
-                    <EscolhaContainer>
-                        <BotaoEscolhaAvatar onPress={() => setImageLogin("https://i.redd.it/rdv8uzobsmv71.png")}>
-                            <CadastrarText>Padrão</CadastrarText>
-                        </BotaoEscolhaAvatar>
-                        <BotaoEscolhaAvatar onPress={() => setImageLogin(dados.avatar_url)}>
-                            <CadastrarText>GitHub</CadastrarText>
-                        </BotaoEscolhaAvatar>
-                    </EscolhaContainer>
-                </EscolhaAvatarContainer>
-            </AvatarContainer>
-            <InformacoesContainer>
-                <ApelidoText>Insira um apelido (até 15 caracteres):</ApelidoText>
-                <ApelidoInput 
-                onChangeText={(text: string) => setApelido(text)}
-                placeholder={"Digite o seu apelido..."}
-                style={{borderColor: (apelido == "")? "red":"green"}}
-                numberOfLines={1} 
-                maxLength={15}
-                />
-            </InformacoesContainer>
-            <CadastrarContainer>
-                <BotaoCadastro onPress={() => cadastrar()}>
-                    <CadastrarText>Cadastrar</CadastrarText>
-                </BotaoCadastro>
-            </CadastrarContainer>
+
+            <ContainerInfoAll>
+                <SexoContainer>
+                    <SexoText>Sexo</SexoText>
+                    {(sexoSelecionado !== SexoSelecionado.NENHUM)?
+                    <MudarSexoButton onPress={() => setSexoSelecionado(SexoSelecionado.NENHUM)}>
+                        <MudarSexoText>Mudar sexo</MudarSexoText>
+                    </MudarSexoButton>
+                    :<></>}
+                </SexoContainer>
+                <AvatarContainerChoice>
+                    <Avatars>
+                        {(sexoSelecionado != SexoSelecionado.FEMININO)?
+                        <AvatarCircleContainer>
+                            <AvatarCircle onPress={() => escolherSexo(SexoSelecionado.MASCULINO)}>
+                                <AvatarImage source={imageLogin && sexoSelecionado === SexoSelecionado.MASCULINO? {uri: minhaImagem} : avatarMasculino} />
+                            </AvatarCircle>
+                            <SexoMascFemText>Masculino</SexoMascFemText>
+                        </AvatarCircleContainer>
+                        :<></>}
+                        {(sexoSelecionado != SexoSelecionado.MASCULINO)?
+                        <AvatarCircleContainer>
+                            <AvatarCircle onPress={() => escolherSexo(SexoSelecionado.FEMININO)}>
+                                <AvatarImage source={imageLogin && sexoSelecionado === SexoSelecionado.FEMININO? {uri: minhaImagem} : avatarFeminino}/>
+                            </AvatarCircle>
+                            <SexoMascFemText>Feminino</SexoMascFemText>
+                        </AvatarCircleContainer>
+                        :<></>}
+                    </Avatars>
+                    <MensagemChoiceAvatar>Clique na imagem para mudar o avatar</MensagemChoiceAvatar>
+                </AvatarContainerChoice>
+                <ApelidoIdadeContainer>
+                    <InputContainer>
+                        <InputInfo 
+                        onChangeText={(text: string) => setApelido(text)}
+                        placeholder={"Apelido"}
+                        numberOfLines={1} 
+                        maxLength={15}
+                        placeholderTextColor={"white"}
+                        />
+                    </InputContainer>
+                    <InputContainer>
+                        <InputInfo
+                        onChangeText={(text: string) => setIdade(text)}
+                        placeholder={"Idade"}
+                        numberOfLines={1} 
+                        maxLength={100}
+                        placeholderTextColor={"white"}
+                        keyboardType="numeric"
+                        />
+                    </InputContainer>
+                </ApelidoIdadeContainer>
+                <ButtonCriarContaContainer>
+                    <ButtonCriarConta onPress={() => cadastrar()}>
+                        <ButtonCriarContaText>Criar conta</ButtonCriarContaText>
+                    </ButtonCriarConta>
+                </ButtonCriarContaContainer>
+                <FrasePrivacidadeContainer>
+                    <FrasePrivacidade>{"Não iremos compartilhar nenhuma informação.\nSeus desabafos serão anônimos."}</FrasePrivacidade>
+                </FrasePrivacidadeContainer>
+            </ContainerInfoAll>
         </Container>
     )
 }
@@ -108,102 +161,6 @@ const Container = styled.View`
     align-items: center;
 `
 
-const Avatar = styled.Image`
-    width: 200px;
-    height: 200px;
-    border-radius: 100px;
-    border-width: 2px;
-    border-color: white;
-    background-color: red;
-`
-
-const AvatarContainer = styled.View`
-    width: 100%;
-    height: 360px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-evenly;
-    margin-top: 20px;
-`
-
-const EscolhaAvatarContainer = styled.View`
-    margin-top: 40px;
-    width: 300px;
-    height: 140px;
-    gap: 10px;
-`
-
-const EscolhaContainer = styled.View`
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-`
-
-const BotaoEscolhaAvatar = styled.TouchableOpacity`
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-`
-
-const InformacoesContainer = styled.View`
-    width: 320px;
-    height: 100px;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-`
-
-const CadastrarContainer = styled.View`
-    width: 100%;
-    height: 140px;
-    justify-content: center;
-    align-items: center;
-`
-
-const BotaoCadastro = styled.TouchableOpacity`
-    width: 200px;
-    height: 50px;
-    border-radius: 10px;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-`
-
-const CadastrarText = styled.Text`
-    font-size: 18px;
-    font-weight: 500;
-    color: black;
-`
-
-const ApelidoInput = styled.TextInput`
-    width: 300px;
-    height: 50px;
-    background-color: white;
-    padding: 10px;
-    border-radius: 4px;
-    border-width: 2px;
-    color: black;
-    font-weight: bold;
-    font-size: 18px;
-`
-
-const ApelidoText = styled.Text`
-    color: white;
-    align-self: flex-start;
-`
-
-const SelecionarImagemText = styled.Text`
-    color: white;
-    bottom: 0px;
-`
-
 const ButtonBack = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
@@ -215,4 +172,155 @@ const TextNavCadastro = styled.Text`
     color: white;
     font-size: 18px;
     font-weight: 500;
+`
+
+const ContainerInfoAll = styled.View`
+    width: 100%;
+    flex: 1;
+    align-self: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+const SexoContainer = styled.View`
+    width: 100%;
+    height: 50px;
+    flex-direction: row;
+    align-items: center;
+    padding-horizontal: 10px;
+    align-items: center;
+    justify-content: space-between;
+`
+
+const SexoText = styled.Text`
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+`
+
+const MudarSexoText = styled.Text`
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    color: #10a17d;
+`
+
+const MudarSexoButton = styled.TouchableOpacity`
+    width: 100px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+`
+
+const AvatarContainerChoice = styled.View`
+    width: 100%;
+    height: 120px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`
+
+const Avatars = styled.View`
+    width: 60%;
+    height: 100px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+`
+
+const AvatarCircleContainer = styled.View`
+    width: 100px;
+    min-height: 90px;
+    max-height: 100px;
+    flex-direction: column;
+    align-items: center;
+`
+
+const AvatarCircle = styled.TouchableOpacity`
+    width: 76px;
+    height: 80px;
+    border-radius: 39px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+`
+
+const AvatarImage = styled.Image`
+    width: 100%;
+    height: 100%;
+`
+
+const SexoMascFemText = styled.Text`
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+`
+
+const MensagemChoiceAvatar = styled.Text`
+    color: white;
+    font-size: 12px;
+`
+
+const ApelidoIdadeContainer = styled.View`
+    width: 100%;
+    height: 140px;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: space-between;
+`
+
+const InputContainer = styled.View`
+    width: 100%;
+    height: 56px;
+    border-bottom-width: 2px;
+    border-bottom-color: gray;
+    justify-content: center;
+    align-items: center;
+`
+
+const ButtonCriarContaContainer = styled.View`
+    width: 100%;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+`
+
+const ButtonCriarConta = styled.TouchableOpacity`
+    width: 240px;
+    height: 36px;
+    border-radius: 4px;
+    background-color: #10a17d;
+    justify-content: center;
+    align-items: center;
+`
+
+const ButtonCriarContaText = styled.Text`
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+`
+
+const FrasePrivacidadeContainer = styled.View`
+    width: 100%;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+`
+
+const FrasePrivacidade = styled.Text`
+    color: white;
+    font-size: 12px;
+    flex-wrap: wrap;
+    text-align: center;
+`
+
+const InputInfo = styled.TextInput`
+    width: 98%;
+    height: 50px;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
 `

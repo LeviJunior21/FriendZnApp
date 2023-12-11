@@ -11,7 +11,7 @@ import { Comentario } from "../../model/Comentario";
 import { NavComentarios } from "./navcomentario.tsx/NavComentarios";
 import { getComentarios } from "../../utils/getComentarios";
 import { sendComentario, updateComentario } from "./wscomentarios/WSComentario";
-import { avatar } from "../../data/avatar";
+import { avatarMasculino } from "../../data/avatar";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
 const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
@@ -57,7 +57,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
             <ScrollViewContainer>
                 <ContainerPublicacao>
                     <ContainerUsuario>
-                        <Avatar source={avatar}/>
+                        <Avatar source={avatarMasculino}/>
                         <InfoUserContainer>
                             <TouchUserName onPress={() => abrirChat()}>
                                 <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>

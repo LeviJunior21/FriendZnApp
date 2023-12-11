@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconFontiso from "react-native-vector-icons/Fontisto";
-import { avatar } from "../../../data/avatar";
+import { avatarMasculino } from "../../../data/avatar";
 import { getCurrentDate } from "../../../utils/time";
 import { ComentarioIndexProps, CurtidasInterface } from "./Interface";
 import { useContext, useEffect, useState } from "react";
@@ -18,6 +18,8 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
         if (meusDados.idAuth !== -1 && meusDados.idServer !== -1) {
             const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
             sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou, meusDados.idServer, meusDados.idAuth);
+        } else {
+            props.navigation.navigate("Login");
         }
     };
 
@@ -55,7 +57,7 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
         <ComentarioI>
             <ContainerUsuario>
                 <InfoUserContainer>
-                    <Avatar source={avatar}/>
+                    <Avatar source={avatarMasculino}/>
                     <UserInfo>
                         <TouchUserName onPress={() => abrirChatPrivado()}>
                             <NomeUsuario>@{props.comentario.getUsuario().getApelido()}</NomeUsuario>

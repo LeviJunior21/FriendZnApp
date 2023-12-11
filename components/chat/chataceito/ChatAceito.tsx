@@ -7,7 +7,7 @@ import { Usuario } from "../../../model/Usuario";
 import { buscarChat } from "../../../data/chatutils";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { ChatItemProps } from "./Interface";
-import { avatar } from "../../../data/avatar";
+import { avatarMasculino } from "../../../data/avatar";
 import { keyBDChat } from "../../../data/constants";
 
 export default function ChatAceito(props: ChatItemProps) {
@@ -32,7 +32,7 @@ export default function ChatAceito(props: ChatItemProps) {
     return (
         <Container onPress={() => props.navigation.navigation.navigate("ChatPrivado", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido() })}>
             <AvatarContainer>
-                <Avatar source={avatar}/>
+                <Avatar source={avatarMasculino}/>
             </AvatarContainer>
             <UserOutros>
                 <NameHourContainer>

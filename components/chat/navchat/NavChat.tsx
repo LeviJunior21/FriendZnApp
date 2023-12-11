@@ -6,7 +6,7 @@ import { Dimensions, Modal } from "react-native";
 import { useContext, useState } from "react";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { NavChatProps } from "./Interface";
-import { avatar } from "../../../data/avatar";
+import { avatarMasculino } from "../../../data/avatar";
 import { keyBDChat } from "../../../data/constants";
 
 export function NavChat(props: NavChatProps) {
@@ -30,7 +30,7 @@ export function NavChat(props: NavChatProps) {
                 <Icon name={"arrow-back"} color={"white"} size={30}/>
             </ButtonBack>
             <AvatarContainer>
-                <Avatar source={avatar}/>
+                <Avatar source={avatarMasculino}/>
                 <Nome numberOfLines={1}>@{props.nome}</Nome>
             </AvatarContainer>
             <Call onPress={() => mostrarModal()}>

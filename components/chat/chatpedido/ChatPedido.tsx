@@ -7,7 +7,7 @@ import { ContextProvider, Provider } from "../../../utils/Provider";
 import { getUsuario } from "../../../utils/getUsuario";
 import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
-import { avatar } from "../../../data/avatar";
+import { avatarMasculino } from "../../../data/avatar";
 import { keyBDChat } from "../../../data/constants";
 
 export default function ChatPedido(props: ChatPedidoProps) {
@@ -33,7 +33,7 @@ export default function ChatPedido(props: ChatPedidoProps) {
         <Container>
             <InfoContainer>
                 <AvatarContainer>
-                    <Avatar source={avatar}/>
+                    <Avatar source={avatarMasculino}/>
                 </AvatarContainer>
                 <UserOutros>
                    <NameHourContainer>
