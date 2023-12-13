@@ -14,6 +14,9 @@ Recentemente, diversas plataformas de redes sociais anônimas têm optado por se
     <img src="https://i.ibb.co/sggM78R/Screenshot-20231125-192413-Expo-Go.jpg" alt="Imagem 2" width="230"/> 
     <img src="https://i.ibb.co/1MBg2Wd/Screenshot-20231210-004407-Expo-Go.jpg" alt="Imagem 4" width="230"/> 
     <img src="https://i.ibb.co/7VJ2Rx1/Screenshot-20231204-111106-Expo-Go.jpg" alt="Imagem 5" width="230"/> 
+    <img src="https://i.ibb.co/18V6Cst/Screenshot-20231213-195453-Expo-Go.jpg" alt="Imagem 2" width="230"/> 
+    <img src="https://i.ibb.co/p37y2xb/Screenshot-20231213-195706-Expo-Go.jpg" alt="Imagem 4" width="230"/> 
+    <img src="https://i.ibb.co/vcqbwps/Screenshot-20231213-200013-Expo-Go.jpg" alt="Imagem 5" width="230"/> 
 </div>
 
 O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em manter a privacidadede seus dados, onde o usuário pode relatar experiência, desabafar, buscar ajuda, conversar, dentre outros, sem se preocupar em expor algum dado seu para ser publico.
