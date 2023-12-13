@@ -73,7 +73,7 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route}) => {
                         onChangeText={(text: string) => setDadosNecessarios(prevState => ({...prevState, apelido: text}))}
                         placeholder={"Apelido"}
                         numberOfLines={1} 
-                        maxLength={8}
+                        maxLength={10}
                         placeholderTextColor={"white"}
                         />
                     </InputContainer>

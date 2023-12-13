@@ -90,6 +90,7 @@ type RootStackParamList = {
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
     Configuracoes: undefined;
     Perfil: {id: number, navigation: Navigation};
+    EditarPerfil: { id: number, apelido: string, descricao: string}
 };
 
 interface Navigation {

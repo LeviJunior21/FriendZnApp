@@ -5,15 +5,19 @@ import { PublicacaoUser } from "../publicacao/Publicacao";
 import { FlatList } from "react-native";
 import { avatarMasculino } from "../../data/avatar";
 import IonIcons from "react-native-vector-icons/Ionicons";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { Publicacao } from "../../model/Publicacao";
-import React, { useEffect, useState } from "react";
-import { getDadosPefilUsuario, getPublicacoesUser } from "./Service";
-import { PerfilProps } from "./Interface";
+import React, { useContext, useEffect, useState } from "react";
+import { convertToDate, getDadosPefilUsuario, getPublicacoesUser } from "./Service";
+import { PerfilInterface, PerfilProps, dadosIniciaisPerfil } from "./Interface";
+import { LoginType } from "../usuario/utils/LoginType";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 const Perfil: React.FC<PerfilProps> = ({ route }) => {
     const { id, navigation } = route.params;
     const [ publicacoes, setPublicacoes ] = useState<Publicacao[]>([]);
-    const [ dadosPerfilUsuario, setDadosPerfilUsuario ] = useState<any>({});
+    const [ dadosPerfilUsuario, setDadosPerfilUsuario ] = useState<PerfilInterface>(dadosIniciaisPerfil);
+    const { meusDados } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         getPublicacoesUser(id, setPublicacoes);
@@ -23,7 +27,7 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
     return (
         <Container>
             <NavContainer>
-                <NavButtonBack onPress={() => navigation.navigation.goBack()}>
+                <NavButtonBack onPress={() => navigation.navigation.navigate("Home")}>
                     <IonIcons name={"arrow-back"} color={"white"} size={30}/>
                 </NavButtonBack>
                 <NavText>Perfil</NavText>
@@ -33,11 +37,18 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
                 <TextAvatar>@{dadosPerfilUsuario.apelido}</TextAvatar>
             </PerfilContainer>
             <SobreContainer>
+                {(dadosPerfilUsuario.descricao !== "")?
+                <>
                 <SobreText>Sobre</SobreText>
-                <SobreDescricaoText>{dadosPerfilUsuario.descricao? dadosPerfilUsuario.descricao: "Nada a descrever."}</SobreDescricaoText>
+                <SobreDescricaoText>{dadosPerfilUsuario.descricao}</SobreDescricaoText>
+                </>:
+                <></>
+                }
                 <SobreDate>
                     <Icon name={"calendar"} color={"#898989"} size={16}/>
-                    <SobreDateText>Desde 13/12/2023</SobreDateText>
+                    <SobreDateText>
+                        {(dadosPerfilUsuario.id !== -1)?`Desde ${convertToDate(dadosPerfilUsuario.date)}`: "Carregando..."}
+                        </SobreDateText>
                 </SobreDate>
             </SobreContainer>
             <NumeroDadosContainer>
@@ -46,8 +57,10 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
                     <DadosText>Desabafos</DadosText>
                 </DadosContainer>
                 <DadosContainer>
-                    <DadosNumber>{publicacoes.length}</DadosNumber>
-                    <DadosText>Comentários</DadosText>
+                    <DadosNumber>
+                        {(dadosIniciaisPerfil.loginType === LoginType.GitHub)? "GitHub":"Google"}
+                    </DadosNumber>
+                    <DadosText>Autorizado</DadosText>
                 </DadosContainer>
             </NumeroDadosContainer>
             <PublicacaoContainer>
@@ -58,6 +71,24 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
                 }
                 />
             </PublicacaoContainer>
+            {(meusDados.id === id)?
+                <EditarPerfilContainer onPress={() => {
+                    if (dadosPerfilUsuario.id != -1) {
+                        navigation.navigation.navigate("EditarPerfil", { 
+                            id: id, 
+                            apelido: dadosPerfilUsuario.apelido, 
+                            descricao: dadosPerfilUsuario.descricao, 
+                            navigation: navigation
+                        })
+                    }
+                }}>
+                    <MaterialIcon name={"edit"} color={"white"} size={20}/>
+                    <ChatEditarText>EDITAR PERFIL</ChatEditarText>
+                </EditarPerfilContainer>:
+                <ChatContainer>
+                    <MaterialIcon name={"chat"} color={"white"} size={30}/>
+                </ChatContainer>
+            }
         </Container>
     )
 }
@@ -182,4 +213,37 @@ const DadosText = styled.Text`
 
 const PublicacaoContainer = styled.ScrollView`
     flex: 1;
+`
+
+const EditarPerfilContainer = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-horizontal: 30px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: green;
+    padding-vertical: 14px;
+    border-radius: 40px;
+`
+
+const ChatContainer = styled.TouchableOpacity`
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: green;
+    z-index: 4;
+`
+
+const ChatEditarText = styled.Text`
+    color: white;
+    font-size: 16px;
+    z-index: 4;
 `

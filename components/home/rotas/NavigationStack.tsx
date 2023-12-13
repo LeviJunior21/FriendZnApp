@@ -8,6 +8,7 @@ import { RootStackParamList } from "../../../utils/interfaces";
 import Configuracoes from "../../configuracoes/Configuracoes";
 import NavigationDrawer from "./NavigationDrawer";
 import Perfil from "../../perfil/Perfil";
+import EditarPerfil from "../../editarperfil/EditarPerfil";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function NavigationStack() {
@@ -22,6 +23,7 @@ export default function NavigationStack() {
             <Stack.Screen name={"Cadastro"} component={Cadastro}/>
             <Stack.Screen name={"Configuracoes"} component={Configuracoes}/>
             <Stack.Screen name={"Perfil"} component={Perfil}/>
+            <Stack.Screen name={"EditarPerfil"} component={EditarPerfil}/>
         </Stack.Navigator>
     )
 }

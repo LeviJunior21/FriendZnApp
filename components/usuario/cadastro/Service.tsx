@@ -12,7 +12,7 @@ import { CadastroActionProps, LoginCadastroReturns } from "./Interface";
 export const cadastrar = async(props: CadastroActionProps): Promise<boolean> => {
     let result:boolean = false;
 
-    if (props.dadosUsuario.apelido.length >= 5 && props.dadosUsuario.apelido.length <= 8) {
+    if (props.dadosUsuario.apelido.length >= 5 && props.dadosUsuario.apelido.length <= 10) {
         if (props.dadosUsuario.sexo !== SexoSelecionado.NENHUM) {
             if (props.dadosUsuario.idade > 0) {
                 try {
