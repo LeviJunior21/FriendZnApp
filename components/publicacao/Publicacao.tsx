@@ -42,7 +42,6 @@ const PublicacaoUserContainer = styled.View`
     min-height: 20px;
     padding-horizontal: 10px;
     padding-vertical: 14px;
-    background-color: #404040;
 `
 
 const Avatar = styled.Image`

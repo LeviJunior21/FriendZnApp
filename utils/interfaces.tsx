@@ -88,7 +88,8 @@ type RootStackParamList = {
     Comentario: { publicacao: Publicacao };
     ChatPrivado: {};
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
-    Configuracoes: undefined
+    Configuracoes: undefined;
+    Perfil: {id: number, navigation: Navigation};
 };
 
 interface Navigation {

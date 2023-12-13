@@ -10,17 +10,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 export default function CustomDrawerContent(props: Navigation) {
     const { meusDados } = useContext<ContextProvider>(Provider);
 
-    const navigate = (route: string) => {
-        if (meusDados.id != -1) {
-            props.navigation.navigate(route);
-        } else {
-            props.navigation.navigate("Login");
-        }
-    }
-
     return (
         <Container>
-            <TopContainer>
+            <TopContainer onPress={() => props.navigation.navigate("Perfil", {id: meusDados.id, navigation: props})}>
                 <ImageAvatar source={avatarMasculino}/>
                 {(meusDados.apelido !== "")? <TextAvatar>@{meusDados.apelido}</TextAvatar>:
                 <IntroducaoContainer>
@@ -31,7 +23,7 @@ export default function CustomDrawerContent(props: Navigation) {
             </TopContainer>
 
             <SubContainer style={{borderBottomColor: "gray", borderBottomWidth: 1}}>
-                <SubContainerButton onPress={() => navigate("Configuracoes")}>
+                <SubContainerButton onPress={() => props.navigation.navigate("Configuracoes")}>
                     <Icon name={"cog"} color={"white"} size={30}/>
                     <SubContainerText>Configurações</SubContainerText>
                 </SubContainerButton>

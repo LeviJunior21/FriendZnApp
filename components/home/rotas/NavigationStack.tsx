@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../utils/interfaces";
 import Configuracoes from "../../configuracoes/Configuracoes";
 import NavigationDrawer from "./NavigationDrawer";
+import Perfil from "../../perfil/Perfil";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function NavigationStack() {
@@ -20,6 +21,7 @@ export default function NavigationStack() {
             <Stack.Screen name={"ChatPrivado"} component={ChatPrivado}/>
             <Stack.Screen name={"Cadastro"} component={Cadastro}/>
             <Stack.Screen name={"Configuracoes"} component={Configuracoes}/>
+            <Stack.Screen name={"Perfil"} component={Perfil}/>
         </Stack.Navigator>
     )
 }
