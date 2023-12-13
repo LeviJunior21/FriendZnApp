@@ -3,6 +3,10 @@ import { Conversa } from "../model/Conversa";
 import { Chat } from "../model/Chat";
 import { Client } from "stompjs";
 import { DadosProps } from "./interfaces";
+import { LoginCadastroReturns } from "../components/usuario/cadastro/Interface";
+import { LoginType } from "../components/usuario/utils/LoginType";
+import { SexoSelecionado } from "../components/usuario/cadastro/Sexo";
+import { dadosIniciaisUsuario } from "../data/constants";
 
 export type ContextProvider = {
     gravarConversa: (idServer: number, newConversa: Conversa, key: string) => void;
@@ -13,8 +17,8 @@ export type ContextProvider = {
     chatDeletado: boolean;
     comentou: boolean;
     setComentou: Dispatch<SetStateAction<boolean>>;
-    meusDados: DadosProps;
-    setMeusDados: Dispatch<SetStateAction<DadosProps>>
+    meusDados: LoginCadastroReturns;
+    setMeusDados: Dispatch<SetStateAction<LoginCadastroReturns>>
 }
 
 export const Provider = createContext<ContextProvider>({
@@ -26,6 +30,6 @@ export const Provider = createContext<ContextProvider>({
     setChatDeletado: () => {},
     chatDeletado: false,
     comentou: false,
-    meusDados: {idServer: -1, idAuth: -1},
+    meusDados: dadosIniciaisUsuario,
     setComentou: () => {}
 });

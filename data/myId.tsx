@@ -27,7 +27,7 @@ export const carregarMyID = async(setMeusDados: Dispatch<SetStateAction<any>>): 
         if (dados != null) {
             const dadosJSON: any = await JSON.parse(dados);
             setMeusDados(dadosJSON);
-            if (dadosJSON.idServer != null && dadosJSON.idAuth != null) {
+            if (dadosJSON.id != null && dadosJSON.codigoAcesso != null) {
                 result = true;
             }
         } 

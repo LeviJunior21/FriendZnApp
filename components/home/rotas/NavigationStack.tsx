@@ -1,12 +1,12 @@
 import Login from "../../login/Login";
 import Postar from "../../postar/Postar";
 import TodosComentarios from "../../comentario/TodosComentarios";
-import NavigationBottoms from "./NaviagationBottoms";
 import ChatPrivado from "../../chat/chatprivado/ChatPrivado";
 import Cadastro from "../../usuario/cadastro/Cadastro";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../utils/interfaces";
 import Configuracoes from "../../configuracoes/Configuracoes";
+import NavigationDrawer from "./NavigationDrawer";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function NavigationStack() {
@@ -16,7 +16,7 @@ export default function NavigationStack() {
             <Stack.Screen name={"Login"} component={Login}/>
             <Stack.Screen name={"Postar"} component={Postar}/>
             <Stack.Screen name={"Comentario"} component={TodosComentarios}/>
-            <Stack.Screen name={"Home"} component={NavigationBottoms}/>
+            <Stack.Screen name={"Home"} component={NavigationDrawer}/>
             <Stack.Screen name={"ChatPrivado"} component={ChatPrivado}/>
             <Stack.Screen name={"Cadastro"} component={Cadastro}/>
             <Stack.Screen name={"Configuracoes"} component={Configuracoes}/>

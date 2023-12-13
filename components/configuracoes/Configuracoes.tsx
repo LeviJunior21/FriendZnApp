@@ -3,38 +3,13 @@ import { ConfiguracoesProps } from "./Interface";
 import Icon from "react-native-vector-icons/Ionicons";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { keyBDChat, keyUser } from "../../data/constants";
+import { dadosIniciaisUsuario, keyBDChat, keyUser } from "../../data/constants";
 import { useContext } from "react";
 import { ContextProvider, Provider } from "../../utils/Provider";
+import { deletarDados, deslogar } from "./Service";
 
 export default function Configuracoes(props: ConfiguracoesProps) {
     const { meusDados, setMeusDados, setChatData } = useContext<ContextProvider>(Provider);
-
-    const deletarDados = async() => {
-        try {
-            const response = await fetch(`http://10.0.0.181:8080/v1/usuarios/id/${meusDados.idServer}`, {
-                method: "DELETE", 
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-           
-            await deslogar();
-            props.navigation.navigate("Home");
-        }
-        catch(e: any) {}
-    }
-
-    const deslogar = async() => {
-        try {
-            const novosDados = {idAuth: -1, idServer: -1};
-            AsyncStorage.setItem(keyUser, JSON.stringify(novosDados));
-            AsyncStorage.setItem(keyBDChat, JSON.stringify([]));
-            setMeusDados(novosDados);
-            setChatData([]);
-            props.navigation.navigate("Home");
-        } catch(e: any) {}
-    }
 
     return (
         <Container>
@@ -50,10 +25,14 @@ export default function Configuracoes(props: ConfiguracoesProps) {
                     <TextDados style={{color: "white"}}>Editar perfil</TextDados>
                 </EditarPerfilButton>
                 <DadosContainer>
-                    <ButtonDeletarDados onPress={() => deletarDados()}>
+                    <ButtonDeletarDados onPress={() => deletarDados(
+                        {navigation: props.navigation, setMeusDados: setMeusDados, setChatData: setChatData, id: meusDados.id})
+                    }>
                         <TextDados style={{color: "red"}}>Deletar Dados</TextDados>
                     </ButtonDeletarDados>
-                    <ButtonDeslogar onPress={() => deslogar()}>
+                    <ButtonDeslogar onPress={() => deslogar(
+                        {navigation: props.navigation, setMeusDados: setMeusDados, setChatData: setChatData, id: meusDados.id})
+                    }>
                         <TextDados style={{color: "white"}}>Deslogar</TextDados>
                     </ButtonDeslogar>
                 </DadosContainer>

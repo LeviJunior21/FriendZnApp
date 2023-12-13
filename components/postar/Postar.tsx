@@ -9,10 +9,10 @@ import { Categoria, Navigation } from "../../utils/interfaces";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function Postar(navigation: Navigation) {
-    const [categoria, setCategoria] = useState<string>("Selecione uma categoria...");
-    const [mostrarCategoria, setMostrarCategoria] = useState<boolean>(true);
-    const [desabafo, setDesabafo] = useState<string>("");
-    const [enumCategoria, setEnumCatgegotia] = useState<Categoria>(Categoria.selecionar)
+    const [ categoria, setCategoria ] = useState<string>("Selecione uma categoria...");
+    const [ mostrarCategoria, setMostrarCategoria ] = useState<boolean>(true);
+    const [ desabafo, setDesabafo ] = useState<string>("");
+    const [ enumCategoria, setEnumCatgegotia ] = useState<Categoria>(Categoria.selecionar)
     const { meusDados } = useContext<ContextProvider>(Provider);
 
     const handleCategoria = (tituloCategoria: string, enumCategoria: Categoria) => {

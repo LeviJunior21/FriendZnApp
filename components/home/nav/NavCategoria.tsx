@@ -22,7 +22,7 @@ export const NavCategoria: React.FC<NavProps> = ({navigation, categoriaEscolhida
 
     return (
         <Container>
-            <DrawerButton onPress={() => navigation.navigate("Configuracoes", {navigation: navigation})}>
+            <DrawerButton onPress={() => navigation.openDrawer()}>
                 <Icon name={"menu-outline"} color={"white"} size={30}/>
             </DrawerButton>
             <Categoria onPress={handleCategoria}>

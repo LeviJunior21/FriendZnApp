@@ -8,8 +8,8 @@ export const sendComentario = async(props: SendComentarioProps) => {
             idPublicacao: props.publicacao.getId(),
             comentario: props.message.replace(/^\s+|\s+$/g, ''),
             timestamp: new Date(),
-            codigoAcesso: props.meusDados.idAuth,
-            idUsuario: props.meusDados.idServer
+            codigoAcesso: props.meusDados.codigoAcesso,
+            idUsuario: props.meusDados.id
         };
         
         const subscribe: string = "/app/comentarios.sendMessage/" + props.publicacao.getId();

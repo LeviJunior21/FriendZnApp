@@ -1,26 +1,26 @@
-import { LoginType } from "./LoginType";
+import { dadosIniciaisUsuario } from "../../../data/constants";
+import { LoginCadastro, LoginCadastroReturns } from "../cadastro/Interface";
 
-export const cadastrarUsuario = async(dados: any): Promise<any> => {
+export const cadastrarUsuario = async(dadosUsuario: LoginCadastro): Promise<LoginCadastroReturns> => {
+    let responseJSON: LoginCadastroReturns = dadosIniciaisUsuario;
 
     const url: string = "http://10.0.0.181:8080/v1/usuarios";
-    const dadosUsuario = {
-        apelido: dados.apelido,
-        email: dados.dadosLogin.email?dados.dadosLogin.email : "email",
-        codigoAcesso: dados.dadosLogin.id,
-        idAuth: dados.dadosLogin.id,
-        idade: dados.idade,
-        sexo: dados.sexo,
-        loginType: LoginType.GitHub
-    }
-    
-    const responseFetch = await fetch(url, {
-        method: "POST", 
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dadosUsuario)
-    });
+    try {    
+        const responseFetch = await fetch(url, {
+            method: "POST", 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosUsuario)
+        });
 
-    const responseJSON = responseFetch.json();
+        if (responseFetch.ok) {
+            responseJSON = await responseFetch.json();
+            console.log(responseJSON)
+        }
+    } catch {
+        throw new Error("Não foi porrível cadastrar o usuário.");
+    }
+
     return responseJSON;
 }

@@ -1,5 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { keyUser } from "../../data/constants";
+import { dadosIniciaisUsuario, keyUser } from "../../data/constants";
+import { LoginCadastroReturns } from "../usuario/cadastro/Interface";
+import { verificarExistenciaGithubServidor } from "../../utils/getUsuario";
+import { Dispatch, SetStateAction } from "react";
+import { NavigationProp } from "@react-navigation/native";
+import { RootStackParamList } from "../../utils/interfaces";
 
 export const discovery = {
     authorizationEndpoint: 'https://github.com/login/oauth/authorize',
@@ -48,16 +53,40 @@ export const buscarInformacoesGitHub = async(code: string) => {
     return data;
 }
 
-interface DataUser {idAuth: number, idServer: number}
-export const buscarIDUsuarioByGitHubIdAuth = async(idAuth: number): Promise<number> => {
-    let result: number = -1;
+export const buscarIDUsuarioByGitHubIdAuth = async(codigoAcesso: number): Promise<LoginCadastroReturns> => {
+    let result: LoginCadastroReturns = dadosIniciaisUsuario;
 
     try {
-        const response = await fetch('http://10.0.0.181:8080/v1/usuarios/github/' + idAuth);
-        const responseJSON = await response.json();
-        result = Number(responseJSON);
+        const response = await fetch('http://10.0.0.181:8080/v1/usuarios/github/' + codigoAcesso);
+        result = await response.json();
+    } catch {}
+
+    if (result.id == -1) {
+        throw new Error("Erro")
     }
-    catch(e: any) {}
 
     return result;
+}
+
+export const buscarDadosGitHub = async(meusDados: LoginCadastroReturns, setMeusDados: Dispatch<SetStateAction<LoginCadastroReturns>>, code: string, navigation:  NavigationProp<RootStackParamList, "Home">) => {
+    const response = await buscarInformacoesGitHub(code);
+    const result: boolean = await verificarExistenciaGithubServidor(response.id);
+    if (result) {
+        if (meusDados.id === -1 && meusDados.codigoAcesso === -1) {
+            const dados = await buscarIDUsuarioByGitHubIdAuth(response.id);
+            const dadosPersistidos = {...dados, codigoAcesso: response.id};
+            if (dados.id !== -1) {
+                await AsyncStorage.setItem(keyUser, JSON.stringify(dadosPersistidos));
+                setMeusDados(dadosPersistidos);
+                navigation.navigate("Home");
+            } else {
+                alert("Ocorreu um erro inesperado, contate o suporte.")
+            }
+        }
+        else {
+            navigation.navigate("Home");
+        }
+    } else {
+        navigation.navigate("Cadastro", { navigation: navigation, dados: response });
+    }
 }

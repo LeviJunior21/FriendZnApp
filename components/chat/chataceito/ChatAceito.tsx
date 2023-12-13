@@ -24,7 +24,7 @@ export default function ChatAceito(props: ChatItemProps) {
 
     useEffect(() => {
         const buscarConversa = async() => {
-            const chat:Chat = await buscarChat(props.chat.getRemetente(), meusDados.idServer, keyBDChat);
+            const chat:Chat = await buscarChat(props.chat.getRemetente(), meusDados.id, keyBDChat);
             setUltimaConversa(chat.getConversas()[chat.getConversas().length - 1].getMensagem());
         }; buscarConversa();
     }, [chatData])

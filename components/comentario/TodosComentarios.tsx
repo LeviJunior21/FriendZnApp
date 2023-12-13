@@ -2,9 +2,7 @@ import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
 import ComentariosContainer from "./comentariochat/ComentarioContainer";
-import SockJS from "sockjs-client";
-import Stomp, { Client } from "stompjs";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ComentarioProps } from "../../utils/interfaces";
 import { getCurrentDate } from "../../utils/time";
 import { Comentario } from "../../model/Comentario";
@@ -31,7 +29,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     }, []);
 
     const enviar = () => {
-        if (meusDados.idServer !== -1 && meusDados.idAuth !== -1) {
+        if (meusDados.id !== -1 && meusDados.codigoAcesso !== -1) {
            if (message.length > 0) {
                 sendComentario({webSock, meusDados, publicacao, message, setMessage});
                 setComentou(!comentou);
@@ -42,8 +40,8 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     };
 
     const abrirChat = () => {
-        if (meusDados.idServer !== -1 && meusDados.idAuth != -1) {
-            if(meusDados.idServer !== publicacao.getUsuario().getId()) {
+        if (meusDados.id !== -1 && meusDados.codigoAcesso != -1) {
+            if(meusDados.id !== publicacao.getUsuario().getId()) {
                 navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() });
             }
         } else {

@@ -24,8 +24,8 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
         });
     }, [chatData, chatDeletado]);
 
-    const verificarPersistenciaDoChat = async(chat: Chat) => {
-        await verificarPersistenciaChat(chat.getRemetente(), meusDados.idServer, keyBDChat).then((response: boolean) => {
+    const verificarPersistenciaDoChat = async(chat: Chat): Promise<void> => {
+        await verificarPersistenciaChat(chat.getRemetente(), meusDados.id, keyBDChat).then((response: boolean) => {
             if (response) { setSolicitacoesChatAceitas(prevState => [...prevState, chat]); }
             else { setSolicitacoesChatPendentes(prevState => [...prevState, chat]); }
         });

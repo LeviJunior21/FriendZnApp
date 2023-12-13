@@ -15,7 +15,7 @@ export default function HomeScreen(props: Navigation) {
     const { meusDados } = useContext<ContextProvider>(Provider);
 
     const verificarLogin = () => {
-        if (meusDados.idServer != -1 && meusDados.idAuth != -1) {
+        if (meusDados.id != -1 && meusDados.codigoAcesso != -1) {
             props.navigation.navigate("Postar");
         } else {
             props.navigation.navigate("Login");

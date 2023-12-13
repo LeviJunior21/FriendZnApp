@@ -14,7 +14,7 @@ export function NavChat(props: NavChatProps) {
     const { chatDeletado, setChatDeletado, meusDados } = useContext<ContextProvider>(Provider);
     
     const deleteAndGoBack = async(id: number) => {
-        await deleteChat(id, meusDados.idServer, keyBDChat);
+        await deleteChat(id, meusDados.id, keyBDChat);
         setModalVisible(false);
         setChatDeletado(!chatDeletado);
         props.navigation.goBack();

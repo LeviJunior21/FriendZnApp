@@ -15,7 +15,7 @@ export default function Seguindo(props: NavigationProps) {
 
     useEffect(() => {
         const buscarSeguindo = async() => {
-            await getPublicacoesSeguidas(meusDados.idServer, setPublicacoesSeguidas);
+            await getPublicacoesSeguidas(meusDados.id, setPublicacoesSeguidas);
         }; buscarSeguindo();
     }, [comentou]);
 

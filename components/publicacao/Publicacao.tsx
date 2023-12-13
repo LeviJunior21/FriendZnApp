@@ -34,51 +34,51 @@ export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, na
 }
 
 const PublicacaoText = styled.Text`
-  color: white;
+    color: white;
 `
 
 const PublicacaoUserContainer = styled.View`
-  width: 100%;
-  min-height: 20px;
-  padding-horizontal: 10px;
-  padding-vertical: 14px;
-  background-color: #404040;
+    width: 100%;
+    min-height: 20px;
+    padding-horizontal: 10px;
+    padding-vertical: 14px;
+    background-color: #404040;
 `
 
 const Avatar = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
 `
 
 const UserName = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  margin-left: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    margin-left: 4px;
 `
 
 const DataPublicacao = styled.Text`
-  font-size: 10px;
-  color: white;
+    font-size: 10px;
+    color: white;
 `
 
 const UserInfoTop = styled.View`
-  width: 100%;
-  height: 60px;
-  padding-left: 10px;
-  background-color: #404040;
-  flex-direction: row;
-  align-items: center;
-  padding-horizontal: 2px;
+    width: 100%;
+    height: 60px;
+    padding-left: 10px;
+    flex-direction: row;
+    align-items: center;
+    padding-horizontal: 2px;
 `
 
 const PublicacaoContainer = styled.TouchableOpacity`
-  width: 100%;
-  min-height: 120px;
-  max-height: 240px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+    width: 100%;
+    min-height: 120px;
+    max-height: 240px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #404040;
 `
 
 const ComentarioInfo = styled.View`
@@ -87,8 +87,7 @@ const ComentarioInfo = styled.View`
     flex-direction: row;
     align-items: center;
     padding-horizontal: 10px;
-    background-color: #404040;
-    `
+`
 
 const NumeroComentarios = styled.Text`
     color: white;
@@ -98,12 +97,12 @@ const NumeroComentarios = styled.Text`
 `
 
 const InformacaoPublicacao = styled.View`
-  flex-direction: column;
-  height: 30px;
-  position: absolute;
-  right: 0px;
-  top: 10px;
-  align-self: flex-end;
+    flex-direction: column;
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    align-self: flex-end;
 `
 
 const CategoriaText = styled.Text`

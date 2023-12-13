@@ -1,77 +1,31 @@
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CadastroProps } from "./Interface";
+import { CadastroProps, LoginCadastro } from "./Interface";
 import { useContext, useEffect, useState } from "react";
-import { keyUser } from "../../../data/constants";
-import { cadastrarUsuario } from "../utils/CadastrarUsuario";
 import { ContextProvider, Provider } from "../../../utils/Provider";
-import { verificarExistenciaGithubServidor } from "../../../utils/getUsuario";
 import { avatarMasculino, avatarFeminino } from "../../../data/avatar";
 import { SexoSelecionado } from "./Sexo";
+import { cadastrar } from "./Service";
+import { dadosNecesassariosCriacaoUsuario } from "../../../data/constants";
 
-const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
-    const [imageLogin, setImageLogin] = useState<boolean>(false);
-    const [apelido, setApelido] = useState<string>("");
-    const [idade, setIdade] = useState<number>(0);
-    const { dados } = route.params;
+const Cadastro:React.FC<CadastroProps> = ({ navigation, route}) => {
     const { setMeusDados } = useContext<ContextProvider>(Provider);
-    const [sexoSelecionado, setSexoSelecionado] = useState<SexoSelecionado>(SexoSelecionado.NENHUM);
-    const minhaImagem = route.params.dados.avatar_url;
+    const [ imageLogin, setImageLogin ] = useState<boolean>(false);
+    const [ dadosNecessarios, setDadosNecessarios ] = useState<LoginCadastro>({
+        ...dadosNecesassariosCriacaoUsuario, codigoAcesso: route.params.dados.id
+    });
 
-    useEffect(() => {
-        const carregarDados = async() => {
-            console.log(dados)
-        }; carregarDados();
-    }, []);
-
-    const cadastrar = async() => {
-        if (apelido.length >= 5) {
-            if (sexoSelecionado !== SexoSelecionado.NENHUM) {
-                if (idade > 0) {
-                    const existeIDAuthCadastrado = await verificarExistenciaGithubServidor(Number(dados.id));
-                
-                    if (!existeIDAuthCadastrado) {
-                        const dadosLogin = {apelido: apelido, idade: idade, sexo: sexoSelecionado, dadosLogin: dados};
-                        const response = await cadastrarUsuario(dadosLogin);
-                        
-                        const myID = Number(response.id);
-                        const responseOk: boolean = myID > 0;
-
-                        if (responseOk) {
-                            const myInfo = {idAuth: Number(dados.id), idServer: myID};
-                            const myInfoString = JSON.stringify(myInfo);
-                            try {
-                                await AsyncStorage.setItem(keyUser, myInfoString);
-                                setMeusDados(myInfo);
-                            }
-                            catch(e: any) {}
-                            navigation.navigate("Home");
-                        } else {
-                            navigation.navigate("Login");
-                        }
-                    } else {
-                        alert("ID do Auth já está cadastrado para essa conta.");
-                        navigation.navigate("Home");
-                    }
-                } else {
-                    alert("Selecione a sua idade.")
-                }
-            } else {
-                alert("Selecione o sexo do usuário.")
-            }
-        } else {
-            alert("Digite um apelido maior ou igual 5 caracteres.")
-        }
-    };
-    
     const escolherSexo = (sexo: SexoSelecionado) => {
-        if (sexoSelecionado == SexoSelecionado.NENHUM) {
-            setSexoSelecionado(sexo);
-        } else {
-            setImageLogin(!imageLogin);
-        }
+        if (dadosNecessarios.sexo == SexoSelecionado.NENHUM) { 
+            setDadosNecessarios(prevState => ({...prevState, sexo: sexo}))
+        } else { setImageLogin(!imageLogin); }
+    }
+
+    const realizarCadastro = () => {
+        cadastrar({dadosUsuario: dadosNecessarios, setMeusDados: setMeusDados}).then(response => {
+            if (response) { navigation.navigate("Home"); }
+        });
     }
 
     return (
@@ -86,26 +40,26 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
             <ContainerInfoAll>
                 <SexoContainer>
                     <SexoText>Sexo</SexoText>
-                    {(sexoSelecionado !== SexoSelecionado.NENHUM)?
-                    <MudarSexoButton onPress={() => setSexoSelecionado(SexoSelecionado.NENHUM)}>
+                    {(dadosNecessarios.sexo !== SexoSelecionado.NENHUM)?
+                    <MudarSexoButton onPress={() => setDadosNecessarios(prevState => ({...prevState, sexo: SexoSelecionado.NENHUM}))}>
                         <MudarSexoText>Mudar sexo</MudarSexoText>
                     </MudarSexoButton>
                     :<></>}
                 </SexoContainer>
                 <AvatarContainerChoice>
                     <Avatars>
-                        {(sexoSelecionado != SexoSelecionado.FEMININO)?
+                        {(dadosNecessarios.sexo != SexoSelecionado.FEMININO)?
                         <AvatarCircleContainer>
                             <AvatarCircle onPress={() => escolherSexo(SexoSelecionado.MASCULINO)}>
-                                <AvatarImage source={imageLogin && sexoSelecionado === SexoSelecionado.MASCULINO? {uri: minhaImagem} : avatarMasculino} />
+                                <AvatarImage source={imageLogin && dadosNecessarios.sexo === SexoSelecionado.MASCULINO? {uri: route.params.dados.avatar_url} : avatarMasculino} />
                             </AvatarCircle>
                             <SexoMascFemText>Masculino</SexoMascFemText>
                         </AvatarCircleContainer>
                         :<></>}
-                        {(sexoSelecionado != SexoSelecionado.MASCULINO)?
+                        {(dadosNecessarios.sexo != SexoSelecionado.MASCULINO)?
                         <AvatarCircleContainer>
                             <AvatarCircle onPress={() => escolherSexo(SexoSelecionado.FEMININO)}>
-                                <AvatarImage source={imageLogin && sexoSelecionado === SexoSelecionado.FEMININO? {uri: minhaImagem} : avatarFeminino}/>
+                                <AvatarImage source={imageLogin && dadosNecessarios.sexo === SexoSelecionado.FEMININO? {uri: route.params.dados.avatar_url} : avatarFeminino}/>
                             </AvatarCircle>
                             <SexoMascFemText>Feminino</SexoMascFemText>
                         </AvatarCircleContainer>
@@ -116,26 +70,26 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route }) => {
                 <ApelidoIdadeContainer>
                     <InputContainer>
                         <InputInfo 
-                        onChangeText={(text: string) => setApelido(text)}
+                        onChangeText={(text: string) => setDadosNecessarios(prevState => ({...prevState, apelido: text}))}
                         placeholder={"Apelido"}
                         numberOfLines={1} 
-                        maxLength={15}
+                        maxLength={8}
                         placeholderTextColor={"white"}
                         />
                     </InputContainer>
                     <InputContainer>
                         <InputInfo
-                        onChangeText={(text: string) => setIdade(Number(text))}
+                        onChangeText={(text: string) => setDadosNecessarios(prevState => ({...prevState, idade: SexoSelecionado.NENHUM}))}
                         placeholder={"Idade"}
-                        numberOfLines={1} 
-                        maxLength={100}
+                        numberOfLines={1}
+                        maxLength={3}
                         placeholderTextColor={"white"}
                         keyboardType="numeric"
                         />
                     </InputContainer>
                 </ApelidoIdadeContainer>
                 <ButtonCriarContaContainer>
-                    <ButtonCriarConta onPress={() => cadastrar()}>
+                    <ButtonCriarConta onPress={() => realizarCadastro()}>
                         <ButtonCriarContaText>Criar conta</ButtonCriarContaText>
                     </ButtonCriarConta>
                 </ButtonCriarContaContainer>

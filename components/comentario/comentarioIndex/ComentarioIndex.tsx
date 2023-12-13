@@ -15,9 +15,9 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     const { webSock, meusDados } = useContext<ContextProvider>(Provider);
     
     const gostouOuNao = (gostou: number) => {
-        if (meusDados.idAuth !== -1 && meusDados.idServer !== -1) {
+        if (meusDados.codigoAcesso !== -1 && meusDados.id !== -1) {
             const destination: string = "/app/curtir-comentario/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
-            sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou, meusDados.idServer, meusDados.idAuth);
+            sendStatusGostouOuNao(webSock, destination, props.idPublicacao, props.comentario.getId(), gostou, meusDados.id, meusDados.codigoAcesso);
         } else {
             props.navigation.navigate("Login");
         }
@@ -44,8 +44,8 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     }, []);
 
     const abrirChatPrivado = () => {
-        if (meusDados.idServer !== -1 && meusDados.idAuth !== -1) { 
-            if(meusDados.idServer !== props.comentario.getUsuario().getId()) {
+        if (meusDados.id !== -1 && meusDados.codigoAcesso !== -1) { 
+            if(meusDados.id !== props.comentario.getUsuario().getId()) {
                 props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
             }
         } else {

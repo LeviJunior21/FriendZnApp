@@ -22,13 +22,13 @@ export default function ChatPrivado(props: NavigationChatProps) {
 
     useEffect(() => {
         const carregarConversas = async() => {
-            const chatEncontrado:Chat = await buscarChat(idRemetente, meusDados.idServer, keyBDChat);
+            const chatEncontrado:Chat = await buscarChat(idRemetente, meusDados.id, keyBDChat);
             setConversas([...chatEncontrado.getConversas()]);
         }; carregarConversas()
     }, [chatData, setChatData]);
 
     const enviarMensagem = async() => {
-        enviarChat(mensagem, webSock, meusDados.idServer, idRemetente, setMensagem);
+        enviarChat(mensagem, webSock, meusDados.id, idRemetente, setMensagem);
     }
 
     return (

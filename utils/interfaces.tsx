@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 import { Publicacao } from "../model/Publicacao";
 import { NavigationProp } from '@react-navigation/native';
 import { Comentario } from "../model/Comentario";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { LoginCadastroReturns } from "../components/usuario/cadastro/Interface";
 
 interface PublicacaoInterface {
     id: number,
@@ -38,7 +40,7 @@ interface PublicacaoProps {
 }
 
 interface NavProps {
-    navigation: NavigationProp<RootStackParamList, "Home">,
+    navigation: DrawerNavigationProp<RootStackParamList, "Home">,
     search: string,
     setSearch: Dispatch<SetStateAction<string>>,
     openCategoria: boolean,
@@ -56,7 +58,7 @@ interface PropsCategoria {
 interface PublicacaoUsuario {
     categoria: Categoria,
     desabafo: string,
-    meusDados: DadosProps,
+    meusDados: LoginCadastroReturns,
     navigation: Navigation
 }
 
@@ -86,7 +88,7 @@ type RootStackParamList = {
     Comentario: { publicacao: Publicacao };
     ChatPrivado: {};
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
-    Configuracoes: {}
+    Configuracoes: undefined
 };
 
 interface Navigation {
@@ -146,7 +148,8 @@ interface GetComentariosProps {
 
 interface DadosProps {
     idAuth: number, 
-    idServer: number
+    idServer: number,
+    apelido: string
 }
 
 
