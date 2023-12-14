@@ -65,7 +65,7 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
             <InputContainer>
                 <InputInfo 
                 value={apelidoDescricao.apelido}
-                onChangeText={(text: string) => setApelidoDescricao(prevState => ({...prevState, apelido: text}))}
+                onChangeText={(text: string) => setApelidoDescricao(prevState => ({...prevState, apelido: text.replace(/^\s+|\s+$/g, '')}))}
                 placeholder={"Apelido"}
                 numberOfLines={1} 
                 maxLength={10}
@@ -75,7 +75,7 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
             <ApelidoDescricaoText style={{marginTop: 30}}>Descrição</ApelidoDescricaoText>
             <InputContainer>
                 <InputInfo
-                onChangeText={(text: string) => setApelidoDescricao(prevState => ({...prevState, descricao: text}))}
+                onChangeText={(text: string) => setApelidoDescricao(prevState => ({...prevState, descricao: text.replace(/^\s+|\s+$/g, '')}))}
                 value={apelidoDescricao.descricao}
                 placeholder={"Descricao"}
                 maxLength={300}

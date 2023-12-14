@@ -11,6 +11,7 @@ import { Conversa, conversaBuilder } from "./model/Conversa";
 import { dadosIniciaisUsuario, keyBDChat } from "./data/constants";
 import { carregarMyID } from "./data/myId";
 import { LoginCadastroReturns } from "./components/usuario/cadastro/Interface";
+import { LogBox } from "react-native";
 
 export default function App() {
     const webSock:MutableRefObject<Client | null> = useRef<Client | null>(null);
@@ -18,7 +19,8 @@ export default function App() {
     const [chatDeletado, setChatDeletado] = useState<boolean>(false);
     const [comentou, setComentou] = useState<boolean>(false);
     const [meusDados, setMeusDados] = useState<LoginCadastroReturns>(dadosIniciaisUsuario);
-
+    LogBox.ignoreAllLogs();
+    
     useEffect(() => {
         carregarChat(keyBDChat);
         var sock = new SockJS("http://10.0.0.181:8080/ws");
@@ -28,7 +30,7 @@ export default function App() {
         return () => { if (webSock.current) { 
             webSock.current.disconnect(() => {});
         }};
-    },[])
+    },[ setMeusDados ])
 
     useLayoutEffect(() => {
         carregarDados();

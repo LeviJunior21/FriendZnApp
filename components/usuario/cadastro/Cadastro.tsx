@@ -70,7 +70,7 @@ const Cadastro:React.FC<CadastroProps> = ({ navigation, route}) => {
                 <ApelidoIdadeContainer>
                     <InputContainer>
                         <InputInfo 
-                        onChangeText={(text: string) => setDadosNecessarios(prevState => ({...prevState, apelido: text}))}
+                        onChangeText={(text: string) => setDadosNecessarios(prevState => ({...prevState, apelido: text.replace(/^\s+|\s+$/g, '')}))}
                         placeholder={"Apelido"}
                         numberOfLines={1} 
                         maxLength={10}
