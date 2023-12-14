@@ -1,4 +1,5 @@
-import { Navigation } from "../../utils/interfaces";
+import { NavigationProp } from "@react-navigation/native";
+import { Navigation, RootStackParamList } from "../../utils/interfaces";
 
 export type EditarPerfilProps = {
     route: {
@@ -6,7 +7,7 @@ export type EditarPerfilProps = {
             id: number, 
             apelido: string, 
             descricao: string, 
-            navigation: Navigation
+            navigation:  NavigationProp<RootStackParamList, "Home">
         };
     };
 };

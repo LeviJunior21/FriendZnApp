@@ -45,9 +45,7 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
 
     const abrirChatPrivado = () => {
         if (meusDados.id !== -1 && meusDados.codigoAcesso !== -1) { 
-            if(meusDados.id !== props.comentario.getUsuario().getId()) {
-                props.navigation.navigate("ChatPrivado", { idRemetente: props.comentario.getUsuario().getId(), nome: props.comentario.getUsuario().getApelido() })
-            }
+                props.navigation.navigate("Perfil", { id: props.comentario.getUsuario().getId(), apelido: props.comentario.getUsuario().getApelido(), navigation: props.navigation })
         } else {
             props.navigation.navigate("Login");
         }

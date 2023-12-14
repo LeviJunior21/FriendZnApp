@@ -24,6 +24,7 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
         if (alterado) {
             try {
                 const dadosParaPost = { apelido: apelidoDescricao.apelido, descricao: apelidoDescricao.descricao, codigoAcesso: meusDados.codigoAcesso };
+
                 const result = await gravarDadosEditados(dadosParaPost, id);
                 if (result) {
                     const dadosUsuario = await AsyncStorage.getItem(keyUser);
@@ -33,7 +34,7 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
                         dadosUsuarioJSON.descricao = apelidoDescricao.descricao;
                         AsyncStorage.setItem(keyUser, dadosUsuario);
                         setMeusDados(prevState => ({...prevState, apelido: apelidoDescricao.apelido, descricao: apelidoDescricao.descricao}));
-                        navigation.navigation.navigate("Home");
+                        navigation.navigate("Home");
                     }
                 }
             } catch {}
@@ -43,7 +44,7 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
     return (
         <Container>
             <NavContainer>
-                <NavButtonBack onPress={() => navigation.navigation.navigate("Home")}>
+                <NavButtonBack onPress={() => navigation.navigate("Home")}>
                     <Icon name={"arrow-back"} color={"white"} size={30}/>
                 </NavButtonBack>
                 <NavText>Meu Perfil</NavText>

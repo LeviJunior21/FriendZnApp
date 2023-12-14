@@ -14,7 +14,7 @@ import { LoginType } from "../usuario/utils/LoginType";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
 const Perfil: React.FC<PerfilProps> = ({ route }) => {
-    const { id, navigation } = route.params;
+    const { id, apelido, navigation } = route.params;
     const [ publicacoes, setPublicacoes ] = useState<Publicacao[]>([]);
     const [ dadosPerfilUsuario, setDadosPerfilUsuario ] = useState<PerfilInterface>(dadosIniciaisPerfil);
     const { meusDados } = useContext<ContextProvider>(Provider);
@@ -27,7 +27,7 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
     return (
         <Container>
             <NavContainer>
-                <NavButtonBack onPress={() => navigation.navigation.navigate("Home")}>
+                <NavButtonBack onPress={() => navigation.navigate("Home")}>
                     <IonIcons name={"arrow-back"} color={"white"} size={30}/>
                 </NavButtonBack>
                 <NavText>Perfil</NavText>
@@ -73,8 +73,8 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
             </PublicacaoContainer>
             {(meusDados.id === id)?
                 <EditarPerfilContainer onPress={() => {
-                    if (dadosPerfilUsuario.id != -1) {
-                        navigation.navigation.navigate("EditarPerfil", { 
+                    if (dadosPerfilUsuario.id !== -1) {
+                        navigation.navigate("EditarPerfil", { 
                             id: id, 
                             apelido: dadosPerfilUsuario.apelido, 
                             descricao: dadosPerfilUsuario.descricao, 
@@ -85,7 +85,7 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
                     <MaterialIcon name={"edit"} color={"white"} size={20}/>
                     <ChatEditarText>EDITAR PERFIL</ChatEditarText>
                 </EditarPerfilContainer>:
-                <ChatContainer>
+                <ChatContainer onPress={() => navigation.navigate("ChatPrivado", {idRemetente: id, nome: apelido})}>
                     <MaterialIcon name={"chat"} color={"white"} size={30}/>
                 </ChatContainer>
             }

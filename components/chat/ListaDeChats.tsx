@@ -51,13 +51,13 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
                 <FlatListContainer>
                     <FlatList
                     data={solicitacoesChatPendentes}
-                    renderItem={({item}) => <ChatPedido chat={item} navigation={props}/>}
+                    renderItem={({item}) => <ChatPedido chat={item} navigation={props.navigation}/>}
                     />
                 </FlatListContainer>
                 <FlatListContainer style={{flex: 1}}>
                     <FlatList
                     data={solicitacoesChatAceitas}
-                    renderItem={({item}) => <ChatAceito chat={item} navigation={props}/>}
+                    renderItem={({item}) => <ChatAceito chat={item} navigation={props.navigation}/>}
                     />
                 </FlatListContainer>
             </ScrollContainer>

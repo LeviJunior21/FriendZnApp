@@ -32,7 +32,7 @@ export default function Seguindo(props: NavigationProps) {
             <FlatList
             data={publicacoesSeguidas}
             renderItem={({item, index}) => 
-                <PublicacaoUser navigation={props} publicacao={item} index={index}/>
+                <PublicacaoUser navigation={props.navigation} publicacao={item} index={index}/>
             }
             />
         </Container>

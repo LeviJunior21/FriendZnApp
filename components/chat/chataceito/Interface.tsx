@@ -1,7 +1,8 @@
+import { NavigationProp } from "@react-navigation/native";
 import { Chat } from "../../../model/Chat";
-import { Navigation } from "../../../utils/interfaces";
+import { RootStackParamList } from "../../../utils/interfaces";
 
 export interface ChatItemProps {
     chat: Chat;
-    navigation: Navigation;
+    navigation: NavigationProp<RootStackParamList, "Home">;
 }

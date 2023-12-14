@@ -41,9 +41,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
 
     const abrirChat = () => {
         if (meusDados.id !== -1 && meusDados.codigoAcesso != -1) {
-            if(meusDados.id !== publicacao.getUsuario().getId()) {
-                navigation.navigate("ChatPrivado", { idRemetente: publicacao.getUsuario().getId(), nome: publicacao.getUsuario().getApelido() });
-            }
+                navigation.navigate("Perfil", { id: publicacao.getUsuario().getId(), apelido: publicacao.getUsuario().getApelido(), navigation: navigation });
         } else {
             navigation.navigate("Login");
         }

@@ -4,15 +4,15 @@ import styled from "styled-components/native";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import Constants from "expo-constants";
 import { avatarMasculino } from "../../data/avatar";
-import { Navigation } from "../../utils/interfaces";
+import { DrawerNavigationProps, Navigation } from "../../utils/interfaces";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function CustomDrawerContent(props: Navigation) {
+export default function CustomDrawerContent(props: DrawerNavigationProps) {
     const { meusDados } = useContext<ContextProvider>(Provider);
 
     return (
         <Container>
-            <TopContainer onPress={() => props.navigation.navigate("Perfil", {id: meusDados.id, navigation: props})}>
+            <TopContainer onPress={() => props.navigation.navigate("Perfil", {id: meusDados.id, navigation: props.navigation, apelido: meusDados.apelido})}>
                 <ImageAvatar source={avatarMasculino}/>
                 {(meusDados.apelido !== "")? <TextAvatar>@{meusDados.apelido}</TextAvatar>:
                 <IntroducaoContainer>

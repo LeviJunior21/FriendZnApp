@@ -1,4 +1,5 @@
-import { Navigation } from "../../utils/interfaces";
+import { NavigationProp } from "@react-navigation/native";
+import { Navigation, RootStackParamList } from "../../utils/interfaces";
 import { SexoSelecionado } from "../usuario/cadastro/Sexo";
 import { LoginType } from "../usuario/utils/LoginType";
 
@@ -6,7 +7,8 @@ type PerfilProps = {
     route: {
         params: {
             id: number,
-            navigation: Navigation
+            apelido: string,
+            navigation: NavigationProp<RootStackParamList, "Home">
         };
     };
 };

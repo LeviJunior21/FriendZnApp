@@ -30,7 +30,7 @@ export default function ChatAceito(props: ChatItemProps) {
     }, [chatData])
     
     return (
-        <Container onPress={() => props.navigation.navigation.navigate("ChatPrivado", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido() })}>
+        <Container onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido() })}>
             <AvatarContainer>
                 <Avatar source={avatarMasculino}/>
             </AvatarContainer>

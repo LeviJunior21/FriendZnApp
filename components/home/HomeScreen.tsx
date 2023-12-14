@@ -5,10 +5,10 @@ import TodasCategorias from "./nav/TodasCategorias";
 import { NavCategoria } from "./nav/NavCategoria";
 import { StatusBar } from 'expo-status-bar';
 import { useContext, useState } from "react";
-import { Categoria, Navigation } from "../../utils/interfaces";
+import { Categoria, DrawerNavigationProps, Navigation } from "../../utils/interfaces";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
-export default function HomeScreen(props: Navigation) {
+export default function HomeScreen(props: DrawerNavigationProps) {
     const [search, setSearch] = useState<string>("");
     const [openCategoria, setOpenCategoria] = useState<boolean>(false);
     const [categoriaEscolhida, setCategoriaEscolhida] = useState<Categoria>(Categoria.todasCategorias);
@@ -26,7 +26,7 @@ export default function HomeScreen(props: Navigation) {
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
             <NavCategoria categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch} navigation={props.navigation}/>
-            <HomePublicacoes navigation={props} search={search} categoriaEscolhida={categoriaEscolhida}/>
+            <HomePublicacoes navigation={props.navigation} search={search} categoriaEscolhida={categoriaEscolhida}/>
             <Button onPress={() => verificarLogin()}>
                 <Plus>+</Plus>
             </Button>

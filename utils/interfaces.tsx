@@ -30,13 +30,13 @@ interface UsuarioInterface {
 interface HomeProps {
     search: string,
     categoriaEscolhida: Categoria,
-    navigation: Navigation
+    navigation:  NavigationProp<RootStackParamList, "Home">
 }
 
 interface PublicacaoProps {
     publicacao: Publicacao,
     index: number,
-    navigation: Navigation
+    navigation: NavigationProp<RootStackParamList, "Home">;
 }
 
 interface NavProps {
@@ -89,12 +89,16 @@ type RootStackParamList = {
     ChatPrivado: {};
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
     Configuracoes: undefined;
-    Perfil: {id: number, navigation: Navigation};
-    EditarPerfil: { id: number, apelido: string, descricao: string}
+    Perfil: {id: number, navigation:  NavigationProp<RootStackParamList, "Home">, apelido: string};
+    EditarPerfil: { id: number, apelido: string, descricao: string, navigation: NavigationProp<RootStackParamList, "Home">}
 };
 
 interface Navigation {
     navigation: NavigationProp<RootStackParamList, "Home">
+}
+
+interface DrawerNavigationProps {
+    navigation: DrawerNavigationProp<RootStackParamList, "Home">
 }
 
 interface NavigationChat {
@@ -155,4 +159,4 @@ interface DadosProps {
 }
 
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat, DadosProps };
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat, DadosProps, DrawerNavigationProps };

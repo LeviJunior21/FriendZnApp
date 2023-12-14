@@ -1,6 +1,7 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import NavigationBottoms from "./NaviagationBottoms";
 import CustomDrawerContent from "../../drawer/CustomDrawerContent";
+import { Navigation } from "../../../utils/interfaces";
 
 const Drawer = createDrawerNavigator();
 

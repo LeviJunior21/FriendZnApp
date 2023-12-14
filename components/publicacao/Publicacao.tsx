@@ -10,7 +10,7 @@ import { avatarMasculino } from "../../data/avatar";
 export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, navigation }) => {
     return (
         <Animatable.View animation="fadeInDown" delay={index * 100} useNativeDriver>
-            <PublicacaoContainer onPress={() => navigation.navigation.navigate("Comentario", { publicacao: publicacao })}>
+            <PublicacaoContainer onPress={() => navigation.navigate("Comentario", { publicacao: publicacao })}>
                 <UserInfoTop>
                     <Avatar source={avatarMasculino}/>
                     <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
