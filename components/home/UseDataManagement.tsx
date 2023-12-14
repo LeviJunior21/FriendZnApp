@@ -22,7 +22,7 @@ export function useDataManagement(props: HomeProps) {
       setPublicacoes(newPublicacoes);
       setFilteredPublicacoes(newPublicacoes);
     });
-  }, []);
+  }, [ props.meusDados ]);
 
   useEffect(() => {
     if (props.search === "") {

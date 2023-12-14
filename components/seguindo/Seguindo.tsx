@@ -22,7 +22,7 @@ export default function Seguindo(props: NavigationProps) {
     return (
         <Container>
             <NavContainer>
-                <NavButtonIconContainer>
+                <NavButtonIconContainer onPress={() => props.navigation.openDrawer()}>
                     <Icon name={"menu-outline"} color={"white"} size={30}/>
                 </NavButtonIconContainer>
                 <NavButtonIconContainer>

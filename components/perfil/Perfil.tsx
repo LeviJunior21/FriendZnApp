@@ -66,6 +66,7 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
             <PublicacaoContainer>
                 <FlatList
                 data={publicacoes}
+                ItemSeparatorComponent={() => <Separator/>}
                 renderItem={({item, index}) => 
                     <PublicacaoUser publicacao={item} index={index} navigation={navigation}></PublicacaoUser>
                 }
@@ -246,4 +247,10 @@ const ChatEditarText = styled.Text`
     color: white;
     font-size: 16px;
     z-index: 4;
+`
+
+const Separator = styled.View`
+    width: 100%;
+    height: 1px;
+    background-color: white;
 `

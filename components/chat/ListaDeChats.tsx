@@ -36,7 +36,7 @@ export default function ListaDeChats(props: ListaDeChatsProps) {
     return (
         <Container>
             <NavContainer>
-                <ButtonDrawer>
+                <ButtonDrawer onPress={() => props.navigation.openDrawer()}>
                     <Icon name={"menu-outline"} size={30} color={"white"}></Icon>
                 </ButtonDrawer>
             </NavContainer>

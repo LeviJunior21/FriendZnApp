@@ -30,7 +30,8 @@ interface UsuarioInterface {
 interface HomeProps {
     search: string,
     categoriaEscolhida: Categoria,
-    navigation:  NavigationProp<RootStackParamList, "Home">
+    navigation:  NavigationProp<RootStackParamList, "Home">,
+    meusDados: LoginCadastroReturns
 }
 
 interface PublicacaoProps {

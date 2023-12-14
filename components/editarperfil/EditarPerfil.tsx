@@ -23,16 +23,23 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
     const salvar = async() => {
         if (alterado) {
             try {
-                const dadosParaPost = { apelido: apelidoDescricao.apelido, descricao: apelidoDescricao.descricao.replace(/^\s+|\s+$/g, ''), codigoAcesso: meusDados.codigoAcesso };
+                const dadosParaPost = { 
+                    apelido: apelidoDescricao.apelido, 
+                    descricao: apelidoDescricao.descricao.replace(/^\s+|\s+$/g, ''), 
+                    codigoAcesso: meusDados.codigoAcesso 
+                };
 
                 const result = await gravarDadosEditados(dadosParaPost, id);
+
                 if (result) {
                     const dadosUsuario = await AsyncStorage.getItem(keyUser);
                     if (dadosUsuario != null) {
                         const dadosUsuarioJSON = JSON.parse(dadosUsuario);
+
                         dadosUsuarioJSON.apelido = dadosParaPost.apelido;
                         dadosUsuarioJSON.descricao = dadosParaPost.descricao;
-                        AsyncStorage.setItem(keyUser, dadosUsuario);
+
+                        await AsyncStorage.setItem(keyUser, JSON.stringify(dadosUsuarioJSON));
                         setMeusDados(prevState => ({...prevState, apelido: apelidoDescricao.apelido, descricao: apelidoDescricao.descricao}));
                         navigation.navigate("Home");
                     }

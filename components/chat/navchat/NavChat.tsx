@@ -29,7 +29,7 @@ export function NavChat(props: NavChatProps) {
             <ButtonBack onPress={() => props.navigation.goBack()}>
                 <Icon name={"arrow-back"} color={"white"} size={30}/>
             </ButtonBack>
-            <AvatarContainer>
+            <AvatarContainer onPress={() => props.navigation.navigate("Perfil", { navigation: props.navigation, id: props.idRemetente, apelido: props.nome })}>
                 <Avatar source={avatarMasculino}/>
                 <Nome numberOfLines={1}>@{props.nome}</Nome>
             </AvatarContainer>
@@ -79,7 +79,7 @@ const ButtonBack = styled.TouchableOpacity`
     align-items: center;
 `
 
-const AvatarContainer = styled.View`
+const AvatarContainer = styled.TouchableOpacity`
     height: 100%;
     flex-direction: row;
     align-items: center;

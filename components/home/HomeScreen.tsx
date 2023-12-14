@@ -12,7 +12,7 @@ export default function HomeScreen(props: DrawerNavigationProps) {
     const [search, setSearch] = useState<string>("");
     const [openCategoria, setOpenCategoria] = useState<boolean>(false);
     const [categoriaEscolhida, setCategoriaEscolhida] = useState<Categoria>(Categoria.todasCategorias);
-    const { meusDados } = useContext<ContextProvider>(Provider);
+    const { meusDados, setMeusDados } = useContext<ContextProvider>(Provider);
 
     const verificarLogin = () => {
         if (meusDados.id != -1 && meusDados.codigoAcesso != -1) {
@@ -26,7 +26,7 @@ export default function HomeScreen(props: DrawerNavigationProps) {
         <Container>
             <StatusBar backgroundColor={"#ffffff"}></StatusBar>
             <NavCategoria categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch} navigation={props.navigation}/>
-            <HomePublicacoes navigation={props.navigation} search={search} categoriaEscolhida={categoriaEscolhida}/>
+            <HomePublicacoes meusDados={meusDados} navigation={props.navigation} search={search} categoriaEscolhida={categoriaEscolhida}/>
             <Button onPress={() => verificarLogin()}>
                 <Plus>+</Plus>
             </Button>
