@@ -43,9 +43,8 @@ O FriendZone: App é um aplicativo destinado a pessoas que se preocupam em mante
 - Abra o aplicativo Expo Go no seu celular. Caso seu esteja logado com a mesma conta logada no terminal, então aparecerá automaticamente o endereço para rodar o aplicativo. Caso não esteja logado, abra a opção de ler QRCode e aponte seu celular para o QRCode mostrado no terminal.
 - O login do usuário é feito utilizando o GitHub.
 
-### Segunda forma de usar (não recomendado ainda).
+### Segunda forma de usar.
 
-#### Ainda não é recomendável pois o servidor está em desenvolvimento e é preciso habilitar o CORS para permitir requisições vindos de outros endereços além do padrão que é usado pelo roteador do usuário.
 - Executar no terminal para construir o APK:
  
         eas build -p android --profile preview
