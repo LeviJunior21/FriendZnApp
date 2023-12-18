@@ -1,3 +1,4 @@
+import { uri_principal } from "../../data/constants";
 import { Categoria, PublicacaoUsuario } from "../../utils/interfaces";
 
 export const enviarPublicacao = async(props: PublicacaoUsuario) => {
@@ -5,7 +6,7 @@ export const enviarPublicacao = async(props: PublicacaoUsuario) => {
         alert("Selecione uma categoria!");
     } else {
         try {
-            const url: string = "http://10.0.0.181:8080/v1/publicacoes/publicacao?id=" + props.meusDados.id;
+            const url: string = uri_principal + "/v1/publicacoes/publicacao?id=" + props.meusDados.id;
             const dados = {
                 publicacao: props.desabafo.replace(/^\s+|\s+$/g, ''),
                 date: new Date().toISOString(),

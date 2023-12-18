@@ -1,8 +1,9 @@
+import { uri_principal } from "../data/constants";
 import { Usuario } from "../model/Usuario";
 
 export const getUsuario = async(id: number):Promise<Usuario> => {
     try {
-        const response = await fetch("http://10.0.0.181:8080/v1/usuarios/usuario/" + id);
+        const response = await fetch(uri_principal + "/v1/usuarios/usuario/" + id);
         if (response.ok) {
             const data = await response.json();
             const usuario: Usuario = Usuario.builder()
@@ -24,7 +25,7 @@ export const getUsuario = async(id: number):Promise<Usuario> => {
 export const verificarExistenciaGithubServidor = async(idAuth: number): Promise<boolean> => {
     let result: boolean = false;
     try {
-        const responseJSON = await fetch("http://10.0.0.181:8080/v1/usuarios/github?idAuth=" + idAuth);
+        const responseJSON = await fetch(uri_principal + "/v1/usuarios/github?idAuth=" + idAuth);
         const responseJSONExistencia = await responseJSON.json()
         const responseJSONExistenciaDefinitivo = Boolean(responseJSONExistencia);
         

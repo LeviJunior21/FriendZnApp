@@ -1,4 +1,3 @@
-import { DrawerProps } from "@react-navigation/drawer/lib/typescript/src/types";
 import { useContext, useState } from "react";
 import styled from "styled-components/native";
 import { ContextProvider, Provider } from "../../utils/Provider";
@@ -6,9 +5,11 @@ import Constants from "expo-constants";
 import { avatarMasculino } from "../../data/avatar";
 import { DrawerNavigationProps, Navigation } from "../../utils/interfaces";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { ModalDrawer } from "./Modals";
 
 export default function CustomDrawerContent(props: DrawerNavigationProps) {
     const { meusDados } = useContext<ContextProvider>(Provider);
+    const [ aberto, setAberto ] = useState<boolean>(false);
 
     return (
         <Container>
@@ -27,7 +28,7 @@ export default function CustomDrawerContent(props: DrawerNavigationProps) {
                     <Icon name={"cog"} color={"white"} size={30}/>
                     <SubContainerText>Configurações</SubContainerText>
                 </SubContainerButton>
-                <SubContainerButton>
+                <SubContainerButton onPress={() => setAberto(true)}>
                     <Icon name={"emoticon-outline"} color={"white"} size={30}/>
                     <SubContainerText>Estou sentindo...</SubContainerText>
                 </SubContainerButton>
@@ -66,6 +67,7 @@ export default function CustomDrawerContent(props: DrawerNavigationProps) {
                     <SubContainerText>Mais apps!</SubContainerText>
                 </SubContainerButton>
             </SubContainer>
+            <ModalDrawer aberto={aberto} setAberto={setAberto}/>
         </Container>
     )
 }

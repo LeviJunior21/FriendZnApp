@@ -2,10 +2,11 @@ import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { CurtidasInterface } from "./Interface";
 import { Client } from "stompjs";
 import { Usuario } from "../../../model/Usuario";
+import { uri_principal } from "../../../data/constants";
 
 export const getStatusGostouOuNao = async(idPublicacao: number, idComentario: number, curtidas:  Dispatch<SetStateAction<CurtidasInterface>>) => {
     try {
-        const response = await fetch(`http://10.0.0.181:8080/v1/comentarios/publicacao/${idPublicacao}/comentario/${idComentario}`);
+        const response = await fetch(`${uri_principal}/v1/comentarios/publicacao/${idPublicacao}/comentario/${idComentario}`);
 
         if (response.ok) {
             const data = await response.json();

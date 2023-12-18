@@ -25,3 +25,5 @@ export const dadosNecesassariosCriacaoUsuario: LoginCadastro = {
     loginType: LoginType.GitHub, 
     sexo: SexoSelecionado.NENHUM,
 }
+
+export const uri_principal = "https://friendzone-qhwk.onrender.com";

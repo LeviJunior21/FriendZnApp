@@ -2,10 +2,11 @@ import { Usuario } from "../model/Usuario";
 import { Comentario } from "../model/Comentario";
 import { ComentarioInterface, GetComentariosProps } from "./interfaces";
 import { getUsuario } from "./getUsuario";
+import { uri_principal } from "../data/constants";
 
 export const getComentarios = async(props: GetComentariosProps) => {
     try {
-        const response = await fetch(`http://10.0.0.181:8080/v1/comentarios/publicacao/${props.publicacao.getId()}`);
+        const response = await fetch(`${uri_principal}/v1/comentarios/publicacao/${props.publicacao.getId()}`);
 
         if (response.ok) {
             const data = await response.json();

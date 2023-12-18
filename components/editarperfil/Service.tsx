@@ -1,8 +1,10 @@
+import { uri_principal } from "../../data/constants";
+
 export const gravarDadosEditados = async(apelidoDescricaoCodidoAcesso: any, id: number): Promise<boolean> => {
     let result: boolean = false;
 
     try {
-        const url: string = "http://10.0.0.181:8080/v1/usuarios/alterar-apelido-descricao/usuario?id=" + id;
+        const url: string = uri_principal + "/v1/usuarios/alterar-apelido-descricao/usuario?id=" + id;
         fetch(url, {
             method: "PUT", 
             headers: {

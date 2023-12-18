@@ -1,10 +1,10 @@
-import { dadosIniciaisUsuario } from "../../../data/constants";
+import { dadosIniciaisUsuario, uri_principal } from "../../../data/constants";
 import { LoginCadastro, LoginCadastroReturns } from "../cadastro/Interface";
 
 export const cadastrarUsuario = async(dadosUsuario: LoginCadastro): Promise<LoginCadastroReturns> => {
     let responseJSON: LoginCadastroReturns = dadosIniciaisUsuario;
 
-    const url: string = "http://10.0.0.181:8080/v1/usuarios";
+    const url: string = uri_principal + "/v1/usuarios";
     try {    
         const responseFetch = await fetch(url, {
             method: "POST", 

@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dadosIniciaisUsuario, keyUser } from "../../data/constants";
+import { dadosIniciaisUsuario, keyUser, uri_principal } from "../../data/constants";
 import { LoginCadastroReturns } from "../usuario/cadastro/Interface";
 import { verificarExistenciaGithubServidor } from "../../utils/getUsuario";
 import { Dispatch, SetStateAction } from "react";
@@ -57,7 +57,7 @@ export const buscarIDUsuarioByGitHubIdAuth = async(codigoAcesso: number): Promis
     let result: LoginCadastroReturns = dadosIniciaisUsuario;
 
     try {
-        const response = await fetch('http://10.0.0.181:8080/v1/usuarios/github/' + codigoAcesso);
+        const response = await fetch(uri_principal + '/v1/usuarios/github/' + codigoAcesso);
         result = await response.json();
     } catch {}
 

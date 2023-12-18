@@ -8,10 +8,12 @@ import { gravarConversa, lerChats } from "./data/chatutils";
 import { Client } from "stompjs";
 import { Chat } from "./model/Chat";
 import { Conversa, conversaBuilder } from "./model/Conversa";
-import { dadosIniciaisUsuario, keyBDChat } from "./data/constants";
+import { dadosIniciaisUsuario, keyBDChat, keyUser, uri_principal } from "./data/constants";
 import { carregarMyID } from "./data/myId";
 import { LoginCadastroReturns } from "./components/usuario/cadastro/Interface";
 import { LogBox } from "react-native";
+import { verificarExistenciaGithubServidor } from "./utils/getUsuario";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
     const webSock:MutableRefObject<Client | null> = useRef<Client | null>(null);
@@ -23,7 +25,7 @@ export default function App() {
     
     useEffect(() => {
         carregarChat(keyBDChat);
-        var sock = new SockJS("http://10.0.0.181:8080/ws");
+        var sock = new SockJS(uri_principal + "/ws");
         let stompClient: Client = Stomp.over(sock);
         webSock.current = stompClient;
         webSock.current.connect({}, () => {});
@@ -37,13 +39,17 @@ export default function App() {
     }, [ setMeusDados ])
 
     const carregarDados = async() => {
-        carregarMyID(setMeusDados).then(result => {
+        await carregarMyID(setMeusDados).then(result => {
             if (result == true) {
                 console.log("Usuário logado!");
             } else {
                 console.log("Usuário não está logado!");
             }
         });
+        const response = await verificarExistenciaGithubServidor(meusDados.id);
+        if (!response) {
+            AsyncStorage.setItem(keyUser, JSON.stringify(dadosIniciaisUsuario));
+        }
     }
 
     const carregarChat = async(key: string) => {

@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dadosIniciaisUsuario, keyBDChat, keyUser } from "../../data/constants";
+import { dadosIniciaisUsuario, keyBDChat, keyUser, uri_principal } from "../../data/constants";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../utils/interfaces";
 import { Dispatch, SetStateAction } from "react";
@@ -14,7 +14,7 @@ interface DeslogarProps {
 }
 export const deletarDados = async(props: DeslogarProps) => {
     try {
-        await fetch(`http://10.0.0.181:8080/v1/usuarios/id/${props.id}`, {
+        await fetch(`${uri_principal}/v1/usuarios/id/${props.id}`, {
             method: "DELETE", 
             headers: {
                 'Content-Type': 'application/json'

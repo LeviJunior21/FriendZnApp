@@ -4,10 +4,11 @@ import { Usuario } from "../model/Usuario";
 import { Comentario } from "../model/Comentario";
 import { PublicacaoInterface } from "./interfaces";
 import { listarComentarios } from "./getComentarios";
+import { uri_principal } from "../data/constants";
 
 export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeguidas: Dispatch<SetStateAction<Publicacao[]>>) => {
     try {
-        const response = await fetch(`http://10.0.0.181:8080/v1/publicacoes/seguindo/${idUsuario}`, {method: "GET", 
+        const response = await fetch(`${uri_principal}/v1/publicacoes/seguindo/${idUsuario}`, {method: "GET", 
         headers: {
             'Content-Type': 'application/json'
         }});
