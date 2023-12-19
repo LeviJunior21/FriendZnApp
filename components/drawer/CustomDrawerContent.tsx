@@ -15,7 +15,7 @@ export default function CustomDrawerContent(props: DrawerNavigationProps) {
         <Container>
             <TopContainer onPress={() => props.navigation.navigate("Perfil", {id: meusDados.id, navigation: props.navigation, apelido: meusDados.apelido})}>
                 <ImageAvatar source={avatarMasculino}/>
-                {(meusDados.apelido !== "")? <TextAvatar>@{meusDados.apelido}</TextAvatar>:
+                {(meusDados.apelido !== "")? <TextAvatar>@{meusDados.apelido} {meusDados.emoji}</TextAvatar>:
                 <IntroducaoContainer>
                     <NavText>Friend Zone</NavText>
                     <NavTextDescricao>Chat e desabafo</NavTextDescricao>
@@ -87,15 +87,15 @@ const TopContainer = styled.TouchableOpacity`
 `
 
 const ImageAvatar = styled.Image`
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
     margin-left: 10px;
 `
 
 const TextAvatar = styled.Text`
     color: white;
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 500;
 `
 

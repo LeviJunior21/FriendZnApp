@@ -20,7 +20,8 @@ interface PerfilInterface {
     sexo: SexoSelecionado,
     descricao: string,
     loginType: LoginType,
-    date: string
+    date: string,
+    emoji: string
 }
 
 const dadosIniciaisPerfil = {
@@ -30,7 +31,8 @@ const dadosIniciaisPerfil = {
     sexo: SexoSelecionado.NENHUM,
     descricao: "Carregando...",
     loginType: LoginType.GitHub,
-    date: ""
+    date: "",
+    emoji: ""
 }
 
 export { PerfilProps, PerfilInterface, dadosIniciaisPerfil }

@@ -1,24 +1,18 @@
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useCallback, useContext, useState } from "react"
 import { Dimensions, Modal } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
 import styled from "styled-components/native"
+import { ContextProvider, Provider } from "../../utils/Provider"
+import { alterarEmoji, emojis } from "./Service"
 
 interface ModalDrawerProps {
     aberto: boolean, 
     setAberto: Dispatch<SetStateAction<boolean>>
 }
+
 export const ModalDrawer = (props: ModalDrawerProps) => {
-    const [indexSelecionado, setIndexSelecionado] = useState<number>(-1);
-
-    const alterarEmoji = async(emoji: number) => {
-        props.setAberto(false);
-    }
-
-    const removerEmoji = async() => {
-        props.setAberto(false);
-    }
-
-    const bandeiras = [{emoji: "🇧🇷"}, {emoji: "🇨🇦"}, {emoji: "🇺🇸"}, {emoji: "🇦🇷"}, {emoji: "🇺🇾"},  {emoji: "🇲🇽"}, {emoji: "🇻🇪"}, {emoji: "🇯🇲"}]
+    const { meusDados, setMeusDados } = useContext<ContextProvider>(Provider);
+    const [indexSelecionado, setIndexSelecionado] = useState({indexArray: -1, indexEmoji: -1});
 
     return (
         <Modal
@@ -30,21 +24,28 @@ export const ModalDrawer = (props: ModalDrawerProps) => {
                 <Emojis>
                     <TextEmojiPrincipal>Como você está se sentindo?</TextEmojiPrincipal>
                     <EmojiScroll>
-                        <EmoteTextContainer>
-                            <EmoteText>Bandeiras</EmoteText>
-                        </EmoteTextContainer>
                         <EmoteContainer>
                             <FlatList
-                            data={bandeiras}
-                            numColumns={7}
+                            data={emojis}
                             keyExtractor={(item, index) => index.toString()}
-                            renderItem={({item, index}) => 
-                                <EmojiButton 
-                                style={{borderColor: (index === indexSelecionado)? "white": "#303030"}}
-                                onPress={() => setIndexSelecionado(index)}
-                                >
-                                    <EmojiText>{item.emoji}</EmojiText>
-                                </EmojiButton>
+                            renderItem={(props1) =>
+                                <>
+                                <EmoteTextContainer>
+                                    <EmoteText>{props1.item.titulo}</EmoteText>
+                                </EmoteTextContainer>
+                                <FlatList
+                                data={props1.item.emojis}
+                                numColumns={7}
+                                renderItem={({item, index}) => 
+                                    <EmojiButton 
+                                    style={{borderColor: (props1.index === indexSelecionado.indexArray && index === indexSelecionado.indexEmoji)? "white": "#303030"}}
+                                    onPress={() => setIndexSelecionado({indexArray: props1.index, indexEmoji: index})}
+                                    >
+                                        <EmojiText>{item.emoji}</EmojiText>
+                                    </EmojiButton>
+                                }
+                                />
+                                </>
                             }
                             />
                         </EmoteContainer>
@@ -52,7 +53,7 @@ export const ModalDrawer = (props: ModalDrawerProps) => {
                 </Emojis>
                 <ModalOptions>
                     <Buttons>
-                        <ButtonChoice onPress={() => removerEmoji()}>
+                        <ButtonChoice onPress={() => alterarEmoji(-1, -1, props.setAberto, meusDados, setMeusDados)}>
                             <TextButtonChoice>Remover</TextButtonChoice>
                         </ButtonChoice>
                     </Buttons>
@@ -60,7 +61,7 @@ export const ModalDrawer = (props: ModalDrawerProps) => {
                         <ButtonChoice onPress={() => props.setAberto(false)}>
                             <TextButtonChoice>Cancelar</TextButtonChoice>
                         </ButtonChoice>
-                        <ButtonChoice onPress={() => alterarEmoji(indexSelecionado)}>
+                        <ButtonChoice onPress={() => alterarEmoji(indexSelecionado.indexArray, indexSelecionado.indexEmoji, props.setAberto, meusDados, setMeusDados)}>
                             <TextButtonChoice>Ok</TextButtonChoice>
                         </ButtonChoice>
                     </Buttons>

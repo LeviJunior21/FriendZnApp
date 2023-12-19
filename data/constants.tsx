@@ -14,16 +14,17 @@ export const dadosIniciaisUsuario: LoginCadastroReturns = {
     idade: -1, 
     loginType: LoginType.GitHub, 
     sexo: SexoSelecionado.NENHUM,
-    descricao: ""
+    descricao: "",
+    emoji: ""
 }
 
 export const dadosNecesassariosCriacaoUsuario: LoginCadastro = {
     apelido: "", 
     codigoAcesso: -1, 
     email: "", 
-    idade: -1, 
-    loginType: LoginType.GitHub, 
+    idade: -1,
+    loginType: LoginType.GitHub,
     sexo: SexoSelecionado.NENHUM,
 }
 
-export const uri_principal = "https://friendzone-qhwk.onrender.com";
+export const uri_principal = "http://10.0.0.181:8080";

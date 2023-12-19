@@ -31,7 +31,8 @@ export interface LoginCadastroReturns {
     idade: number;
     sexo: SexoSelecionado,
     loginType: LoginType,
-    descricao: string
+    descricao: string,
+    emoji: string
 }
 
 export interface CadastroActionProps {

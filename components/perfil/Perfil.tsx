@@ -34,7 +34,7 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
             </NavContainer>
             <PerfilContainer>
                 <ImageAvatar source={avatarMasculino}/>
-                <TextAvatar>@{dadosPerfilUsuario.apelido}</TextAvatar>
+                <TextAvatar>@{dadosPerfilUsuario.apelido} {dadosPerfilUsuario.emoji}</TextAvatar>
             </PerfilContainer>
             <SobreContainer>
                 {(dadosPerfilUsuario.descricao !== "")?
