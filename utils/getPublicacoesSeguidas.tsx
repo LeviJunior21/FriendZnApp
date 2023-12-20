@@ -22,6 +22,7 @@ export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeg
                 const usuario: Usuario = Usuario.builder()
                     .withApelido(item.usuario.apelido)
                     .withId(item.usuario.id)
+                    .withEmoji(item.usuario.emoji)
                     .build();
 
                 const comentarios: Comentario[] = await listarComentarios(item.comentarios);
@@ -39,6 +40,7 @@ export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeg
             setPublicacoesSeguidas(publicacoes);
         } else {
             console.error('Ocorreu um erro na requisição HTTP');
+            setPublicacoesSeguidas([]);
         }
         } catch (error) {
             console.error('Ocorreu ao buscar os dados:', error);

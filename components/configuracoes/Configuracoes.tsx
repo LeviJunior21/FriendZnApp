@@ -1,9 +1,7 @@
 import styled from "styled-components/native";
-import { ConfiguracoesProps } from "./Interface";
 import Icon from "react-native-vector-icons/Ionicons";
 import Constants from "expo-constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dadosIniciaisUsuario, keyBDChat, keyUser } from "../../data/constants";
+import { ConfiguracoesProps } from "./Interface";
 import { useContext } from "react";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { deletarDados, deslogar } from "./Service";

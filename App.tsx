@@ -21,6 +21,7 @@ export default function App() {
     const [chatDeletado, setChatDeletado] = useState<boolean>(false);
     const [comentou, setComentou] = useState<boolean>(false);
     const [meusDados, setMeusDados] = useState<LoginCadastroReturns>(dadosIniciaisUsuario);
+    const [publicou, setPublicou] = useState<boolean>(false);
     LogBox.ignoreAllLogs();
     
     useEffect(() => {
@@ -80,7 +81,7 @@ export default function App() {
     }, [ meusDados ]);
 
     return (
-        <Provider.Provider value={{meusDados, setMeusDados, gravarConversa, chatData, setChatData, webSock, setChatDeletado, chatDeletado, comentou, setComentou}}>
+        <Provider.Provider value={{meusDados, setMeusDados, gravarConversa, chatData, setChatData, webSock, setChatDeletado, chatDeletado, comentou, setComentou, publicou, setPublicou}}>
             <NavigationContainer>
                 <NavigationStack/>
             </NavigationContainer>

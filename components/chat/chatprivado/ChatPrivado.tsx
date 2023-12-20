@@ -14,7 +14,7 @@ import { NavigationChatProps } from "./Interface";
 import { keyBDChat } from "../../../data/constants";
 
 export default function ChatPrivado(props: NavigationChatProps) {
-    const { idRemetente, nome } = props.route.params;
+    const { idRemetente, nome, emoji } = props.route.params;
     const [conversas, setConversas] = useState<Conversa[]>([]);
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
@@ -33,7 +33,7 @@ export default function ChatPrivado(props: NavigationChatProps) {
 
     return (
         <Container>
-            <NavChat navigation={props.navigation} nome={nome} idRemetente={idRemetente}/>
+            <NavChat navigation={props.navigation} nome={nome} emoji={emoji} idRemetente={idRemetente}/>
             <ScrollContainer>
                 <FlatList
                 data={conversas}

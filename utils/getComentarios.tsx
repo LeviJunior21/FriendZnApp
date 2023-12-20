@@ -28,6 +28,7 @@ export const listarComentarios = async(data: ComentarioInterface[]): Promise<Com
         const usuario: Usuario = Usuario.builder()
             .withApelido(usuarioData.getApelido())
             .withId(item.usuarioId)
+            .withEmoji(usuarioData.getEmoji())
             .build();
 
         return Comentario.builder()

@@ -30,13 +30,13 @@ export default function ChatAceito(props: ChatItemProps) {
     }, [chatData])
     
     return (
-        <Container onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido() })}>
+        <Container onPress={() => props.navigation.navigate("ChatPrivado", { idRemetente: props.chat.getRemetente(), nome: usuario?.getApelido(), emoji: usuario?.getEmoji() })}>
             <AvatarContainer>
                 <Avatar source={avatarMasculino}/>
             </AvatarContainer>
             <UserOutros>
                 <NameHourContainer>
-                    <Nome>@{usuario?.getApelido()}</Nome>
+                    <Nome>@{usuario?.getApelido()} {usuario?.getEmoji()}</Nome>
                     <Hora>{getCurrentDate(props.chat.getTimestamp())}</Hora>
                 </NameHourContainer>
                 <Mensagem numberOfLines={1}>{ultimaConversa}</Mensagem>

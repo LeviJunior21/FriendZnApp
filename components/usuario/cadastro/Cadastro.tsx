@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CadastroProps, LoginCadastro } from "./Interface";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { avatarMasculino, avatarFeminino } from "../../../data/avatar";
 import { SexoSelecionado } from "./Sexo";

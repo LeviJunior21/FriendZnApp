@@ -1,13 +1,12 @@
-import styled from "styled-components/native"
+import styled from "styled-components/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/Ionicons";
+import Constants from "expo-constants";
 import { ApelidoDescricaoInterface, EditarPerfilProps } from "./Interface";
 import { avatarMasculino } from "../../data/avatar";
-import Constants from "expo-constants";
 import { useContext, useEffect, useState } from "react";
-import Icon from "react-native-vector-icons/Ionicons";
 import { ContextProvider, Provider } from "../../utils/Provider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { keyUser } from "../../data/constants";
-import { LoginCadastroReturns } from "../usuario/cadastro/Interface";
 import { gravarDadosEditados } from "./Service";
 
 const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
@@ -48,6 +47,10 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
         }
     }
 
+    const changeAvatar = () => {
+        navigation.navigate("Avatar", {navigation: navigation});
+    }
+
     return (
         <Container>
             <NavContainer>
@@ -59,7 +62,7 @@ const EditarPerfil: React.FC<EditarPerfilProps> = ({ route }) => {
             <AvatarContainerChoice>
                 <Avatars>
                     <AvatarCircleContainer>
-                        <AvatarCircle>
+                        <AvatarCircle onPress={() => changeAvatar()}>
                             <AvatarImage source={avatarMasculino} />
                         </AvatarCircle>
                     </AvatarCircleContainer>

@@ -18,7 +18,9 @@ export type ContextProvider = {
     comentou: boolean;
     setComentou: Dispatch<SetStateAction<boolean>>;
     meusDados: LoginCadastroReturns;
-    setMeusDados: Dispatch<SetStateAction<LoginCadastroReturns>>
+    setMeusDados: Dispatch<SetStateAction<LoginCadastroReturns>>;
+    publicou: boolean;
+    setPublicou: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Provider = createContext<ContextProvider>({
@@ -31,5 +33,7 @@ export const Provider = createContext<ContextProvider>({
     chatDeletado: false,
     comentou: false,
     meusDados: dadosIniciaisUsuario,
-    setComentou: () => {}
+    setComentou: () => {},
+    publicou: false,
+    setPublicou: () => {}
 });

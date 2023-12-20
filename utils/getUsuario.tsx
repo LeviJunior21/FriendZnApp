@@ -9,6 +9,7 @@ export const getUsuario = async(id: number):Promise<Usuario> => {
             const usuario: Usuario = Usuario.builder()
                 .withId(data.id)
                 .withApelido(data.apelido)
+                .withEmoji(data.emoji)
                 .build();
 
             return usuario;

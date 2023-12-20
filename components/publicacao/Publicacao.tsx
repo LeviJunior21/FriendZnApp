@@ -12,14 +12,18 @@ export const PublicacaoUser:React.FC<PublicacaoProps> = ({ publicacao, index, na
         <Animatable.View animation="fadeInDown" delay={index * 100} useNativeDriver>
             <PublicacaoContainer onPress={() => navigation.navigate("Comentario", { publicacao: publicacao })}>
                 <UserInfoTop>
+                <UsuarioContainerPrincipal>
                     <Avatar source={avatarMasculino}/>
-                    <UserName>{`@${publicacao.getUsuario().getApelido()}`}</UserName>
-                    <InformacaoPublicacao>
-                        <DataPublicacao>{getCurrentDate(publicacao.getDate())}</DataPublicacao>
-                        <CategoriaText 
-                        style={{color: getColorCategory(publicacao.getCategoria())}}
+                        <UsuarioContainer>
+                            <UserName>{`@${publicacao.getUsuario().getApelido()} ${publicacao.getUsuario().getEmoji()}`}</UserName>
+                            <DataPublicacao>{getCurrentDate(publicacao.getDate())}</DataPublicacao>
+                        </UsuarioContainer>
+                        <InformacaoPublicacao>
+                            <CategoriaText 
+                            style={{color: getColorCategory(publicacao.getCategoria())}}
                         >{getCategory(publicacao.getCategoria())}</CategoriaText>
-                    </InformacaoPublicacao>
+                        </InformacaoPublicacao>
+                    </UsuarioContainerPrincipal>
                 </UserInfoTop>
                 <PublicacaoUserContainer>
                     <PublicacaoText numberOfLines={3}>{publicacao.getPublicacao()}</PublicacaoText>
@@ -53,8 +57,7 @@ const Avatar = styled.Image`
 const UserName = styled.Text`
     font-size: 16px;
     font-weight: bold;
-    color: white;
-    margin-left: 4px;
+    color: #26a69a;
 `
 
 const DataPublicacao = styled.Text`
@@ -69,6 +72,18 @@ const UserInfoTop = styled.View`
     flex-direction: row;
     align-items: center;
     padding-horizontal: 2px;
+`
+
+const UsuarioContainerPrincipal = styled.View`
+    flex-direction: row;
+    width: 100%;
+    min-height: 0;
+    align-items: center;
+`
+
+const UsuarioContainer = styled.View`
+    flex-direction: column;
+    padding-horizontal: 4px;
 `
 
 const PublicacaoContainer = styled.TouchableOpacity`
@@ -99,8 +114,8 @@ const InformacaoPublicacao = styled.View`
     flex-direction: column;
     height: 30px;
     position: absolute;
-    right: 0px;
-    top: 10px;
+    right: 4px;
+    top: 7px;
     align-self: flex-end;
 `
 

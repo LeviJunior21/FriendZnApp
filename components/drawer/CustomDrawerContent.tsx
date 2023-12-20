@@ -1,19 +1,27 @@
-import { useContext, useState } from "react";
 import styled from "styled-components/native";
-import { ContextProvider, Provider } from "../../utils/Provider";
 import Constants from "expo-constants";
-import { avatarMasculino } from "../../data/avatar";
-import { DrawerNavigationProps, Navigation } from "../../utils/interfaces";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useContext, useState } from "react";
+import { ContextProvider, Provider } from "../../utils/Provider";
+import { avatarMasculino } from "../../data/avatar";
+import { DrawerNavigationProps } from "../../utils/interfaces";
 import { ModalDrawer } from "./Modals";
 
 export default function CustomDrawerContent(props: DrawerNavigationProps) {
     const { meusDados } = useContext<ContextProvider>(Provider);
     const [ aberto, setAberto ] = useState<boolean>(false);
 
+    const abrirPerfil = () => {
+        if (meusDados.id !== -1 && meusDados.codigoAcesso !== -1) {
+            props.navigation.navigate("Perfil", {id: meusDados.id, navigation: props.navigation, apelido: meusDados.apelido});
+        } else {
+            props.navigation.navigate("Login");
+        }
+    }
+
     return (
         <Container>
-            <TopContainer onPress={() => props.navigation.navigate("Perfil", {id: meusDados.id, navigation: props.navigation, apelido: meusDados.apelido})}>
+            <TopContainer onPress={() => abrirPerfil()}>
                 <ImageAvatar source={avatarMasculino}/>
                 {(meusDados.apelido !== "")? <TextAvatar>@{meusDados.apelido} {meusDados.emoji}</TextAvatar>:
                 <IntroducaoContainer>

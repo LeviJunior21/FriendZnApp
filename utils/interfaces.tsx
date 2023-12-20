@@ -11,7 +11,7 @@ interface PublicacaoInterface {
     date: string,
     usuario: UsuarioInterface,
     comentarios: ComentarioInterface[],
-    categoria: Categoria
+    categoria: Categoria,
 }
 
 interface ComentarioInterface {
@@ -25,6 +25,7 @@ interface ComentarioInterface {
 interface UsuarioInterface {
     id: number,
     apelido: string,
+    emoji: string
 }
 
 interface HomeProps {
@@ -91,7 +92,8 @@ type RootStackParamList = {
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
     Configuracoes: undefined;
     Perfil: {id: number, navigation:  NavigationProp<RootStackParamList, "Home">, apelido: string};
-    EditarPerfil: { id: number, apelido: string, descricao: string, navigation: NavigationProp<RootStackParamList, "Home">}
+    EditarPerfil: { id: number, apelido: string, descricao: string, navigation: NavigationProp<RootStackParamList, "Home">};
+    Avatar: {navigation: NavigationProp<RootStackParamList, "Home">}
 };
 
 interface Navigation {

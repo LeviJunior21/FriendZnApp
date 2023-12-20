@@ -2,7 +2,6 @@ import { Client } from "stompjs";
 import { Publicacao } from "../../../model/Publicacao";
 import { Dispatch, SetStateAction } from "react";
 import { Comentario } from "../../../model/Comentario";
-import { DadosProps } from "../../../utils/interfaces";
 import { LoginCadastroReturns } from "../../usuario/cadastro/Interface";
 
 export interface SendComentarioProps {

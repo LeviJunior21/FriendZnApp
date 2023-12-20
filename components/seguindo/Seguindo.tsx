@@ -8,16 +8,26 @@ import { Publicacao } from "../../model/Publicacao";
 import { useContext, useEffect, useState } from "react";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { getPublicacoesSeguidas } from "../../utils/getPublicacoesSeguidas";
+import { RefreshControl } from "react-native-gesture-handler";
 
 export default function Seguindo(props: NavigationProps) {
     const [publicacoesSeguidas, setPublicacoesSeguidas] = useState<Publicacao[]>([]);
-    const { comentou, meusDados } = useContext<ContextProvider>(Provider);
+    const { comentou, meusDados, publicou } = useContext<ContextProvider>(Provider);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
-        const buscarSeguindo = async() => {
-            await getPublicacoesSeguidas(meusDados.id, setPublicacoesSeguidas);
-        }; buscarSeguindo();
-    }, [comentou]);
+        if (meusDados.id !== -1 && meusDados.codigoAcesso !== -1) {
+            const buscarSeguindo = async() => {
+                await getPublicacoesSeguidas(meusDados.id, setPublicacoesSeguidas);
+            }; buscarSeguindo();
+        }
+    }, [comentou, publicou, refreshing]);
+
+    const refreshData = async() => {
+        setRefreshing(true);
+        await getPublicacoesSeguidas(meusDados.id, setPublicacoesSeguidas);
+        setRefreshing(false);
+    }
 
     return (
         <Container>
@@ -29,19 +39,29 @@ export default function Seguindo(props: NavigationProps) {
                     <Icon name={"notifications"} color={"white"} size={26}/>
                 </NavButtonIconContainer>
             </NavContainer>
-            <FlatList
-            data={publicacoesSeguidas}
-            renderItem={({item, index}) => 
-                <PublicacaoUser navigation={props.navigation} publicacao={item} index={index}/>
+            <HomeScroll
+            refreshControl={
+                <RefreshControl
+                refreshing={refreshing} 
+                onRefresh={refreshData}/>
             }
+            >
+                <FlatList
+                data={publicacoesSeguidas}
+                ItemSeparatorComponent={() => <Separator/>}
+                renderItem={({item, index}) => 
+                    <PublicacaoUser navigation={props.navigation} publicacao={item} index={index}/>
+                }
             />
+            </HomeScroll>
         </Container>
     )
 }
 
+const height = Dimensions.get("window").height;
 const Container = styled.SafeAreaView`
     margin-top: ${Constants.statusBarHeight}px;
-    height: ${Dimensions.get("window").height - Constants.statusBarHeight}px;
+    height: ${Dimensions.get("window").height - Constants.statusBarHeight - 20}px;
     background-color: #303030;
 `
 
@@ -59,4 +79,15 @@ const NavButtonIconContainer = styled.TouchableOpacity`
     height: 50px;
     justify-content: center;
     align-items: center;
+`
+
+const HomeScroll = styled.ScrollView`
+    height: ${height - 100}px;
+    width: 100%;
+`
+
+const Separator = styled.View`
+    width: 100%;
+    height: 2px;
+    background-color: white;
 `

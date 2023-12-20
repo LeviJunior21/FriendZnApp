@@ -2,15 +2,24 @@ import Icon from "react-native-vector-icons/Ionicons";
 import styled from "styled-components/native";
 import { enviarPublicacao } from "./EnviarPublicacao";
 import { PublicacaoUsuario } from "../../utils/interfaces";
+import { useContext } from "react";
+import { ContextProvider, Provider } from "../../utils/Provider";
 
 export const Nav = (props: PublicacaoUsuario) => {
+    const { setPublicou } = useContext<ContextProvider>(Provider);
+
+    const enviar = async() => {
+        await enviarPublicacao(props);
+        setPublicou(true);
+    }
+
     return (
         <Container>
             <ArrowBack onPress={() => props.navigation.navigation.navigate("Home")}>
                 <Icon name={"arrow-back"} color={"white"} size={30}></Icon>
             </ArrowBack>
             <TextTop>Escreva algo</TextTop>
-            <ArrowSend onPress={() => enviarPublicacao(props)}>
+            <ArrowSend onPress={() => enviar()}>
                 <Icon name={"send"} color={"white"} size={24}></Icon>
             </ArrowSend>
         </Container>

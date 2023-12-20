@@ -6,7 +6,8 @@ export interface NavigationChatProps {
     route: {
         params: {
           idRemetente: number,
-          nome: string
+          nome: string,
+          emoji: string
         };
     };
 }

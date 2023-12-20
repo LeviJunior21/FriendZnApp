@@ -1,13 +1,13 @@
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/FontAwesome";
+import IonIcons from "react-native-vector-icons/Ionicons";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { PublicacaoUser } from "../publicacao/Publicacao";
 import { FlatList } from "react-native";
 import { avatarMasculino } from "../../data/avatar";
-import IonIcons from "react-native-vector-icons/Ionicons";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { Publicacao } from "../../model/Publicacao";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { convertToDate, getDadosPefilUsuario, getPublicacoesUser } from "./Service";
 import { PerfilInterface, PerfilProps, dadosIniciaisPerfil } from "./Interface";
 import { LoginType } from "../usuario/utils/LoginType";
@@ -143,9 +143,9 @@ const ImageAvatar = styled.Image`
 `
 
 const TextAvatar = styled.Text`
-    color: white;
-    font-size: 19px;
-    font-weight: 500;
+    color: #26a69a;
+    font-size: 18px;
+    font-weight: 400;
 `
 
 const SobreContainer = styled.View`

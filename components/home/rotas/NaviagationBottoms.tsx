@@ -1,8 +1,8 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../HomeScreen";
 import ListaDeChats from "../../chat/ListaDeChats";
 import Icon from "react-native-vector-icons/Ionicons";
 import Seguindo from "../../seguindo/Seguindo";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBottoms() {

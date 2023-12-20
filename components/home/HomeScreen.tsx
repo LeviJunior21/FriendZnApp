@@ -5,7 +5,7 @@ import TodasCategorias from "./nav/TodasCategorias";
 import { NavCategoria } from "./nav/NavCategoria";
 import { StatusBar } from 'expo-status-bar';
 import { useContext, useState } from "react";
-import { Categoria, DrawerNavigationProps, Navigation } from "../../utils/interfaces";
+import { Categoria, DrawerNavigationProps } from "../../utils/interfaces";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function HomeScreen(props: DrawerNavigationProps) {

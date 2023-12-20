@@ -3,9 +3,32 @@ import { keyUser, uri_principal } from "../../data/constants";
 import { LoginCadastroReturns } from "../usuario/cadastro/Interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const bandeiras = [{ emoji: "🇧🇷" }, { emoji: "🇨🇦" }, { emoji: "🇺🇸" }, { emoji: "🇦🇷" }, { emoji: "🇺🇾" }, { emoji: "🇲🇽" }, { emoji: "🇻🇪" }, { emoji: "🇯🇲" }]
-const animais = [{ emoji: "🐶" }, { emoji: "🐢" }, { emoji: "🦖" }, { emoji: "🦕" }, { emoji: "🦀" }, { emoji: "🦀" }, { emoji: "🐬" }, { emoji: "🦭" }]
-export const emojis = [{ titulo: "Bandeiras paises", emojis: bandeiras }, { titulo: "Animais", emojis: animais }]
+const bandeiras = ["🇧🇷", "🇨🇦", "🇺🇸", "🇦🇷", "🇺🇾", "🇲🇽", "🇻🇪", "🇯🇲"].map(emoji => ({ emoji: emoji}));
+const animais = ["🐶", "🐢", "🦖", "🦕", "🦀", "🐬", "🦭"].map(emoji => ({ emoji: emoji}));
+const expressoes = ["😊", "😂", "😍", "😎", "🤔", "😜", "😢", "😇"].map(emoji => ({ emoji: emoji}));
+const comida = ["🍕", "🍔", "🍟", "🍦", "🍩", "🍓", "🥑", "🍎"].map(emoji => ({ emoji }));
+const transporte = ["🚗", "🚕", "🚲", "🚄", "🚢", "🚁", "🚀", "🛴"].map(emoji => ({ emoji }));
+const clima = ["☀️", "☁️", "⛈️", "❄️", "🌪️", "🌈", "🌊", "🌙"].map(emoji => ({ emoji }));
+const esportes = ["⚽", "🏀", "🎾", "🏈", "🏐", "🏓", "🎿", "⛳"].map(emoji => ({ emoji }));
+const entretenimento = ["🎬", "🎤", "🎨", "🎲", "🎮", "🎻", "🎭", "📺"].map(emoji => ({ emoji }));
+const sorte = ["🍀", "🐞", "🌈", "🎐", "🎋", "🌠", "🌟", "🔮"].map(emoji => ({ emoji }));
+const tecnologia = ["💻", "📱", "⌚", "🖱️", "🕹️", "🔍", "📡", "🔌"].map(emoji => ({ emoji }));
+const saude = ["💊", "🩹", "🌱", "🍏", "🏋️‍♀️", "🚴‍♂️", "🧘‍♂️", "💤"].map(emoji => ({ emoji }));
+
+export const emojis = [
+    { titulo: "Bandeiras paises", emojis: bandeiras }, 
+    { titulo: "Animais", emojis: animais }, 
+    { titulo: "Expressões", emojis: expressoes },
+    { titulo: "Comidas", emojis: comida },
+    { titulo: "Transporte", emojis: transporte }, 
+    { titulo: "Clima", emojis: clima }, 
+    { titulo: "Esportes", emojis: esportes },
+    { titulo: "Entretenimento", emojis: entretenimento },
+    { titulo: "Sorte", emojis: sorte }, 
+    { titulo: "Tecnologia", emojis: tecnologia }, 
+    { titulo: "Saúde", emojis: saude },
+
+]
 
 export const alterarEmoji = async (indexArray: number, indexEmoji: number, setAberto: Dispatch<SetStateAction<boolean>>, meusDados: LoginCadastroReturns, setMeusDados: Dispatch<SetStateAction<LoginCadastroReturns>>): Promise<void> => {
     let emoji: string = "";

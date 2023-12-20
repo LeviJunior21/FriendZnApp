@@ -31,7 +31,7 @@ export function NavChat(props: NavChatProps) {
             </ButtonBack>
             <AvatarContainer onPress={() => props.navigation.navigate("Perfil", { navigation: props.navigation, id: props.idRemetente, apelido: props.nome })}>
                 <Avatar source={avatarMasculino}/>
-                <Nome numberOfLines={1}>@{props.nome}</Nome>
+                <Nome numberOfLines={1}>@{props.nome} {props.emoji}</Nome>
             </AvatarContainer>
             <Call onPress={() => mostrarModal()}>
                 <Icon name={"call"} color={"white"} size={24}/>

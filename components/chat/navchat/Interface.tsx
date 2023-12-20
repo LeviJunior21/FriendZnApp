@@ -5,4 +5,5 @@ export interface NavChatProps {
     navigation: NavigationProp<RootStackParamList, "Home">;
     nome: string;
     idRemetente: number;
+    emoji: string
 }

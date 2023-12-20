@@ -18,6 +18,7 @@ export const getPublicacoes = async(setPublicacoes: Dispatch<SetStateAction<Publ
                 const usuario: Usuario = Usuario.builder()
                     .withApelido(item.usuario.apelido)
                     .withId(item.usuario.id)
+                    .withEmoji(item.usuario.emoji)
                     .build();
 
                 const comentarios: Comentario[] = await listarComentarios(item.comentarios);

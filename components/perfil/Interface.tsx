@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import { Navigation, RootStackParamList } from "../../utils/interfaces";
+import { RootStackParamList } from "../../utils/interfaces";
 import { SexoSelecionado } from "../usuario/cadastro/Sexo";
 import { LoginType } from "../usuario/utils/LoginType";
 

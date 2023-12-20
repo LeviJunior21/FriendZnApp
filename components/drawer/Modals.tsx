@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useCallback, useContext, useState } from "react"
-import { Dimensions, Modal } from "react-native"
-import { FlatList } from "react-native-gesture-handler"
-import styled from "styled-components/native"
-import { ContextProvider, Provider } from "../../utils/Provider"
-import { alterarEmoji, emojis } from "./Service"
+import styled from "styled-components/native";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { Dimensions, Modal } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { ContextProvider, Provider } from "../../utils/Provider";
+import { alterarEmoji, emojis } from "./Service";
 
 interface ModalDrawerProps {
     aberto: boolean, 

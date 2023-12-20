@@ -37,7 +37,7 @@ export default function ChatPedido(props: ChatPedidoProps) {
                 </AvatarContainer>
                 <UserOutros>
                    <NameHourContainer>
-                        <Nome>@{usuario?.getApelido()}</Nome>
+                        <Nome>@{usuario?.getApelido()} {usuario?.getEmoji()}</Nome>
                         <Hora>{getCurrentDate(props.chat.getTimestamp())}</Hora>
                     </NameHourContainer>
                     <Mensagem numberOfLines={1}>{ultimaConversa}</Mensagem>

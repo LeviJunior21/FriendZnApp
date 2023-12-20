@@ -56,7 +56,7 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
                         <Avatar source={avatarMasculino}/>
                         <InfoUserContainer>
                             <TouchUserName onPress={() => abrirChat()}>
-                                <NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario>
+                                <NomeUsuario>@{publicacao.getUsuario().getApelido()} {publicacao.getUsuario().getEmoji()}</NomeUsuario>
                             </TouchUserName>
                             <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>
                         </InfoUserContainer>
@@ -101,14 +101,14 @@ const Container = styled.SafeAreaView`
 const ContainerPublicacao = styled.View`
     min-height: 140px;
     width: 100%;
-    background-color: #136075;
+    background-color: #36474f;
     padding-horizontal: 10px;
     padding-vertical: 20px;
 `
 
 const NomeUsuario = styled.Text`
     font-size: 16px;
-    color: white;
+    color: #26a69a;
     font-weight: 500;
 `
 

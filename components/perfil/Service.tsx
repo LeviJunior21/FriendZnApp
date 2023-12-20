@@ -1,12 +1,10 @@
-
-import { Dispatch, SetStateAction } from "react"
-import { Publicacao } from "../../model/Publicacao"
+import { Dispatch, SetStateAction } from "react";
+import { Publicacao } from "../../model/Publicacao";
 import { Usuario } from "../../model/Usuario";
 import { Comentario } from "../../model/Comentario";
 import { listarComentarios } from "../../utils/getComentarios";
 import { PublicacaoInterface } from "../../utils/interfaces";
 import { PerfilInterface, dadosIniciaisPerfil } from "./Interface";
-import { LoginType } from "../usuario/utils/LoginType";
 import { uri_principal } from "../../data/constants";
 
 export const getPublicacoesUser = async(id: number, setPublicacoes: Dispatch<SetStateAction<Publicacao[]>>): Promise<void> => {
@@ -19,6 +17,7 @@ export const getPublicacoesUser = async(id: number, setPublicacoes: Dispatch<Set
             const usuario: Usuario = Usuario.builder()
                 .withApelido(item.usuario.apelido)
                 .withId(item.usuario.id)
+                .withEmoji(item.usuario.emoji)
                 .build();
 
             const comentarios: Comentario[] = await listarComentarios(item.comentarios);

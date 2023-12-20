@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import { Navigation, RootStackParamList } from "../../utils/interfaces";
+import { RootStackParamList } from "../../utils/interfaces";
 
 export type EditarPerfilProps = {
     route: {

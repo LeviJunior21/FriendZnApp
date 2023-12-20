@@ -58,7 +58,7 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
                     <Avatar source={avatarMasculino}/>
                     <UserInfo>
                         <TouchUserName onPress={() => abrirChatPrivado()}>
-                            <NomeUsuario>@{props.comentario.getUsuario().getApelido()}</NomeUsuario>
+                            <NomeUsuario>@{props.comentario.getUsuario().getApelido()} {props.comentario.getUsuario().getEmoji()}</NomeUsuario>
                         </TouchUserName>
                     <TempoPublicacao>{getCurrentDate(props.comentario.getTimestamp())}</TempoPublicacao>
                    </UserInfo>
