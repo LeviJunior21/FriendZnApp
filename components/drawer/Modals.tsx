@@ -11,7 +11,7 @@ interface ModalDrawerProps {
 }
 
 export const ModalDrawer = (props: ModalDrawerProps) => {
-    const { meusDados, setMeusDados } = useContext<ContextProvider>(Provider);
+    const { meusDados, setMeusDados, colors } = useContext<ContextProvider>(Provider);
     const [indexSelecionado, setIndexSelecionado] = useState({indexArray: -1, indexEmoji: -1});
 
     return (
@@ -20,7 +20,7 @@ export const ModalDrawer = (props: ModalDrawerProps) => {
         transparent={true}
         visible={props.aberto}
         >
-            <Container>
+            <Container style={{backgroundColor: colors.surface}}>
                 <Emojis>
                     <TextEmojiPrincipal>Como você está se sentindo?</TextEmojiPrincipal>
                     <EmojiScroll>
@@ -41,7 +41,10 @@ export const ModalDrawer = (props: ModalDrawerProps) => {
                                     style={{borderColor: (props1.index === indexSelecionado.indexArray && index === indexSelecionado.indexEmoji)? "white": "#303030"}}
                                     onPress={() => setIndexSelecionado({indexArray: props1.index, indexEmoji: index})}
                                     >
-                                        <EmojiText>{item.emoji}</EmojiText>
+                                        {item.emoji.startsWith("http")?
+                                            <AnimatedEmoji source={{uri: item.emoji}}/>:
+                                            <EmojiText>{item.emoji}</EmojiText>
+                                        }
                                     </EmojiButton>
                                 }
                                 />
@@ -154,6 +157,11 @@ const EmojiButton = styled.TouchableOpacity`
 
 const EmojiText = styled.Text`
     font-size: 20px;
+`
+
+const AnimatedEmoji = styled.Image`
+    width: 28px;
+    height: 28px;
 `
 
 const EmoteContainer = styled.View`

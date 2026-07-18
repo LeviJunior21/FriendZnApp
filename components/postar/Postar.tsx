@@ -5,15 +5,17 @@ import { Nav } from "./NavPostar"
 import { useContext, useState } from "react"
 import { Dimensions, FlatList, ScrollView } from "react-native";
 import { data } from "../home/nav/Categorias";
-import { Categoria, Navigation } from "../../utils/interfaces";
+import { Categoria, Navigation, PublicacaoTipo } from "../../utils/interfaces";
 import { ContextProvider, Provider } from "../../utils/Provider";
 
 export default function Postar(navigation: Navigation) {
     const [ categoria, setCategoria ] = useState<string>("Selecione uma categoria...");
     const [ mostrarCategoria, setMostrarCategoria ] = useState<boolean>(true);
     const [ desabafo, setDesabafo ] = useState<string>("");
+    const [ tipo, setTipo ] = useState<PublicacaoTipo>(PublicacaoTipo.desabafo);
+    const [ enqueteOpcoes, setEnqueteOpcoes ] = useState<string[]>(["", ""]);
     const [ enumCategoria, setEnumCatgegotia ] = useState<Categoria>(Categoria.selecionar)
-    const { meusDados } = useContext<ContextProvider>(Provider);
+    const { meusDados, colors } = useContext<ContextProvider>(Provider);
 
     const handleCategoria = (tituloCategoria: string, enumCategoria: Categoria) => {
         setCategoria(tituloCategoria);
@@ -22,14 +24,22 @@ export default function Postar(navigation: Navigation) {
     }
 
     return (
-        <Container>
-            <Nav meusDados={meusDados} navigation={navigation} categoria={enumCategoria} desabafo={desabafo}></Nav>
+        <Container style={{backgroundColor: colors.background}}>
+            <Nav meusDados={meusDados} navigation={navigation} categoria={enumCategoria} desabafo={desabafo} tipo={tipo} enqueteOpcoes={enqueteOpcoes}></Nav>
             <SelectCategoty onPress={() => setMostrarCategoria(!mostrarCategoria)}>
                 <Categorias
                 >{categoria}
                 </Categorias>
                 <Icon name={"chevron-down"} size={20} color={"white"}/>
             </SelectCategoty>
+            <TipoContainer>
+                <TipoButton style={{backgroundColor: tipo === PublicacaoTipo.desabafo ? colors.primary : colors.surface}} onPress={() => setTipo(PublicacaoTipo.desabafo)}>
+                    <TipoText>Desabafo</TipoText>
+                </TipoButton>
+                <TipoButton style={{backgroundColor: tipo === PublicacaoTipo.enquete ? colors.primary : colors.surface}} onPress={() => setTipo(PublicacaoTipo.enquete)}>
+                    <TipoText>Enquete</TipoText>
+                </TipoButton>
+            </TipoContainer>
             <ScrollView>
                 <Desabafo
                     placeholder={"Desabafe..."}
@@ -38,6 +48,26 @@ export default function Postar(navigation: Navigation) {
                     multiline={true}
                     onChangeText={(text) => setDesabafo(text)}
                 />
+                {tipo === PublicacaoTipo.enquete?
+                    <EnqueteContainer>
+                        <EnqueteTitle>Opções da enquete</EnqueteTitle>
+                        {enqueteOpcoes.map((opcao, index) => (
+                            <OpcaoInput
+                                key={index}
+                                placeholder={`Opção ${index + 1}`}
+                                placeholderTextColor={"gray"}
+                                cursorColor={"white"}
+                                value={opcao}
+                                onChangeText={(text) => setEnqueteOpcoes((current) => current.map((item, itemIndex) => itemIndex === index ? text : item))}
+                            />
+                        ))}
+                        {enqueteOpcoes.length < 5?
+                            <AdicionarOpcao onPress={() => setEnqueteOpcoes((current) => [...current, ""])}>
+                                <Icon name={"add"} color={"white"} size={18}/>
+                                <AdicionarOpcaoText>Adicionar opção</AdicionarOpcaoText>
+                            </AdicionarOpcao>:<></>}
+                    </EnqueteContainer>:<></>
+                }
             </ScrollView>
             <ModalContainer
                 animationType="slide"
@@ -96,6 +126,64 @@ const Desabafo = styled.TextInput`
     font-size: 18px;
     padding: 10px;
     color: white;
+`
+
+const TipoContainer = styled.View`
+    width: 100%;
+    height: 54px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: white;
+`
+
+const TipoButton = styled.TouchableOpacity`
+    height: 36px;
+    min-width: 120px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+`
+
+const TipoText = styled.Text`
+    color: white;
+    font-weight: 600;
+`
+
+const EnqueteContainer = styled.View`
+    padding-horizontal: 10px;
+    padding-bottom: 20px;
+    gap: 8px;
+`
+
+const EnqueteTitle = styled.Text`
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+`
+
+const OpcaoInput = styled.TextInput`
+    width: 100%;
+    min-height: 42px;
+    border-width: 1px;
+    border-color: gray;
+    border-radius: 6px;
+    color: white;
+    padding-horizontal: 10px;
+`
+
+const AdicionarOpcao = styled.TouchableOpacity`
+    height: 40px;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+`
+
+const AdicionarOpcaoText = styled.Text`
+    color: white;
+    font-weight: 600;
 `
 
 const ModalContainer = styled.Modal`

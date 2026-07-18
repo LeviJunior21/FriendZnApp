@@ -3,15 +3,16 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Constants from "expo-constants";
 import { ConfiguracoesProps } from "./Interface";
 import { useContext } from "react";
+import { Switch } from "react-native";
 import { ContextProvider, Provider } from "../../utils/Provider";
 import { deletarDados, deslogar } from "./Service";
 
 export default function Configuracoes(props: ConfiguracoesProps) {
-    const { meusDados, setMeusDados, setChatData } = useContext<ContextProvider>(Provider);
+    const { meusDados, setMeusDados, setChatData, appSettings, setAppSettings, colors } = useContext<ContextProvider>(Provider);
 
     return (
-        <Container>
-            <NavContainer>
+        <Container style={{backgroundColor: colors.background}}>
+            <NavContainer style={{backgroundColor: colors.primary}}>
                 <ButtonNavIcon onPress={() => props.navigation.goBack()}>
                     <Icon name={"arrow-back"} color={"white"} size={30}/>
                 </ButtonNavIcon>
@@ -34,6 +35,45 @@ export default function Configuracoes(props: ConfiguracoesProps) {
                         <TextDados style={{color: "white"}}>Deslogar</TextDados>
                     </ButtonDeslogar>
                 </DadosContainer>
+                <Section style={{borderColor: colors.border}}>
+                    <SectionTitle style={{color: colors.text}}>Notificações</SectionTitle>
+                    <SettingRow>
+                        <TextDados style={{color: colors.text}}>Geral</TextDados>
+                        <Switch value={appSettings.notificacoesGerais} onValueChange={(value) => setAppSettings({...appSettings, notificacoesGerais: value})}/>
+                    </SettingRow>
+                    <SettingRow>
+                        <TextDados style={{color: colors.text}}>Comentários</TextDados>
+                        <Switch value={appSettings.notificacoesComentarios} onValueChange={(value) => setAppSettings({...appSettings, notificacoesComentarios: value})}/>
+                    </SettingRow>
+                    <SettingRow>
+                        <TextDados style={{color: colors.text}}>Mensagens</TextDados>
+                        <Switch value={appSettings.notificacoesMensagens} onValueChange={(value) => setAppSettings({...appSettings, notificacoesMensagens: value})}/>
+                    </SettingRow>
+                    <SettingRow>
+                        <TextDados style={{color: colors.text}}>Tocar som</TextDados>
+                        <Switch value={appSettings.tocarSomNotificacao} onValueChange={(value) => setAppSettings({...appSettings, tocarSomNotificacao: value})}/>
+                    </SettingRow>
+                    <SettingRow>
+                        <TextDados style={{color: colors.text}}>Vibrar</TextDados>
+                        <Switch value={appSettings.vibrarNotificacao} onValueChange={(value) => setAppSettings({...appSettings, vibrarNotificacao: value})}/>
+                    </SettingRow>
+                </Section>
+                <Section style={{borderColor: colors.border}}>
+                    <SectionTitle style={{color: colors.text}}>Quem pode iniciar chat</SectionTitle>
+                    <ChoiceRow>
+                        {(["todos", "solicitacao", "nenhum"] as const).map((permission) => (
+                            <ChoiceButton
+                                key={permission}
+                                style={{backgroundColor: appSettings.quemPodeIniciarChat === permission ? colors.primary : colors.surface, borderColor: colors.border}}
+                                onPress={() => setAppSettings({...appSettings, quemPodeIniciarChat: permission})}
+                            >
+                                <ChoiceText style={{color: appSettings.quemPodeIniciarChat === permission ? "white" : colors.text}}>
+                                    {permission === "todos" ? "Todos" : permission === "solicitacao" ? "Solicitação" : "Nenhum"}
+                                </ChoiceText>
+                            </ChoiceButton>
+                        ))}
+                    </ChoiceRow>
+                </Section>
             </ProfileContainer>
         </Container>
     )
@@ -114,4 +154,43 @@ const EditarPerfilButton = styled.TouchableOpacity`
     border-color: gray;
     border-radius: 4px;
     gap: 4px;
+`
+
+const Section = styled.View`
+    width: 100%;
+    border-width: 1px;
+    border-radius: 6px;
+    padding: 12px;
+    gap: 8px;
+`
+
+const SectionTitle = styled.Text`
+    font-size: 16px;
+    font-weight: 700;
+`
+
+const SettingRow = styled.View`
+    min-height: 40px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`
+
+const ChoiceRow = styled.View`
+    flex-direction: row;
+    gap: 8px;
+`
+
+const ChoiceButton = styled.TouchableOpacity`
+    flex: 1;
+    min-height: 38px;
+    border-width: 1px;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+`
+
+const ChoiceText = styled.Text`
+    font-size: 12px;
+    font-weight: 700;
 `

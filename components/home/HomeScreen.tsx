@@ -24,7 +24,7 @@ export default function HomeScreen(props: DrawerNavigationProps) {
 
     return (
         <Container>
-            <StatusBar backgroundColor={"#ffffff"}></StatusBar>
+            <StatusBar/>
             <NavCategoria categoriaEscolhida={categoriaEscolhida} openCategoria={openCategoria} setOpenCategoria={setOpenCategoria} search={search} setSearch={setSearch} navigation={props.navigation}/>
             <HomePublicacoes meusDados={meusDados} navigation={props.navigation} search={search} categoriaEscolhida={categoriaEscolhida}/>
             <Button onPress={() => verificarLogin()}>

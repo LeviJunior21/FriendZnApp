@@ -1,18 +1,28 @@
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconFontiso from "react-native-vector-icons/Fontisto";
-import { avatarMasculino } from "../../../data/avatar";
 import { getCurrentDate } from "../../../utils/time";
 import { ComentarioIndexProps, CurtidasInterface } from "./Interface";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { PanResponder } from "react-native";
 import { construirUsuarios, getStatusGostouOuNao, sendStatusGostouOuNao } from "./Util";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { Usuario } from "../../../model/Usuario";
+import AvatarImage from "../../avatar/AvatarImage";
+import EmojiBadge from "../../emoji/EmojiBadge";
 
 export default function ComentarioIndex(props: ComentarioIndexProps) {
     const [curtidas, setCurtidas] = useState<CurtidasInterface>({ gostou: [], naoGostou: [] });
     const subscribe: string = "/topic/public/publicacao/" + props.idPublicacao + "/comentario/" + props.comentario.getId();
     const { webSock, meusDados } = useContext<ContextProvider>(Provider);
+    const panResponder = useMemo(() => PanResponder.create({
+        onMoveShouldSetPanResponder: (_, gestureState) => Math.abs(gestureState.dx) > 18 && Math.abs(gestureState.dy) < 18,
+        onPanResponderRelease: (_, gestureState) => {
+            if (gestureState.dx > 55) {
+                props.onResponderComentario?.(props.comentario);
+            }
+        },
+    }), [props.comentario]);
     
     const gostouOuNao = (gostou: number) => {
         if (meusDados.codigoAcesso !== -1 && meusDados.id !== -1) {
@@ -52,13 +62,13 @@ export default function ComentarioIndex(props: ComentarioIndexProps) {
     }
 
     return (
-        <ComentarioI>
+        <ComentarioI {...panResponder.panHandlers}>
             <ContainerUsuario>
                 <InfoUserContainer>
-                    <Avatar source={avatarMasculino}/>
+                    <AvatarImage userId={props.comentario.getUsuario().getId()} size={50}/>
                     <UserInfo>
                         <TouchUserName onPress={() => abrirChatPrivado()}>
-                            <NomeUsuario>@{props.comentario.getUsuario().getApelido()} {props.comentario.getUsuario().getEmoji()}</NomeUsuario>
+                            <NameRow><NomeUsuario>@{props.comentario.getUsuario().getApelido()}</NomeUsuario><EmojiBadge emoji={props.comentario.getUsuario().getEmoji()} size={18}/></NameRow>
                         </TouchUserName>
                     <TempoPublicacao>{getCurrentDate(props.comentario.getTimestamp())}</TempoPublicacao>
                    </UserInfo>
@@ -91,6 +101,11 @@ const NomeUsuario = styled.Text`
     font-size: 16px;
     color: white;
     font-weight: 500;
+`
+
+const NameRow = styled.View`
+    flex-direction: row;
+    align-items: center;
 `
 
 const TempoPublicacao = styled.Text`
@@ -138,11 +153,6 @@ const UserInfo = styled.View`
     flex-direction: column;
     justify-content: center;
     margin-left: 4px;
-`
-
-const Avatar = styled.Image`
-    width: 50px;
-    height: 50px;
 `
 
 const CurtidasContainer = styled.View`

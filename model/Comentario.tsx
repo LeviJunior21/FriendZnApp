@@ -5,12 +5,14 @@ export class Comentario {
     private comentario: string;
     private usuario: Usuario;
     private timestamp: Date;
+    private respostaComentarioId?: number;
 
     constructor(builder: ComentarioBuilder) {
         this.id = builder.id;
         this.comentario = builder.comentario;
         this.usuario = builder.usuario;
         this.timestamp = builder.timestamp;
+        this.respostaComentarioId = builder.respostaComentarioId;
     }
   
     public getId(): number {
@@ -29,6 +31,10 @@ export class Comentario {
         return this.timestamp;
     }
 
+    public getRespostaComentarioId(): number | undefined {
+      return this.respostaComentarioId;
+    }
+
     static builder(): ComentarioBuilder {
         return new ComentarioBuilder();
     }
@@ -39,6 +45,7 @@ class ComentarioBuilder {
     comentario!: string;
     usuario!: Usuario;
     timestamp!: Date;
+    respostaComentarioId?: number;
   
     withId(id: number): ComentarioBuilder {
       this.id = id;
@@ -57,6 +64,11 @@ class ComentarioBuilder {
 
     withTimestamp(timestamp: Date): ComentarioBuilder {
       this.timestamp = timestamp;
+      return this;
+    }
+
+    withRespostaComentarioId(respostaComentarioId?: number): ComentarioBuilder {
+      this.respostaComentarioId = respostaComentarioId;
       return this;
     }
   

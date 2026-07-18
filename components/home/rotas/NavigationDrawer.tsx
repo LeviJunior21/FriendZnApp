@@ -6,7 +6,7 @@ const Drawer = createDrawerNavigator();
 
 export default function NavigationDrawer() {
     return (
-        <Drawer.Navigator screenOptions={{headerShown: false}} drawerContent={(props) => <CustomDrawerContent navigation={props.navigation}/>}>
+        <Drawer.Navigator screenOptions={{headerShown: false}} drawerContent={(props) => <CustomDrawerContent navigation={props.navigation as any}/>}>
             <Drawer.Screen name={"BottomsScreen"} component={NavigationBottoms}/>
         </Drawer.Navigator>
     )

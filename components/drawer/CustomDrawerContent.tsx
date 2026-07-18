@@ -3,12 +3,13 @@ import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useContext, useState } from "react";
 import { ContextProvider, Provider } from "../../utils/Provider";
-import { avatarMasculino } from "../../data/avatar";
 import { DrawerNavigationProps } from "../../utils/interfaces";
 import { ModalDrawer } from "./Modals";
+import AvatarImage from "../avatar/AvatarImage";
+import EmojiBadge from "../emoji/EmojiBadge";
 
 export default function CustomDrawerContent(props: DrawerNavigationProps) {
-    const { meusDados } = useContext<ContextProvider>(Provider);
+    const { meusDados, appSettings, setAppSettings, colors } = useContext<ContextProvider>(Provider);
     const [ aberto, setAberto ] = useState<boolean>(false);
 
     const abrirPerfil = () => {
@@ -20,10 +21,10 @@ export default function CustomDrawerContent(props: DrawerNavigationProps) {
     }
 
     return (
-        <Container>
-            <TopContainer onPress={() => abrirPerfil()}>
-                <ImageAvatar source={avatarMasculino}/>
-                {(meusDados.apelido !== "")? <TextAvatar>@{meusDados.apelido} {meusDados.emoji}</TextAvatar>:
+        <Container style={{backgroundColor: colors.surface}}>
+            <TopContainer style={{backgroundColor: colors.primary}} onPress={() => abrirPerfil()}>
+                <AvatarImage userId={meusDados.id} size={80}/>
+                {(meusDados.apelido !== "")? <TextAvatarRow><TextAvatar>@{meusDados.apelido}</TextAvatar><EmojiBadge emoji={meusDados.emoji} size={22}/></TextAvatarRow>:
                 <IntroducaoContainer>
                     <NavText>Friend Zone</NavText>
                     <NavTextDescricao>Chat e desabafo</NavTextDescricao>
@@ -40,9 +41,9 @@ export default function CustomDrawerContent(props: DrawerNavigationProps) {
                     <Icon name={"emoticon-outline"} color={"white"} size={30}/>
                     <SubContainerText>Estou sentindo...</SubContainerText>
                 </SubContainerButton>
-                <SubContainerButton>
-                    <Icon name={"moon-waning-crescent"} color={"white"} size={30}/>
-                    <SubContainerText>Modo Noturno</SubContainerText>
+                <SubContainerButton onPress={() => setAppSettings({...appSettings, themeMode: appSettings.themeMode === "dark" ? "light" : "dark"})}>
+                    <Icon name={appSettings.themeMode === "dark" ? "weather-sunny" : "moon-waning-crescent"} color={"white"} size={30}/>
+                    <SubContainerText>{appSettings.themeMode === "dark" ? "Modo Diurno" : "Modo Noturno"}</SubContainerText>
                 </SubContainerButton>
             </SubContainer>
 
@@ -94,17 +95,15 @@ const TopContainer = styled.TouchableOpacity`
     gap: 6px;
 `
 
-const ImageAvatar = styled.Image`
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    margin-left: 10px;
-`
-
 const TextAvatar = styled.Text`
     color: white;
     font-size: 18px;
     font-weight: 500;
+`
+
+const TextAvatarRow = styled.View`
+    flex-direction: row;
+    align-items: center;
 `
 
 const IntroducaoContainer = styled.View`

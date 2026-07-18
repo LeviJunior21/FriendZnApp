@@ -3,7 +3,7 @@ import { RootStackParamList } from "../../../utils/interfaces";
 
 export interface NavChatProps {
     navigation: NavigationProp<RootStackParamList, "Home">;
-    nome: string;
+    nome?: string;
     idRemetente: number;
-    emoji: string
+    emoji?: string
 }

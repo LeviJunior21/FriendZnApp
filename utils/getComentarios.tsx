@@ -36,6 +36,7 @@ export const listarComentarios = async(data: ComentarioInterface[]): Promise<Com
             .withId(item.id)
             .withTimestamp(new Date(item.timestamp))
             .withUsuario(usuario)
+            .withRespostaComentarioId(item.respostaComentarioId)
             .build();
     }));
 

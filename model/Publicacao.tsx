@@ -1,5 +1,5 @@
 import { getUsuario } from "../utils/getUsuario";
-import { Categoria } from "../utils/interfaces";
+import { Categoria, PublicacaoTipo } from "../utils/interfaces";
 import { Comentario } from "./Comentario";
 import { Usuario } from "./Usuario";
 
@@ -9,6 +9,9 @@ export class Publicacao {
     private date: Date;
     private usuario: Usuario;
     private categoria: Categoria;
+    private tipo: PublicacaoTipo;
+    private enqueteOpcoes: string[];
+    private enqueteVotos: Record<string, number>;
     private comentarios: Comentario[] = [];
     
     constructor(builder: PublicacaoBuilder) {
@@ -18,6 +21,9 @@ export class Publicacao {
         this.usuario = builder.usuario;
         this.comentarios = builder.comentarios;
         this.categoria = builder.categoria;
+        this.tipo = builder.tipo;
+        this.enqueteOpcoes = builder.enqueteOpcoes;
+        this.enqueteVotos = builder.enqueteVotos;
     }
 
     public getId(): number {
@@ -44,6 +50,18 @@ export class Publicacao {
         return this.categoria;
     }
 
+    public getTipo(): PublicacaoTipo {
+        return this.tipo;
+    }
+
+    public getEnqueteOpcoes(): string[] {
+        return this.enqueteOpcoes;
+    }
+
+    public getEnqueteVotos(): Record<string, number> {
+        return this.enqueteVotos;
+    }
+
     static builder(): PublicacaoBuilder {
         return new PublicacaoBuilder();
     }
@@ -56,6 +74,9 @@ class PublicacaoBuilder {
     usuario!: Usuario;
     comentarios: Comentario[] = [];
     categoria!: Categoria;
+    tipo: PublicacaoTipo = PublicacaoTipo.desabafo;
+    enqueteOpcoes: string[] = [];
+    enqueteVotos: Record<string, number> = {};
 
     withId(id: number): PublicacaoBuilder {
         this.id = id;
@@ -84,6 +105,21 @@ class PublicacaoBuilder {
 
     withCategoria(categoria: Categoria): PublicacaoBuilder {
         this.categoria = categoria;
+        return this;
+    }
+
+    withTipo(tipo?: PublicacaoTipo): PublicacaoBuilder {
+        this.tipo = tipo || PublicacaoTipo.desabafo;
+        return this;
+    }
+
+    withEnqueteOpcoes(enqueteOpcoes?: string[]): PublicacaoBuilder {
+        this.enqueteOpcoes = enqueteOpcoes || [];
+        return this;
+    }
+
+    withEnqueteVotos(enqueteVotos?: Record<string, number>): PublicacaoBuilder {
+        this.enqueteVotos = enqueteVotos || {};
         return this;
     }
 

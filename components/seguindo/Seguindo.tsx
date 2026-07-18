@@ -12,7 +12,7 @@ import { RefreshControl } from "react-native-gesture-handler";
 
 export default function Seguindo(props: NavigationProps) {
     const [publicacoesSeguidas, setPublicacoesSeguidas] = useState<Publicacao[]>([]);
-    const { comentou, meusDados, publicou } = useContext<ContextProvider>(Provider);
+    const { comentou, meusDados, publicou, unreadNotificationCount, colors } = useContext<ContextProvider>(Provider);
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
@@ -30,13 +30,14 @@ export default function Seguindo(props: NavigationProps) {
     }
 
     return (
-        <Container>
-            <NavContainer>
+        <Container style={{backgroundColor: colors.background}}>
+            <NavContainer style={{backgroundColor: colors.primary}}>
                 <NavButtonIconContainer onPress={() => props.navigation.openDrawer()}>
                     <Icon name={"menu-outline"} color={"white"} size={30}/>
                 </NavButtonIconContainer>
-                <NavButtonIconContainer>
+                <NavButtonIconContainer onPress={() => props.navigation.navigate("Notificacoes")}>
                     <Icon name={"notifications"} color={"white"} size={26}/>
+                    {unreadNotificationCount > 0?<NotificationDot/>:<></>}
                 </NavButtonIconContainer>
             </NavContainer>
             <HomeScroll
@@ -79,6 +80,16 @@ const NavButtonIconContainer = styled.TouchableOpacity`
     height: 50px;
     justify-content: center;
     align-items: center;
+`
+
+const NotificationDot = styled.View`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: red;
 `
 
 const HomeScroll = styled.ScrollView`

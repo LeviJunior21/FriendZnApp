@@ -19,7 +19,8 @@ export default function ComentariosContainer(props: VisualizarComentarioProps) {
                     remetentePublicacao={props.remetentePublicacao}
                     navigation={props.navigation} 
                     idPublicacao={props.id} 
-                    comentario={item}/>
+                    comentario={item}
+                    onResponderComentario={props.onResponderComentario}/>
                 }
             />}
             <SpaceBottom/>

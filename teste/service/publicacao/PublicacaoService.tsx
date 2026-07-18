@@ -78,6 +78,9 @@ export class PublicacaoService {
                         .withComentarios(comentarios)
                         .withPublicacao(item.publicacao)
                         .withCategoria(item.categoria)
+                        .withTipo(item.tipo)
+                        .withEnqueteOpcoes(item.enqueteOpcoes)
+                        .withEnqueteVotos(item.enqueteVotos)
                         .build();
                 });
     

@@ -12,6 +12,9 @@ interface PublicacaoInterface {
     usuario: UsuarioInterface,
     comentarios: ComentarioInterface[],
     categoria: Categoria,
+    tipo?: PublicacaoTipo,
+    enqueteOpcoes?: string[],
+    enqueteVotos?: Record<string, number>,
 }
 
 interface ComentarioInterface {
@@ -19,7 +22,8 @@ interface ComentarioInterface {
     comentario: string,
     usuario: UsuarioInterface,
     timestamp: string,
-    usuarioId: number
+    usuarioId: number,
+    respostaComentarioId?: number
 }
 
 interface UsuarioInterface {
@@ -60,8 +64,15 @@ interface PropsCategoria {
 interface PublicacaoUsuario {
     categoria: Categoria,
     desabafo: string,
+    tipo: PublicacaoTipo,
+    enqueteOpcoes: string[],
     meusDados: LoginCadastroReturns,
     navigation: Navigation
+}
+
+enum PublicacaoTipo {
+    desabafo = "DESABAFO",
+    enquete = "ENQUETE"
 }
 
 enum Categoria {
@@ -88,7 +99,8 @@ type RootStackParamList = {
     Postar: undefined;
     Login: undefined;
     Comentario: { publicacao: Publicacao };
-    ChatPrivado: {};
+    ChatPrivado: { idRemetente: number, nome?: string, emoji?: string };
+    Notificacoes: undefined;
     Cadastro: { dados: any, navigation: NavigationProp<RootStackParamList, "Home">};
     Configuracoes: undefined;
     Perfil: {id: number, navigation:  NavigationProp<RootStackParamList, "Home">, apelido: string};
@@ -162,4 +174,4 @@ interface DadosProps {
 }
 
 
-export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat, DadosProps, DrawerNavigationProps };
+export { PublicacaoInterface, UsuarioInterface, ComentarioInterface, HomeProps, PublicacaoProps, NavProps, PropsCategoria, PublicacaoUsuario, Categoria, PublicacaoTipo, RootStackParamList, Navigation, UserInfo, UserInfoProps, ComentarioProps, PropsVisualizarComentario, GetComentariosProps, ChatProps, NavigationChat, DadosProps, DrawerNavigationProps };

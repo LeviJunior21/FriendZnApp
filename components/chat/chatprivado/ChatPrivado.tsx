@@ -14,7 +14,7 @@ import { NavigationChatProps } from "./Interface";
 import { keyBDChat } from "../../../data/constants";
 
 export default function ChatPrivado(props: NavigationChatProps) {
-    const { idRemetente, nome, emoji } = props.route.params;
+    const { idRemetente, nome = "Usuário", emoji = "" } = props.route.params;
     const [conversas, setConversas] = useState<Conversa[]>([]);
     const [mensagem, setMensagem] = useState("");
     const flatListRef = useRef<FlatList>(null);
@@ -57,6 +57,12 @@ export default function ChatPrivado(props: NavigationChatProps) {
             />
             </ScrollContainer>
             <MessageSenderContainer>
+                <AttachmentButton onPress={() => setMensagem((current) => current || "[imagem] ")}>
+                    <Icon name={"image-outline"} color={"white"} size={22}/>
+                </AttachmentButton>
+                <AttachmentButton onPress={() => setMensagem((current) => current || "[gif] ")}>
+                    <Icon name={"sparkles-outline"} color={"white"} size={22}/>
+                </AttachmentButton>
                 <Input 
                 placeholder={"Escreva sua mensagem..."} 
                 cursorColor={"white"} 
@@ -129,6 +135,13 @@ const MessageSenderContainer = styled.View`
     align-items: center;
     border-top-width: 1px;
     border-top-color: white;
+`
+
+const AttachmentButton = styled.TouchableOpacity`
+    width: 40px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
 `
 
 const Input = styled.TextInput`

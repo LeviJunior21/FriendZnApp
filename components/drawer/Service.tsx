@@ -3,9 +3,21 @@ import { keyUser, uri_principal } from "../../data/constants";
 import { LoginCadastroReturns } from "../usuario/cadastro/Interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const bandeiras = ["🇧🇷", "🇨🇦", "🇺🇸", "🇦🇷", "🇺🇾", "🇲🇽", "🇻🇪", "🇯🇲"].map(emoji => ({ emoji: emoji}));
-const animais = ["🐶", "🐢", "🦖", "🦕", "🦀", "🐬", "🦭"].map(emoji => ({ emoji: emoji}));
-const expressoes = ["😊", "😂", "😍", "😎", "🤔", "😜", "😢", "😇"].map(emoji => ({ emoji: emoji}));
+const noto = (codepoint: string) => `https://fonts.gstatic.com/s/e/notoemoji/latest/${codepoint}/512.webp`;
+
+const bandeiras = ["🇧🇷", "🇨🇦", "🇺🇸", "🇦🇷", "🇺🇾", "🇲🇽", "🇻🇪", "🇯🇲"].map(emoji => ({ emoji }));
+const animais = ["🐶", "🐢", "🦖", "🦕", "🦀", "🐬", "🦭"].map(emoji => ({ emoji }));
+const expressoes = ["😊", "😂", "😍", "😎", "🤔", "😜", "😢", "😇"].map(emoji => ({ emoji }));
+const animados = [
+    { emoji: noto("1f600"), label: "feliz" },
+    { emoji: noto("1f602"), label: "rindo" },
+    { emoji: noto("1f60d"), label: "apaixonado" },
+    { emoji: noto("1f914"), label: "pensando" },
+    { emoji: noto("1f622"), label: "triste" },
+    { emoji: noto("1f525"), label: "intenso" },
+    { emoji: noto("1f389"), label: "celebrando" },
+    { emoji: noto("1f44b"), label: "oi" },
+];
 const comida = ["🍕", "🍔", "🍟", "🍦", "🍩", "🍓", "🥑", "🍎"].map(emoji => ({ emoji }));
 const transporte = ["🚗", "🚕", "🚲", "🚄", "🚢", "🚁", "🚀", "🛴"].map(emoji => ({ emoji }));
 const clima = ["☀️", "☁️", "⛈️", "❄️", "🌪️", "🌈", "🌊", "🌙"].map(emoji => ({ emoji }));
@@ -16,6 +28,7 @@ const tecnologia = ["💻", "📱", "⌚", "🖱️", "🕹️", "🔍", "📡",
 const saude = ["💊", "🩹", "🌱", "🍏", "🏋️‍♀️", "🚴‍♂️", "🧘‍♂️", "💤"].map(emoji => ({ emoji }));
 
 export const emojis = [
+    { titulo: "Animados Noto", emojis: animados },
     { titulo: "Bandeiras paises", emojis: bandeiras }, 
     { titulo: "Animais", emojis: animais }, 
     { titulo: "Expressões", emojis: expressoes },

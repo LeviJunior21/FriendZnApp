@@ -30,6 +30,9 @@ export const getPublicacoes = async(setPublicacoes: Dispatch<SetStateAction<Publ
                     .withComentarios(comentarios)
                     .withPublicacao(item.publicacao)
                     .withCategoria(item.categoria)
+                    .withTipo(item.tipo)
+                    .withEnqueteOpcoes(item.enqueteOpcoes)
+                    .withEnqueteVotos(item.enqueteVotos)
                     .build();
             }));
 

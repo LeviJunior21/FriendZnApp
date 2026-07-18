@@ -5,7 +5,6 @@ import { Dispatch, SetStateAction } from "react";
 import { LoginType } from "../utils/LoginType";
 
 export interface CadastroProps {
-    loginType: LoginType;
     navigation: NavigationProp<RootStackParamList, "Home">;
     route: {
         params: {

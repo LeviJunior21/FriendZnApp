@@ -6,12 +6,12 @@ import { Dimensions, Modal } from "react-native";
 import { useContext, useState } from "react";
 import { ContextProvider, Provider } from "../../../utils/Provider";
 import { NavChatProps } from "./Interface";
-import { avatarMasculino } from "../../../data/avatar";
 import { keyBDChat } from "../../../data/constants";
+import AvatarImage from "../../avatar/AvatarImage";
 
 export function NavChat(props: NavChatProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const { chatDeletado, setChatDeletado, meusDados } = useContext<ContextProvider>(Provider);
+    const { chatDeletado, setChatDeletado, meusDados, webSock } = useContext<ContextProvider>(Provider);
     
     const deleteAndGoBack = async(id: number) => {
         await deleteChat(id, meusDados.id, keyBDChat);
@@ -24,16 +24,29 @@ export function NavChat(props: NavChatProps) {
         setModalVisible(!modalVisible)
     }
 
+    const enviarSinalChamada = (status: "started" | "ended") => {
+        webSock.current?.send("/app/call", {}, JSON.stringify({
+            callerId: meusDados.id,
+            callerName: meusDados.apelido,
+            callerEmoji: meusDados.emoji,
+            receiverIds: [props.idRemetente],
+            status,
+            groupCall: false,
+            timestamp: new Date().toISOString()
+        }));
+        setModalVisible(false);
+    }
+
     return (
         <NavChatContainer>
             <ButtonBack onPress={() => props.navigation.goBack()}>
                 <Icon name={"arrow-back"} color={"white"} size={30}/>
             </ButtonBack>
-            <AvatarContainer onPress={() => props.navigation.navigate("Perfil", { navigation: props.navigation, id: props.idRemetente, apelido: props.nome })}>
-                <Avatar source={avatarMasculino}/>
-                <Nome numberOfLines={1}>@{props.nome} {props.emoji}</Nome>
+            <AvatarContainer onPress={() => props.navigation.navigate("Perfil", { navigation: props.navigation, id: props.idRemetente, apelido: props.nome || "Usuário" })}>
+                <AvatarImage userId={props.idRemetente} size={50}/>
+                <Nome numberOfLines={1}>@{props.nome || "Usuário"} {props.emoji || ""}</Nome>
             </AvatarContainer>
-            <Call onPress={() => mostrarModal()}>
+            <Call onPress={() => enviarSinalChamada("started")}>
                 <Icon name={"call"} color={"white"} size={24}/>
             </Call>
             <Options onPress={() => mostrarModal()}>
@@ -48,6 +61,9 @@ export function NavChat(props: NavChatProps) {
                     <ModalView>
                         <ModalEscolha onPress={() => deleteAndGoBack(props.idRemetente)}>
                             <FecharModalText>{"Apagar Chat"}</FecharModalText>
+                        </ModalEscolha>
+                        <ModalEscolha onPress={() => enviarSinalChamada("ended")}>
+                            <FecharModalText>{"Encerrar chamada"}</FecharModalText>
                         </ModalEscolha>
                         <ModalEscolha>
                             <FecharModalText>{"Denunciar"}</FecharModalText>
@@ -83,12 +99,6 @@ const AvatarContainer = styled.TouchableOpacity`
     height: 100%;
     flex-direction: row;
     align-items: center;
-`
-
-const Avatar = styled.Image`
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
 `
 
 const Nome = styled.Text`

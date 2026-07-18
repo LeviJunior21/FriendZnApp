@@ -9,15 +9,17 @@ import { Comentario } from "../../model/Comentario";
 import { NavComentarios } from "./navcomentario.tsx/NavComentarios";
 import { getComentarios } from "../../utils/getComentarios";
 import { sendComentario, updateComentario } from "./wscomentarios/WSComentario";
-import { avatarMasculino } from "../../data/avatar";
 import { ContextProvider, Provider } from "../../utils/Provider";
+import AvatarImage from "../avatar/AvatarImage";
+import EmojiBadge from "../emoji/EmojiBadge";
 
 const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     const { publicacao } = route.params;
     const [message, setMessage] = useState<string>('');
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
+    const [respostaComentario, setRespostaComentario] = useState<Comentario | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const { comentou, setComentou, meusDados, webSock } = useContext<ContextProvider>(Provider);
+    const { comentou, setComentou, meusDados, webSock, colors } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         getComentarios({ publicacao, setComentarios, setLoading });
@@ -31,7 +33,8 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     const enviar = () => {
         if (meusDados.id !== -1 && meusDados.codigoAcesso !== -1) {
            if (message.length > 0) {
-                sendComentario({webSock, meusDados, publicacao, message, setMessage});
+                sendComentario({webSock, meusDados, publicacao, message, setMessage, respostaComentarioId: respostaComentario?.getId()});
+                setRespostaComentario(null);
                 setComentou(!comentou);
             }
         } else {
@@ -48,15 +51,15 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
     }
     
     return (
-        <Container>
+        <Container style={{backgroundColor: colors.background}}>
             <NavComentarios navigation={navigation}/>
             <ScrollViewContainer>
-                <ContainerPublicacao>
+                <ContainerPublicacao style={{backgroundColor: colors.elevated}}>
                     <ContainerUsuario>
-                        <Avatar source={avatarMasculino}/>
+                        <AvatarImage userId={publicacao.getUsuario().getId()} size={50}/>
                         <InfoUserContainer>
                             <TouchUserName onPress={() => abrirChat()}>
-                                <NomeUsuario>@{publicacao.getUsuario().getApelido()} {publicacao.getUsuario().getEmoji()}</NomeUsuario>
+                                <NameRow><NomeUsuario>@{publicacao.getUsuario().getApelido()}</NomeUsuario><EmojiBadge emoji={publicacao.getUsuario().getEmoji()} size={18}/></NameRow>
                             </TouchUserName>
                             <TempoPublicacao>{getCurrentDate(publicacao.getDate())}</TempoPublicacao>
                         </InfoUserContainer>
@@ -71,10 +74,19 @@ const TodosComentarios: React.FC<ComentarioProps> = ({ navigation, route }) => {
                     comentarios={comentarios}
                     setComentarios={setComentarios}
                     navigation={navigation}
+                    onResponderComentario={setRespostaComentario}
                     />
                 </ComentarioContainer>
             </ScrollViewContainer>
-            <EscreverComentario>
+            <EscreverComentario style={{backgroundColor: colors.background}}>
+                {respostaComentario?
+                    <ReplyBanner>
+                        <ReplyText>Respondendo @{respostaComentario.getUsuario().getApelido()}</ReplyText>
+                        <ReplyClose onPress={() => setRespostaComentario(null)}>
+                            <Icon name={"close"} color={"white"} size={18}/>
+                        </ReplyClose>
+                    </ReplyBanner>:<></>
+                }
                 <Input 
                 placeholder="Escreva uma mensagem..." 
                 placeholderTextColor={"white"} 
@@ -110,6 +122,11 @@ const NomeUsuario = styled.Text`
     font-size: 16px;
     color: #26a69a;
     font-weight: 500;
+`
+
+const NameRow = styled.View`
+    flex-direction: row;
+    align-items: center;
 `
 
 const TempoPublicacao = styled.Text`
@@ -148,6 +165,7 @@ const EscreverComentario = styled.View`
     border-top-width: 1px;
     border-top-color: white;
     padding-horizontal: 4px;
+    flex-wrap: wrap;
 `
 
 const Input = styled.TextInput`
@@ -182,8 +200,25 @@ const InfoUserContainer = styled.View`
     justify-content: center;
 `
 
-const Avatar = styled.Image`
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
+const ReplyBanner = styled.View`
+    width: 100%;
+    min-height: 28px;
+    background-color: #10a17d;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-horizontal: 10px;
+`
+
+const ReplyText = styled.Text`
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+`
+
+const ReplyClose = styled.TouchableOpacity`
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
 `

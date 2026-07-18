@@ -7,6 +7,8 @@ import { LoginCadastroReturns } from "../components/usuario/cadastro/Interface";
 import { LoginType } from "../components/usuario/utils/LoginType";
 import { SexoSelecionado } from "../components/usuario/cadastro/Sexo";
 import { dadosIniciaisUsuario } from "../data/constants";
+import { AppSettings, defaultAppSettings, themeColors } from "./appSettings";
+import { AppNotification } from "./notificacoes";
 
 export type ContextProvider = {
     gravarConversa: (idServer: number, newConversa: Conversa, key: string) => void;
@@ -21,6 +23,14 @@ export type ContextProvider = {
     setMeusDados: Dispatch<SetStateAction<LoginCadastroReturns>>;
     publicou: boolean;
     setPublicou: Dispatch<SetStateAction<boolean>>;
+    appSettings: AppSettings;
+    setAppSettings: Dispatch<SetStateAction<AppSettings>>;
+    colors: typeof themeColors.dark;
+    notifications: AppNotification[];
+    setNotifications: Dispatch<SetStateAction<AppNotification[]>>;
+    unreadNotificationCount: number;
+    addNotification: (notification: AppNotification) => void;
+    markNotificationsRead: () => void;
 }
 
 export const Provider = createContext<ContextProvider>({
@@ -35,5 +45,13 @@ export const Provider = createContext<ContextProvider>({
     meusDados: dadosIniciaisUsuario,
     setComentou: () => {},
     publicou: false,
-    setPublicou: () => {}
+    setPublicou: () => {},
+    appSettings: defaultAppSettings,
+    setAppSettings: () => {},
+    colors: themeColors.dark,
+    notifications: [],
+    setNotifications: () => {},
+    unreadNotificationCount: 0,
+    addNotification: () => {},
+    markNotificationsRead: () => {},
 });

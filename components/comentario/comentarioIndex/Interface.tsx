@@ -8,6 +8,7 @@ export interface ComentarioIndexProps {
     idPublicacao: number;
     navigation: NavigationProp<RootStackParamList, "Home">;
     remetentePublicacao: number;
+    onResponderComentario?: (comentario: Comentario) => void;
 }
 
 export interface CurtidasInterface {

@@ -1,14 +1,16 @@
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Dimensions } from "react-native";
 import { NavProps } from "../../../utils/interfaces";
 import { getCategory } from "../../../utils/getCategory";
+import { ContextProvider, Provider } from "../../../utils/Provider";
 
 export const NavCategoria: React.FC<NavProps> = ({navigation, categoriaEscolhida, search, setSearch, openCategoria, setOpenCategoria }) => {
     const widthShared = useSharedValue(40);
     const [open, setOpen] = useState(false);
+    const { unreadNotificationCount, colors } = useContext<ContextProvider>(Provider);
 
     const handlePress = () => {
         const targetWidth = open ? 40 : width - 50;
@@ -21,7 +23,7 @@ export const NavCategoria: React.FC<NavProps> = ({navigation, categoriaEscolhida
     }
 
     return (
-        <Container>
+        <Container style={{backgroundColor: colors.primary}}>
             <DrawerButton onPress={() => navigation.openDrawer()}>
                 <Icon name={"menu-outline"} color={"white"} size={30}/>
             </DrawerButton>
@@ -31,8 +33,9 @@ export const NavCategoria: React.FC<NavProps> = ({navigation, categoriaEscolhida
                     <Icon name={"chevron-down"} size={20} color={"white"}/>
                 </CategoriaAnimatedIcon>
             </Categoria>
-            <Notification>
+            <Notification onPress={() => navigation.navigate("Notificacoes")}>
                 <Icon name={"notifications"} color={"white"} size={26}/>  
+                {unreadNotificationCount > 0?<NotificationDot/>:<></>}
             </Notification>
             <Search style={{width: widthShared}}>
                 <StyledAnimatedView 
@@ -146,4 +149,14 @@ const Notification = styled.TouchableOpacity`
     border-radius: 15px;
     justify-content: center;
     align-items: center;
+`
+
+const NotificationDot = styled.View`
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: red;
 `

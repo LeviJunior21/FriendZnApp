@@ -21,7 +21,9 @@ interface PerfilInterface {
     descricao: string,
     loginType: LoginType,
     date: string,
-    emoji: string
+    emoji: string,
+    totalDesabafosCriados?: number,
+    totalComentariosCriados?: number
 }
 
 const dadosIniciaisPerfil = {
@@ -32,7 +34,9 @@ const dadosIniciaisPerfil = {
     descricao: "Carregando...",
     loginType: LoginType.GitHub,
     date: "",
-    emoji: ""
+    emoji: "",
+    totalDesabafosCriados: 0,
+    totalComentariosCriados: 0
 }
 
 export { PerfilProps, PerfilInterface, dadosIniciaisPerfil }

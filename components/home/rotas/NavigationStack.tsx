@@ -8,6 +8,7 @@ import NavigationDrawer from "./NavigationDrawer";
 import Perfil from "../../perfil/Perfil";
 import EditarPerfil from "../../editarperfil/EditarPerfil";
 import Avatar from "../../avatar/Avatar";
+import Notificacoes from "../../notificacoes/Notificacoes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../utils/interfaces";
 
@@ -26,6 +27,7 @@ export default function NavigationStack() {
             <Stack.Screen name={"Perfil"} component={Perfil}/>
             <Stack.Screen name={"EditarPerfil"} component={EditarPerfil}/>
             <Stack.Screen name={"Avatar"} component={Avatar}/>
+            <Stack.Screen name={"Notificacoes"} component={Notificacoes}/>
         </Stack.Navigator>
     )
 }

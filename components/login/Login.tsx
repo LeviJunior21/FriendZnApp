@@ -11,7 +11,7 @@ export default function Login(props: Navigation) {
 
     return (
         <Container>
-            <StatusBar backgroundColor={"white"}/>
+            <StatusBar/>
             <Nav>
                 <TextLogin>Fazer Login</TextLogin>
             </Nav>

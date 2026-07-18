@@ -29,6 +29,9 @@ export const getPublicacoesUser = async(id: number, setPublicacoes: Dispatch<Set
                 .withComentarios(comentarios)
                 .withPublicacao(item.publicacao)
                 .withCategoria(item.categoria)
+                .withTipo(item.tipo)
+                .withEnqueteOpcoes(item.enqueteOpcoes)
+                .withEnqueteVotos(item.enqueteVotos)
                 .build();
         }));
 

@@ -7,8 +7,9 @@ import { ContextProvider, Provider } from "../../../utils/Provider";
 import { getUsuario } from "../../../utils/getUsuario";
 import { buscarChat } from "../../../data/chatutils";
 import { Chat } from "../../../model/Chat";
-import { avatarMasculino } from "../../../data/avatar";
 import { keyBDChat } from "../../../data/constants";
+import AvatarImage from "../../avatar/AvatarImage";
+import EmojiBadge from "../../emoji/EmojiBadge";
 
 export default function ChatPedido(props: ChatPedidoProps) {
     const [usuario, setUsuario] = useState<Usuario>();
@@ -33,11 +34,11 @@ export default function ChatPedido(props: ChatPedidoProps) {
         <Container>
             <InfoContainer>
                 <AvatarContainer>
-                    <Avatar source={avatarMasculino}/>
+                    <AvatarImage userId={usuario?.getId()} size={60}/>
                 </AvatarContainer>
                 <UserOutros>
                    <NameHourContainer>
-                        <Nome>@{usuario?.getApelido()} {usuario?.getEmoji()}</Nome>
+                        <NameRow><Nome>@{usuario?.getApelido()}</Nome><EmojiBadge emoji={usuario?.getEmoji()} size={18}/></NameRow>
                         <Hora>{getCurrentDate(props.chat.getTimestamp())}</Hora>
                     </NameHourContainer>
                     <Mensagem numberOfLines={1}>{ultimaConversa}</Mensagem>
@@ -108,10 +109,9 @@ const Mensagem = styled.Text`
     color: white;
 `
 
-const Avatar = styled.Image`
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+const NameRow = styled.View`
+    flex-direction: row;
+    align-items: center;
 `
 
 const PedidoContainer = styled.View`

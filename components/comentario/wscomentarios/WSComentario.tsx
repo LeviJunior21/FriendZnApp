@@ -9,7 +9,8 @@ export const sendComentario = async(props: SendComentarioProps) => {
             comentario: props.message.replace(/^\s+|\s+$/g, ''),
             timestamp: new Date(),
             codigoAcesso: props.meusDados.codigoAcesso,
-            idUsuario: props.meusDados.id
+            idUsuario: props.meusDados.id,
+            respostaComentarioId: props.respostaComentarioId
         };
         
         const subscribe: string = "/app/comentarios.sendMessage/" + props.publicacao.getId();
@@ -28,6 +29,7 @@ export const updateComentario = async(props: UpdateComentarioProps) => {
             .withId(Number(comentarioRecebido.id))
             .withUsuario(usuario)
             .withTimestamp(new Date(comentarioRecebido.timestamp))
+            .withRespostaComentarioId(comentarioRecebido.respostaComentarioId)
             .build();
         props.setComentarios((prevComentarios) => [...prevComentarios, novoComentario]);
         

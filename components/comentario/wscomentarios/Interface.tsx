@@ -9,7 +9,8 @@ export interface SendComentarioProps {
     meusDados: LoginCadastroReturns,
     publicacao: Publicacao,
     message: string, 
-    setMessage: Dispatch<SetStateAction<string>>
+    setMessage: Dispatch<SetStateAction<string>>,
+    respostaComentarioId?: number,
 }
 
 export interface UpdateComentarioProps {

@@ -10,4 +10,5 @@ export interface VisualizarComentarioProps {
     loading: boolean;
     navigation: NavigationProp<RootStackParamList, "Home">;
     remetentePublicacao: number;
+    onResponderComentario?: (comentario: Comentario) => void;
 }

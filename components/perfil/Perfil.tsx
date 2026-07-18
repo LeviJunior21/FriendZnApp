@@ -5,19 +5,19 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { PublicacaoUser } from "../publicacao/Publicacao";
 import { FlatList } from "react-native";
-import { avatarMasculino } from "../../data/avatar";
 import { Publicacao } from "../../model/Publicacao";
 import { useContext, useEffect, useState } from "react";
 import { convertToDate, getDadosPefilUsuario, getPublicacoesUser } from "./Service";
 import { PerfilInterface, PerfilProps, dadosIniciaisPerfil } from "./Interface";
-import { LoginType } from "../usuario/utils/LoginType";
 import { ContextProvider, Provider } from "../../utils/Provider";
+import AvatarImage from "../avatar/AvatarImage";
+import EmojiBadge from "../emoji/EmojiBadge";
 
 const Perfil: React.FC<PerfilProps> = ({ route }) => {
     const { id, apelido, navigation } = route.params;
     const [ publicacoes, setPublicacoes ] = useState<Publicacao[]>([]);
     const [ dadosPerfilUsuario, setDadosPerfilUsuario ] = useState<PerfilInterface>(dadosIniciaisPerfil);
-    const { meusDados } = useContext<ContextProvider>(Provider);
+    const { meusDados, colors } = useContext<ContextProvider>(Provider);
 
     useEffect(() => {
         getPublicacoesUser(id, setPublicacoes);
@@ -25,16 +25,16 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
     }, []);
 
     return (
-        <Container>
-            <NavContainer>
+        <Container style={{backgroundColor: colors.background}}>
+            <NavContainer style={{backgroundColor: colors.primary}}>
                 <NavButtonBack onPress={() => navigation.navigate("Home")}>
                     <IonIcons name={"arrow-back"} color={"white"} size={30}/>
                 </NavButtonBack>
                 <NavText>Perfil</NavText>
             </NavContainer>
             <PerfilContainer>
-                <ImageAvatar source={avatarMasculino}/>
-                <TextAvatar>@{dadosPerfilUsuario.apelido} {dadosPerfilUsuario.emoji}</TextAvatar>
+                <AvatarImage userId={id} size={80}/>
+                <TextAvatarRow><TextAvatar>@{dadosPerfilUsuario.apelido}</TextAvatar><EmojiBadge emoji={dadosPerfilUsuario.emoji} size={22}/></TextAvatarRow>
             </PerfilContainer>
             <SobreContainer>
                 {(dadosPerfilUsuario.descricao !== "")?
@@ -53,14 +53,14 @@ const Perfil: React.FC<PerfilProps> = ({ route }) => {
             </SobreContainer>
             <NumeroDadosContainer>
                 <DadosContainer>
-                    <DadosNumber>{publicacoes.length}</DadosNumber>
+                    <DadosNumber>{dadosPerfilUsuario.totalDesabafosCriados ?? publicacoes.length}</DadosNumber>
                     <DadosText>Desabafos</DadosText>
                 </DadosContainer>
                 <DadosContainer>
                     <DadosNumber>
-                        {(dadosIniciaisPerfil.loginType === LoginType.GitHub)? "GitHub":"Google"}
+                        {dadosPerfilUsuario.totalComentariosCriados ?? publicacoes.reduce((total, publicacao) => total + publicacao.getComentarios().length, 0)}
                     </DadosNumber>
-                    <DadosText>Autorizado</DadosText>
+                    <DadosText>Comentários</DadosText>
                 </DadosContainer>
             </NumeroDadosContainer>
             <PublicacaoContainer>
@@ -135,17 +135,15 @@ const PerfilContainer = styled.View`
     gap: 6px;
 `
 
-const ImageAvatar = styled.Image`
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    margin-left: 10px;
-`
-
 const TextAvatar = styled.Text`
     color: #26a69a;
     font-size: 18px;
     font-weight: 400;
+`
+
+const TextAvatarRow = styled.View`
+    flex-direction: row;
+    align-items: center;
 `
 
 const SobreContainer = styled.View`

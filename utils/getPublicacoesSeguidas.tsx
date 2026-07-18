@@ -34,6 +34,9 @@ export const getPublicacoesSeguidas = async(idUsuario: number, setPublicacoesSeg
                     .withComentarios(comentarios)
                     .withPublicacao(item.publicacao)
                     .withCategoria(item.categoria)
+                    .withTipo(item.tipo)
+                    .withEnqueteOpcoes(item.enqueteOpcoes)
+                    .withEnqueteVotos(item.enqueteVotos)
                     .build();
             }));
 
