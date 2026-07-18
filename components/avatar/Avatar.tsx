@@ -1,51 +1,28 @@
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useContext, useState } from "react";
-import { ImageSourcePropType } from "react-native";
-import { avatarFeminino, avatarMasculino } from "../../data/avatar";
-import { ContextProvider, Provider } from "../../utils/Provider";
-import { Navigation } from "../../utils/interfaces";
+import AvatarBottoms from "./AvatarBottoms";
 
-export default function Avatar(props: Navigation) {
-    const { colors } = useContext<ContextProvider>(Provider);
-    const [selectedAvatar, setSelectedAvatar] = useState<ImageSourcePropType>(avatarMasculino);
-
-    const selecionarAvatar = () => {
-        props.navigation.goBack();
-    }
-
+export default function Avatar() {
     return (
-        <Container style={{backgroundColor: colors.background}}>
-            <NavContainer style={{backgroundColor: colors.primary}}>
+        <Container>
+            <NavContainer>
                 <RouteNavContainer>
-                    <ButtonBack onPress={() => props.navigation.goBack()}>
+                    <ButtonBack>
                         <Icon name={"arrow-back"} color={"white"} size={30}/>
                     </ButtonBack>
                     <TextRoute>Escolha seu avatar</TextRoute>
                 </RouteNavContainer>
-                <SelecionarButton onPress={selecionarAvatar}>
+                <SelecionarButton>
                     <SelecionarButtonText>SELECIONAR</SelecionarButtonText>
                 </SelecionarButton>
             </NavContainer>
 
             <AvatarContainer>
                 <AvatarUserContainer>
-                    <AvatarView>
-                        <AvatarPreview source={selectedAvatar}/>
-                    </AvatarView>
+                    <AvatarView></AvatarView>
                 </AvatarUserContainer>
-                <SectionTitle>Avatares</SectionTitle>
-                <OptionsRow>
-                    <PresetButton onPress={() => setSelectedAvatar(avatarMasculino)}>
-                        <AvatarOption source={avatarMasculino}/>
-                        <PresetText>Masculino</PresetText>
-                    </PresetButton>
-                    <PresetButton onPress={() => setSelectedAvatar(avatarFeminino)}>
-                        <AvatarOption source={avatarFeminino}/>
-                        <PresetText>Feminino</PresetText>
-                    </PresetButton>
-                </OptionsRow>
+               <AvatarBottoms/>
             </AvatarContainer>
         </Container>
     )
@@ -110,50 +87,7 @@ const AvatarView = styled.View`
     width: 90px;
     height: 90px;
     border-radius: 45px;
-    background-color: white;
+    background-color: green;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-`
-
-const AvatarPreview = styled.Image`
-    width: 90px;
-    height: 90px;
-`
-
-const OptionsRow = styled.View`
-    flex-direction: row;
-    padding-horizontal: 10px;
-    gap: 10px;
-`
-
-const SectionTitle = styled.Text`
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    padding-horizontal: 12px;
-    padding-vertical: 8px;
-`
-
-const PresetButton = styled.TouchableOpacity`
-    width: 96px;
-    height: 106px;
-    align-items: center;
-    justify-content: center;
-    border-width: 1px;
-    border-color: gray;
-    border-radius: 6px;
-`
-
-const AvatarOption = styled.Image`
-    width: 62px;
-    height: 62px;
-    border-radius: 31px;
-    background-color: white;
-`
-
-const PresetText = styled.Text`
-    color: white;
-    font-size: 12px;
-    margin-top: 6px;
 `
